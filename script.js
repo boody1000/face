@@ -110,33 +110,24 @@ function saveBio() {
     toggleEditBio();
 }
 
-function switchTab(tab) {
-    const homeView = document.getElementById('homeView');
-    const videosView = document.getElementById('videosView');
-    const profileView = document.getElementById('profileView');
-    
-    const navHomeBtn = document.getElementById('navHomeBtn');
-    const navVideosBtn = document.getElementById('navVideosBtn');
+function switchTab(tabId) {
+    // إخفاء كل الأقسام أولاً
+    document.querySelectorAll('.tab-content').forEach(section => {
+        section.classList.add('hidden');
+    });
 
-    homeView.classList.add('hidden');
-    videosView.classList.add('hidden');
-    profileView.classList.add('hidden');
-
-    navHomeBtn.className = "px-12 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-700 rounded-lg text-xl transition";
-    navVideosBtn.className = "px-12 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-700 rounded-lg text-xl transition";
-
-    if (tab === 'home') {
-        homeView.classList.remove('hidden');
-        navHomeBtn.className = "px-12 py-2 text-blue-500 border-b-4 border-blue-500 text-xl transition";
-    } else if (tab === 'videos') {
-        videosView.classList.remove('hidden');
-        navVideosBtn.className = "px-12 py-2 text-blue-500 border-b-4 border-blue-500 text-xl transition";
-    } else if (tab === 'profile') {
-        profileView.classList.remove('hidden');
+    // إظهار القسم المطلوب فقط
+    const targetSection = document.getElementById(tabId);
+    if (targetSection) {
+        targetSection.classList.remove('hidden');
+        console.log("تم الانتقال بنجاح إلى الشاشة: " + tabId);
+    } else {
+        console.error("القسم المطلوب غير موجود في الـ HTML: " + tabId);
     }
-    window.scrollTo(0, 0);
 }
 
+// ربط الدالة بالـ window لتعمل مع الـ onclick في الـ HTML
+window.switchTab = switchTab;
 function switchProfileSection(section) {
     const secPosts = document.getElementById('sectionPosts');
     const secAbout = document.getElementById('sectionAbout');
