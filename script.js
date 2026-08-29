@@ -1,7 +1,8 @@
 let activeUploadedImage = '';
 let activeUploadedVideo = '';
-// دالة التنقل بين الشاشات الرئيسية (الرئيسية، الفيديوهات، الملف الشخصي)
-function switchTab(tabName) {
+
+// دالة التنقل الصحيحة والشاملة بين الشاشات الرئيسية
+function switchTab(tabId) {
     // إخفاء كل الواجهات الأساسية
     const homeView = document.getElementById('homeView');
     const videosView = document.getElementById('videosView');
@@ -11,45 +12,79 @@ function switchTab(tabName) {
     if (videosView) videosView.classList.add('hidden');
     if (profileView) profileView.classList.add('hidden');
 
-    // إظهار الواجهة المطلوبة بناءً على الزر المضغوط
-    if (tabName === 'home') {
-        if (homeView) homeView.classList.remove('hidden');
-    } else if (tabName === 'videos') {
-        if (videosView) videosView.classList.remove('hidden');
-    } else if (tabName === 'profile') {
-        if (profileView) profileView.classList.remove('hidden');
-    }
+    // تحديد الـ ID المناسب بناءً على الاسم المرسل من الأزرار
+    let targetId = tabId;
+    if (tabId === 'home') targetId = 'homeView';
+    else if (tabId === 'videos') targetId = 'videosView';
+    else if (tabId === 'profile') targetId = 'profileView';
 
-    console.log("تم الانتقال بنجاح إلى شاشة: " + tabName);
+    // إظهار الواجهة المطلوبة
+    const targetSection = document.getElementById(targetId);
+    if (targetSection) {
+        targetSection.classList.remove('hidden');
+        console.log("تم الانتقال بنجاح إلى الشاشة: " + tabId);
+    } else {
+        console.error("القسم المطلوب غير موجود في الـ HTML: " + targetId);
+    }
 }
 
 // ربط الدالة بالنطاق العام لتعمل مع HTML onclick
 window.switchTab = switchTab;
 
-
 // دالة التنقل بين أقسام الملف الشخصي (المحتوى، حول، الصور، الفيديو)
-function switchProfileSection(sectionName) {
-    const sectionPosts = document.getElementById('sectionPosts');
-    const sectionAbout = document.getElementById('sectionAbout');
-    const sectionPhotos = document.getElementById('sectionPhotos');
-    const sectionVideos = document.getElementById('sectionVideos');
+function switchProfileSection(section) {
+    const secPosts = document.getElementById('sectionPosts');
+    const secAbout = document.getElementById('sectionAbout');
+    const secPhotos = document.getElementById('sectionPhotos');
+    const secVideos = document.getElementById('sectionVideos');
 
-    // إخفاء جميع أقسام الملف الشخصي
-    if (sectionPosts) sectionPosts.classList.add('hidden');
-    if (sectionAbout) sectionAbout.classList.add('hidden');
-    if (sectionPhotos) sectionPhotos.classList.add('hidden');
-    if (sectionVideos) sectionVideos.classList.add('hidden');
+    const btnPosts = document.getElementById('btnProfilePosts');
+    const btnAbout = document.getElementById('btnProfileAbout');
+    const btnPhotos = document.getElementById('btnProfilePhotos');
+    const btnVideos = document.getElementById('btnProfileVideos');
 
-    // إظهار القسم المطلوب فقط
-    if (sectionName === 'posts' && sectionPosts) sectionPosts.classList.remove('hidden');
-    if (sectionName === 'about' && sectionAbout) sectionAbout.classList.remove('hidden');
-    if (sectionName === 'photos' && sectionPhotos) sectionPhotos.classList.remove('hidden');
-    if (sectionName === 'videos' && sectionVideos) sectionVideos.classList.remove('hidden');
+    if (secPosts) secPosts.classList.add('hidden');
+    if (secAbout) secAbout.classList.add('hidden');
+    if (secPhotos) secPhotos.classList.add('hidden');
+    if (secVideos) secVideos.classList.add('hidden');
 
-    console.log("تم تبديل قسم الملف الشخصي إلى: " + sectionName);
+    const buttons = [btnPosts, btnAbout, btnPhotos, btnVideos];
+    buttons.forEach(btn => {
+        if (btn) {
+            btn.classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
+            btn.classList.add('text-slate-400');
+        }
+    });
+
+    if (section === 'posts' && secPosts) {
+        secPosts.classList.remove('hidden');
+        if (btnPosts) {
+            btnPosts.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+            btnPosts.classList.remove('text-slate-400');
+        }
+    } else if (section === 'about' && secAbout) {
+        secAbout.classList.remove('hidden');
+        if (btnAbout) {
+            btnAbout.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+            btnAbout.classList.remove('text-slate-400');
+        }
+    } else if (section === 'photos' && secPhotos) {
+        secPhotos.classList.remove('hidden');
+        if (btnPhotos) {
+            btnPhotos.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+            btnPhotos.classList.remove('text-slate-400');
+        }
+    } else if (section === 'videos' && secVideos) {
+        secVideos.classList.remove('hidden');
+        if (btnVideos) {
+            btnVideos.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+            btnVideos.classList.remove('text-slate-400');
+        }
+    }
 }
 
 window.switchProfileSection = switchProfileSection;
+
 function handleFileSelect(event, targetInputId, previewContainerId, type) {
     const file = event.target.files[0];
     if (!file) return;
@@ -157,64 +192,6 @@ function saveBio() {
     document.getElementById('profileUserWorkHeader').innerText = newWork;
 
     toggleEditBio();
-}
-
-function switchTab(tabId) {
-    // إخفاء كل الأقسام أولاً
-    document.querySelectorAll('.tab-content').forEach(section => {
-        section.classList.add('hidden');
-    });
-
-    // إظهار القسم المطلوب فقط
-    const targetSection = document.getElementById(tabId);
-    if (targetSection) {
-        targetSection.classList.remove('hidden');
-        console.log("تم الانتقال بنجاح إلى الشاشة: " + tabId);
-    } else {
-        console.error("القسم المطلوب غير موجود في الـ HTML: " + tabId);
-    }
-}
-
-// ربط الدالة بالـ window لتعمل مع الـ onclick في الـ HTML
-window.switchTab = switchTab;
-function switchProfileSection(section) {
-    const secPosts = document.getElementById('sectionPosts');
-    const secAbout = document.getElementById('sectionAbout');
-    const secPhotos = document.getElementById('sectionPhotos');
-    const secVideos = document.getElementById('sectionVideos');
-
-    const btnPosts = document.getElementById('btnProfilePosts');
-    const btnAbout = document.getElementById('btnProfileAbout');
-    const btnPhotos = document.getElementById('btnProfilePhotos');
-    const btnVideos = document.getElementById('btnProfileVideos');
-
-    secPosts.classList.add('hidden');
-    secAbout.classList.add('hidden');
-    secPhotos.classList.add('hidden');
-    secVideos.classList.add('hidden');
-
-    [btnPosts, btnAbout, btnPhotos, btnVideos].forEach(btn => {
-        btn.classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
-        btn.classList.add('text-slate-400');
-    });
-
-    if (section === 'posts') {
-        secPosts.classList.remove('hidden');
-        btnPosts.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
-        btnPosts.classList.remove('text-slate-400');
-    } else if (section === 'about') {
-        secAbout.classList.remove('hidden');
-        btnAbout.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
-        btnAbout.classList.remove('text-slate-400');
-    } else if (section === 'photos') {
-        secPhotos.classList.remove('hidden');
-        btnPhotos.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
-        btnPhotos.classList.remove('text-slate-400');
-    } else if (section === 'videos') {
-        secVideos.classList.remove('hidden');
-        btnVideos.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
-        btnVideos.classList.remove('text-slate-400');
-    }
 }
 
 function updateAvatar(event) {
@@ -432,9 +409,4 @@ window.addEventListener('DOMContentLoaded', () => {
             loadPostsFromDatabase();
         }
     }, 1000);
-    // اجعل كل الدوال التي تستخدمها في الـ onclick مرتبطة بـ window
-window.switchTab = function(tabName) {
-    // الكود الخاص بتبديل التبويبات لديك هنا
-    console.log("تم الانتقال إلى تبويب: ", tabName);
-};
 });
