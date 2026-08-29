@@ -7,6 +7,82 @@
     <!-- تضمين Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- تعريف دوال التنقل في النطاق العام فوراً لتستجيب للأزرار بلا إبطاء -->
+    <script>
+        function switchTab(tabId) {
+            const homeView = document.getElementById('homeView');
+            const videosView = document.getElementById('videosView');
+            const profileView = document.getElementById('profileView');
+
+            if (homeView) homeView.classList.add('hidden');
+            if (videosView) videosView.classList.add('hidden');
+            if (profileView) profileView.classList.add('hidden');
+
+            let targetId = tabId;
+            if (tabId === 'home') targetId = 'homeView';
+            else if (tabId === 'videos') targetId = 'videosView';
+            else if (tabId === 'profile') targetId = 'profileView';
+
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                console.log("تم الانتقال بنجاح إلى الشاشة: " + tabId);
+            } else {
+                console.error("القسم المطلوب غير موجود في الـ HTML: " + targetId);
+            }
+        }
+
+        function switchProfileSection(section) {
+            const secPosts = document.getElementById('sectionPosts');
+            const secAbout = document.getElementById('sectionAbout');
+            const secPhotos = document.getElementById('sectionPhotos');
+            const secVideos = document.getElementById('sectionVideos');
+
+            const btnPosts = document.getElementById('btnProfilePosts');
+            const btnAbout = document.getElementById('btnProfileAbout');
+            const btnPhotos = document.getElementById('btnProfilePhotos');
+            const btnVideos = document.getElementById('btnProfileVideos');
+
+            if (secPosts) secPosts.classList.add('hidden');
+            if (secAbout) secAbout.classList.add('hidden');
+            if (secPhotos) secPhotos.classList.add('hidden');
+            if (secVideos) secVideos.classList.add('hidden');
+
+            [btnPosts, btnAbout, btnPhotos, btnVideos].forEach(btn => {
+                if (btn) {
+                    btn.classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+
+            if (section === 'posts' && secPosts) {
+                secPosts.classList.remove('hidden');
+                if (btnPosts) {
+                    btnPosts.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+                    btnPosts.classList.remove('text-slate-400');
+                }
+            } else if (section === 'about' && secAbout) {
+                secAbout.classList.remove('hidden');
+                if (btnAbout) {
+                    btnAbout.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+                    btnAbout.classList.remove('text-slate-400');
+                }
+            } else if (section === 'photos' && secPhotos) {
+                secPhotos.classList.remove('hidden');
+                if (btnPhotos) {
+                    btnPhotos.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+                    btnPhotos.classList.remove('text-slate-400');
+                }
+            } else if (section === 'videos' && secVideos) {
+                secVideos.classList.remove('hidden');
+                if (btnVideos) {
+                    btnVideos.classList.add('text-blue-500', 'border-b-2', 'border-blue-500');
+                    btnVideos.classList.remove('text-slate-400');
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans">
     <!-- 1. شريط التنقل العلوي (Navbar) -->
@@ -40,11 +116,11 @@
     <!-- 2. محتوى الصفحة الرئيسية (Home Feed) -->
     <div id="homeView" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 p-4">
         <aside class="hidden lg:block space-y-2">
-            <a href="#" onclick="switchTab('profile')" class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg transition font-medium">
+            <a href="#" onclick="switchTab('profile'); return false;" class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg transition font-medium">
                 <img id="sidebarAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-8 h-8 rounded-full object-cover">
                 <span id="sidebarUserName">اسم المستخدم</span>
             </a>
-            <a href="#" onclick="switchTab('videos')" class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg transition text-blue-400 font-medium">
+            <a href="#" onclick="switchTab('videos'); return false;" class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg transition text-blue-400 font-medium">
                 <i class="fa-solid fa-tv w-6 text-center text-xl"></i>
                 <span>الفيديوهات (Watch)</span>
             </a>
@@ -262,8 +338,7 @@
         </div>
     </div>
 
-    <!-- كود التهيئة الخاص بـ Firebase (الإصدار 12.18.0 مع تفعيل Firestore) -->
-   <!-- كود التهيئة الخاص بـ Firebase (بدون Analytics لتجنب حظر الـ CSP) -->
+    <!-- كود التهيئة الخاص بـ Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
@@ -278,11 +353,9 @@
             measurementId: "G-5Y46BEF6V1"
         };
 
-        // Initialize Firebase & Firestore
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // إتاحة الكائنات والدوال عالمياً ليستفيد منها ملف script.js
         window.firebaseApp = app;
         window.db = db;
         window.collection = collection;
@@ -293,8 +366,8 @@
 
         console.log("تم تهيئة Firebase و Firestore بنجاح!");
     </script>
+    
     <!-- ملف الجافاسكريبت الخارجي -->
     <script src="script.js"></script>
-
 </body>
 </html>
