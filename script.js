@@ -392,4 +392,9 @@ window.addEventListener('DOMContentLoaded', () => {
             loadPostsFromDatabase();
         }
     }, 1000);
+    // اجعل كل الدوال التي تستخدمها في الـ onclick مرتبطة بـ window
+window.switchTab = function(tabName) {
+    // الكود الخاص بتبديل التبويبات لديك هنا
+    console.log("تم الانتقال إلى تبويب: ", tabName);
+};
 });
