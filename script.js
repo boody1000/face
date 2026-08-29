@@ -1,6 +1,55 @@
 let activeUploadedImage = '';
 let activeUploadedVideo = '';
+// دالة التنقل بين الشاشات الرئيسية (الرئيسية، الفيديوهات، الملف الشخصي)
+function switchTab(tabName) {
+    // إخفاء كل الواجهات الأساسية
+    const homeView = document.getElementById('homeView');
+    const videosView = document.getElementById('videosView');
+    const profileView = document.getElementById('profileView');
 
+    if (homeView) homeView.classList.add('hidden');
+    if (videosView) videosView.classList.add('hidden');
+    if (profileView) profileView.classList.add('hidden');
+
+    // إظهار الواجهة المطلوبة بناءً على الزر المضغوط
+    if (tabName === 'home') {
+        if (homeView) homeView.classList.remove('hidden');
+    } else if (tabName === 'videos') {
+        if (videosView) videosView.classList.remove('hidden');
+    } else if (tabName === 'profile') {
+        if (profileView) profileView.classList.remove('hidden');
+    }
+
+    console.log("تم الانتقال بنجاح إلى شاشة: " + tabName);
+}
+
+// ربط الدالة بالنطاق العام لتعمل مع HTML onclick
+window.switchTab = switchTab;
+
+
+// دالة التنقل بين أقسام الملف الشخصي (المحتوى، حول، الصور، الفيديو)
+function switchProfileSection(sectionName) {
+    const sectionPosts = document.getElementById('sectionPosts');
+    const sectionAbout = document.getElementById('sectionAbout');
+    const sectionPhotos = document.getElementById('sectionPhotos');
+    const sectionVideos = document.getElementById('sectionVideos');
+
+    // إخفاء جميع أقسام الملف الشخصي
+    if (sectionPosts) sectionPosts.classList.add('hidden');
+    if (sectionAbout) sectionAbout.classList.add('hidden');
+    if (sectionPhotos) sectionPhotos.classList.add('hidden');
+    if (sectionVideos) sectionVideos.classList.add('hidden');
+
+    // إظهار القسم المطلوب فقط
+    if (sectionName === 'posts' && sectionPosts) sectionPosts.classList.remove('hidden');
+    if (sectionName === 'about' && sectionAbout) sectionAbout.classList.remove('hidden');
+    if (sectionName === 'photos' && sectionPhotos) sectionPhotos.classList.remove('hidden');
+    if (sectionName === 'videos' && sectionVideos) sectionVideos.classList.remove('hidden');
+
+    console.log("تم تبديل قسم الملف الشخصي إلى: " + sectionName);
+}
+
+window.switchProfileSection = switchProfileSection;
 function handleFileSelect(event, targetInputId, previewContainerId, type) {
     const file = event.target.files[0];
     if (!file) return;
