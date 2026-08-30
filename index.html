@@ -909,6 +909,11 @@
                 
                 <textarea id="postTextContent" placeholder="بما تفكر؟"></textarea>
 
+                <!-- مدخل لربط الرابط (Link) مباشرة بدلاً من معالجة الملف الثقيل -->
+                <div style="margin-top: 10px; margin-bottom: 10px;">
+                    <input type="text" id="postMediaLinkInput" placeholder="أدخل رابط الصورة أو الفيديو (URL) هنا..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--fb-border); border-radius: 6px; outline: none; font-size: 0.9rem;" oninput="handleMediaLinkInput(this.value)">
+                </div>
+
                 <div id="modalMediaPreview" class="modal-media-preview">
                     <button class="remove-preview-btn" onclick="clearMediaPreview()"><i class="fa-solid fa-xmark"></i></button>
                     <div id="previewContainer"></div>
@@ -917,16 +922,12 @@
                 <div class="modal-add-attachments">
                     <span>إضافة إلى منشورك</span>
                     <div class="attachment-icons">
-                        <input type="file" id="modalPhotoInput" accept="image/*" style="display: none;" onchange="handleModalMediaUpload(event, 'image')">
-                        <button class="att-icon-btn att-photo" onclick="document.getElementById('modalPhotoInput').click()" title="إضافة صورة">
+                        <button class="att-icon-btn att-photo" onclick="promptForMediaLink('image')" title="إضافة رابط صورة">
                             <i class="fa-solid fa-images"></i>
                         </button>
-
-                        <input type="file" id="modalVideoInput" accept="video/*" style="display: none;" onchange="handleModalMediaUpload(event, 'video')">
-                        <button class="att-icon-btn att-video" onclick="document.getElementById('modalVideoInput').click()" title="إضافة فيديو">
+                        <button class="att-icon-btn att-video" onclick="promptForMediaLink('video')" title="إضافة رابط فيديو">
                             <i class="fa-solid fa-video"></i>
                         </button>
-
                         <button class="att-icon-btn" style="color: #f7b125;" title="شعور / نشاط"><i class="fa-solid fa-face-smile"></i></button>
                     </div>
                 </div>
@@ -967,58 +968,61 @@
 
         window.openModalWithAction = function(actionType) {
             openModal();
-            if(actionType === 'photo') {
-                document.getElementById('modalPhotoInput').click();
-            } else if(actionType === 'video') {
-                document.getElementById('modalVideoInput').click();
+            promptForMediaLink(actionType === 'photo' ? 'image' : 'video');
+        }
+
+        window.promptForMediaLink = function(type) {
+            const link = prompt(type === 'image' ? "أدخل رابط الصورة (URL):" : "أدخل رابط الفيديو (URL):");
+            if (link) {
+                document.getElementById('postMediaLinkInput').value = link;
+                handleMediaLinkInput(link, type);
             }
         }
 
-        window.closeModal = function() {
-            document.getElementById('postModal').style.display = 'none';
-            clearMediaPreview();
-        }
+        window.handleMediaLinkInput = function(url, forcedType = '') {
+            const trimmedUrl = url.trim();
+            if (!trimmedUrl) {
+                clearMediaPreview();
+                return;
+            }
 
-        window.handleModalMediaUpload = function(event, type) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Result = e.target.result;
-                uploadedMediaData = { type: type, url: base64Result };
-
-                const previewDiv = document.getElementById('previewContainer');
-                const previewWrapper = document.getElementById('modalMediaPreview');
-                
-                if (type === 'image') {
-                    previewDiv.innerHTML = `<img src="${base64Result}" alt="Image Preview">`;
+            let type = forcedType;
+            if (!type) {
+                if (trimmedUrl.match(/\.(mp4|webm|ogg|mov)$/i) || trimmedUrl.includes('video')) {
+                    type = 'video';
                 } else {
-                    previewDiv.innerHTML = `<video src="${base64Result}" controls></video>`;
+                    type = 'image';
                 }
-                previewWrapper.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
+            }
+
+            uploadedMediaData = { type: type, url: trimmedUrl };
+            const previewDiv = document.getElementById('previewContainer');
+            const previewWrapper = document.getElementById('modalMediaPreview');
+
+            if (type === 'image') {
+                previewDiv.innerHTML = `<img src="${trimmedUrl}" alt="Image Preview" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e';">`;
+            } else {
+                previewDiv.innerHTML = `<video src="${trimmedUrl}" controls></video>`;
+            }
+            previewWrapper.style.display = 'block';
         }
 
         window.clearMediaPreview = function() {
             uploadedMediaData = { type: "", url: "" };
+            document.getElementById('postMediaLinkInput').value = '';
             document.getElementById('previewContainer').innerHTML = '';
             document.getElementById('modalMediaPreview').style.display = 'none';
-            document.getElementById('modalPhotoInput').value = '';
-            document.getElementById('modalVideoInput').value = '';
         }
 
-        // دالة نشر المنشور وحفظه في مجموعة posts
+        // دالة النشر تعتمد على تخزين الـ Link مباشرة دون تعليق أو تجميد
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value.trim();
             if(!text && !uploadedMediaData.url) {
-                console.log("الرجاء كتابة نص أو إرفاق صورة/فيديو");
+                alert("الرجاء كتابة نص أو إدخال رابط صورة أو فيديو");
                 return;
             }
 
             try {
-                // إرسال البيانات مباشرة إلى قاعدة البيانات
                 await addDoc(collection(db, "posts"), {
                     author: currentAuthenticatedUser,
                     avatar: currentAvatarUrl,
@@ -1032,13 +1036,18 @@
                 document.getElementById('postTextContent').value = '';
                 clearMediaPreview();
                 closeModal();
-                loadPosts(); // تحديث وعرض المنشورات مباشرة
+                loadPosts(); 
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
             }
         }
 
-        // دالة جلب وعرض المنشورات في الصفحة
+        window.closeModal = function() {
+            document.getElementById('postModal').style.display = 'none';
+            clearMediaPreview();
+        }
+
+        // جلب وعرض المنشورات بالروابط المخزنة
         async function loadPosts() {
             try {
                 const postsContainer = document.getElementById('postsContainer');
