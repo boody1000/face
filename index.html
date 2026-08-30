@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي</title>
+    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي مع قاعدة البيانات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -206,6 +206,30 @@
             border-bottom-right-radius: 8px;
         }
 
+        /* زر تعديل الغلاف على صورة الغلاف مباشرة */
+        .edit-cover-btn {
+            position: absolute;
+            bottom: 16px;
+            left: 24px;
+            background-color: white;
+            color: var(--fb-text);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .edit-cover-btn:hover {
+            background-color: #f2f2f2;
+        }
+
         .profile-details-flex {
             display: flex;
             justify-content: space-between;
@@ -362,6 +386,57 @@
             cursor: pointer;
         }
 
+        /* نافذة كتابة المنشور (Modal) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-box {
+            background-color: white;
+            width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--fb-border);
+            padding-bottom: 12px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .modal-close {
+            background: #e4e6eb;
+            border: none;
+            border-radius: 50%;
+            width: 32px; height: 32px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .modal-body {
+            padding: 16px 0;
+        }
+
+        .modal-body textarea {
+            width: 100%;
+            height: 120px;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            resize: none;
+        }
+
         .post-header-fb {
             display: flex;
             justify-content: space-between;
@@ -395,13 +470,6 @@
             margin-bottom: 12px;
             font-size: 0.95rem;
             line-height: 1.5;
-        }
-
-        .post-media img {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 6px;
         }
 
         .post-interactions {
@@ -507,39 +575,14 @@
 
             <div class="main-feed" style="max-width: 680px; width: 100%;">
                 <div class="fb-card">
-                    <div class="create-post-box">
+                    <div class="create-post-box" onclick="openModal()">
                         <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
                         <div class="create-post-input">بما تفكر يا محمد؟</div>
                     </div>
                 </div>
 
-                <div class="fb-card">
-                    <div class="post-header-fb">
-                        <div class="post-user-info">
-                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="Friend">
-                            <div>
-                                <h4>عمر أحمد</h4>
-                                <span>منذ ساعة · <i class="fa-solid fa-earth-americas"></i></span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
+                <div id="posts-container-home">
                     </div>
-                    <div class="post-body-text">
-                        أجواء رائعة اليوم في العمل البرمجي مع فريق العمل الجديد! 🚀
-                    </div>
-                    <div class="post-media" style="margin-top: 10px;">
-                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=700" alt="Post">
-                    </div>
-                    <div class="post-interactions">
-                        <span>👍 48</span>
-                        <span>5 تعليقات</span>
-                    </div>
-                    <div class="post-actions-buttons">
-                        <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
-                        <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
-                        <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
-                    </div>
-                </div>
             </div>
 
             <div class="side-menu">
@@ -555,6 +598,9 @@
         <div class="profile-container">
             <div class="cover-photo">
                 <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
+                <button class="edit-cover-btn" onclick="alert('خاصية تعديل الغلاف قيد التفعيل')">
+                    <i class="fa-solid fa-camera"></i> تعديل غلاف الملف الشخصي
+                </button>
             </div>
             <div class="profile-content-width">
                 <div class="profile-details-flex">
@@ -595,51 +641,39 @@
             </div>
             <div class="feed-section">
                 <div class="fb-card">
-                    <div class="create-post-box">
+                    <div class="create-post-box" onclick="openModal()">
                         <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
                         <div class="create-post-input">بما تفكر يا محمد؟</div>
                     </div>
                 </div>
-                <div class="fb-card">
-                    <div class="post-header-fb">
-                        <div class="post-user-info">
-                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div>
-                                <h4>محمد خالد</h4>
-                                <span>منذ ٣ ساعات · <i class="fa-solid fa-earth-americas"></i></span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
+                <div id="posts-container-profile">
                     </div>
-                    <div class="post-body-text">
-                        أجمل الأوقات تقضى في كتابة الأكواد وتطوير واجهات المستخدم لتكون سلسة وسريعة تماماً كفيسبوك! 💻✨
-                    </div>
-                    <div class="post-media" style="margin-top: 10px;">
-                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600" alt="Post">
-                    </div>
-                    <div class="post-interactions">
-                        <span>👍 125</span>
-                        <span>12 تعليق</span>
-                    </div>
-                    <div class="post-actions-buttons">
-                        <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
-                        <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
-                        <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
+    <div id="postModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <span>إنشاء منشور</span>
+                <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px;">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%;">
+                    <h4 style="font-size: 0.95rem;">محمد خالد</h4>
+                </div>
+                <textarea id="postTextContent" placeholder="بما تفكر يا محمد؟"></textarea>
+            </div>
+            <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center;" onclick="addNewPost()">نشر</button>
+        </div>
+    </div>
+
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
             authDomain: "faceb-bb002.firebaseapp.com",
@@ -650,14 +684,95 @@
             measurementId: "G-5Y46BEF6V1"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-        console.log("Firebase initialized successfully!");
+        const db = getFirestore(app);
+
+        // فتح وإغلاق نافذة المنشورات
+        window.openModal = function() {
+            document.getElementById('postModal').style.display = 'flex';
+        }
+        window.closeModal = function() {
+            document.getElementById('postModal').style.display = 'none';
+        }
+
+        // دالة حفظ منشور جديد في قاعدة البيانات (Firestore)
+        window.addNewPost = async function() {
+            const text = document.getElementById('postTextContent').value;
+            if(!text.trim()) return;
+
+            try {
+                await addDoc(collection(db, "posts"), {
+                    author: "محمد خالد",
+                    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200",
+                    content: text,
+                    time: "الآن",
+                    likes: 0
+                });
+                document.getElementById('postTextContent').value = '';
+                closeModal();
+                fetchPosts(); // إعادة تحميل المنشورات لعرض الجديد
+            } catch (e) {
+                console.error("خطأ في إضافة المنشور: ", e);
+            }
+        }
+
+        // دالة جلب المنشورات من قاعدة البيانات وعرضها في الواجهة
+        async function fetchPosts() {
+            const homeContainer = document.getElementById('posts-container-home');
+            const profileContainer = document.getElementById('posts-container-profile');
+            
+            homeContainer.innerHTML = '<p style="text-align:center; color:var(--fb-secondary-text);">جاري تحميل المنشورات...</p>';
+            profileContainer.innerHTML = '';
+
+            try {
+                const q = query(collection(db, "posts"), orderBy("__name__", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                homeContainer.innerHTML = '';
+                profileContainer.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    const post = doc.data();
+                    const postHTML = `
+                        <div class="fb-card">
+                            <div class="post-header-fb">
+                                <div class="post-user-info">
+                                    <img src="${post.avatar}" alt="User">
+                                    <div>
+                                        <h4>${post.author}</h4>
+                                        <span>${post.time} · <i class="fa-solid fa-earth-americas"></i></span>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
+                            </div>
+                            <div class="post-body-text">${post.content}</div>
+                            <div class="post-interactions">
+                                <span>👍 ${post.likes}</span>
+                                <span>0 تعليق</span>
+                            </div>
+                            <div class="post-actions-buttons">
+                                <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
+                                <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
+                                <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
+                            </div>
+                        </div>
+                    `;
+                    homeContainer.innerHTML += postHTML;
+                    profileContainer.innerHTML += postHTML;
+                });
+            } catch (e) {
+                console.error("خطأ في جلب المنشورات: ", e);
+                homeContainer.innerHTML = '<p style="text-align:center; color:red;">تأكد من تفعيل خدمة Firestore في لوحة تحكم Firebase.</p>';
+            }
+        }
+
+        // جلب المنشورات فور فتح الصفحة
+        fetchPosts();
     </script>
 
     <script>
-        // دالة التنقل بين الصفحة الرئيسية والصفحة الشخصية عبر الأيقونات العلوية
+        // دالة التنقل بين الصفحة الرئيسية والشخصية
         function switchAppView(viewName, tabElement) {
             document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
@@ -670,7 +785,7 @@
             tabElement.classList.add('active');
         }
 
-        // دالة الإعجاب التفاعلية
+        // دالة الإعجاب التفاعلية المحلية
         function toggleLike(btn) {
             btn.classList.toggle('liked');
             const icon = btn.querySelector('i');
