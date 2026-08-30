@@ -175,7 +175,7 @@
         </div>
     </div>
 
-    <!-- كود تهيئة Firebase وربط إرسال البيانات -->
+    <!-- كود تهيئة وإرسال البيانات لقاعدة بيانات Firebase Firestore -->
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -183,7 +183,6 @@
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
             authDomain: "faceb-bb002.firebaseapp.com",
@@ -199,20 +198,21 @@
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        // كود الـ JavaScript للتحقق من المدخلات وحفظها في قاعدة البيانات
+        // التقاط النموذج وحقل الرسائل
         const form = document.getElementById('signupForm');
         const message = document.getElementById('message');
 
         form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+            e.preventDefault(); // منع إعادة تحميل الصفحة عند الضغط على تسجيل
 
+            // جلب القيم المدخلة وتنظيف الفراغات الزائدة
             const username = document.getElementById('username').value.trim();
             const gender = document.getElementById('gender').value;
             const socialStatus = document.getElementById('socialStatus').value;
             const job = document.getElementById('job').value.trim();
             const city = document.getElementById('city').value.trim();
 
-            // التحقق من الحقول المتبقية
+            // التحقق من عدم ترك أي حقل فارغ
             if (username === '' || gender === '' || socialStatus === '' || job === '' || city === '') {
                 message.style.color = 'red';
                 message.textContent = 'يرجى ملء جميع الحقول المطلوبة!';
@@ -220,23 +220,25 @@
             }
 
             try {
-                // حفظ البيانات في قاعدة البيانات داخل مجموعة (Collection) باسم users
+                // إرسال جميع البيانات المدخلة وحفظها في الـ Collection المسماة "users"
                 await addDoc(collection(db, "users"), {
                     username: username,
                     gender: gender,
                     socialStatus: socialStatus,
                     job: job,
                     city: city,
-                    createdAt: new Date()
+                    createdAt: new Date() // توقيت عملية التسجيل
                 });
 
+                // رسالة النجاح وتفريغ الحقول
                 message.style.color = 'green';
-                message.textContent = 'تم تسجيل البيانات بنجاح في قاعدة البيانات! 🎉';
-                form.reset(); // تفريغ حقول النموذج بعد الإرسال الناجح
+                message.textContent = 'تم تسجيل وحفظ كافة البيانات بنجاح في قاعدة البيانات! 🎉';
+                form.reset(); 
+
             } catch (error) {
-                console.error("خطأ أثناء الإرسال: ", error);
+                console.error("حدث خطأ أثناء حفظ البيانات: ", error);
                 message.style.color = 'red';
-                message.textContent = 'حدث خطأ أثناء حفظ البيانات، يرجى المحاولة لاحقاً.';
+                message.textContent = 'حدث خطأ أثناء الاتصال بقاعدة البيانات، يرجى المحاولة لاحقاً.';
             }
         });
     </script>
