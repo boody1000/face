@@ -1067,50 +1067,55 @@
             reader.readAsDataURL(file);
         }
 
-        // دالة التحقق من مجموعة statsus وجلب الاسم المطابق من users
+        // مطابقة username من users مع username في statsus بشرط أن تكون status تساوي online
         async function checkStatusAndLoadUser() {
             try {
-                console.log("--- جاري فحص مجموعة statsus للبحث عن online ---");
-                const statusSnap = await getDocs(collection(db, "statsus"));
-                let matchedNameOrId = null;
+                console.log("--- جاري فحص مجموعة statsus و users ---");
+                const statsusSnap = await getDocs(collection(db, "statsus"));
+                let onlineUsernames = [];
 
-                statusSnap.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    console.log("مستند statsus:", docSnap.id, data);
-                    
-                    // التحقق مما إذا كان الحالة تعني online
-                    const isOnline = (data.status === "online" || data.state === "online" || data.active === true || data.status === "متصل" || data.status === "متاحة");
+                // 1. جمع الـ usernames من statsus التي تكون فيها status تساوي online
+                statsusSnap.forEach((docSnap) => {
+                    const statusData = docSnap.data();
+                    console.log("مستند statsus:", docSnap.id, statusData);
 
-                    if (isOnline) {
-                        // التقاط اسم المستخدم أو المعرّف المخزن في مستند الـ statsus
-                        if (data.name) matchedNameOrId = data.name;
-                        else if (data.username) matchedNameOrId = data.username;
-                        else matchedNameOrId = docSnap.id; // استخدام معرف المستند كاحتياطي
+                    // التحقق من أن الحقل status يساوي online
+                    if (statusData.status === "online") {
+                        if (statusData.username) {
+                            onlineUsernames.push(statusData.username.trim());
+                        }
                     }
                 });
 
-                if (matchedNameOrId) {
+                console.log("الأسماء المتصلة online في statsus:", onlineUsernames);
+
+                if (onlineUsernames.length > 0) {
+                    // 2. جلب البيانات من collection users للمطابقة
                     const usersSnap = await getDocs(collection(db, "users"));
                     usersSnap.forEach((docSnap) => {
                         const userData = docSnap.data();
                         console.log("مستند users:", docSnap.id, userData);
 
-                        // مطابقة الاسم من مجموعة users مع القيمة الموجودة في statsus
-                        if (userData.name && (userData.name.trim() === matchedNameOrId.trim() || docSnap.id === matchedNameOrId)) {
-                            currentAuthenticatedUser = userData.name;
+                        // التحقق من وجود username في users ومطابقته مع القائمة المتصلة
+                        if (userData.username) {
+                            const userUName = userData.username.trim();
+                            if (onlineUsernames.includes(userUName)) {
+                                // اعتماد اسم المستخدم (أو الـ name إن وُجد، أو الـ username نفسه)
+                                currentAuthenticatedUser = userData.name || userData.username;
+                            }
                         }
                     });
                 }
 
-                console.log("اسم المستخدم المعتمد بعد الفحص:", currentAuthenticatedUser);
+                console.log("اسم المستخدم النهائي المعتمد:", currentAuthenticatedUser);
             } catch (e) {
-                console.error("خطأ أثناء فحص statsus و users:", e);
+                console.error("خطأ أثناء مطابقة statsus و users:", e);
             }
         }
 
         async function loadProfileData() {
             try {
-                // تنفيذ فحص مجموعة statsus أولاً
+                // تنفيذ عملية المطابقة أولاً
                 await checkStatusAndLoadUser();
 
                 const userDocRef = doc(db, "users", "profile_info");
@@ -1145,7 +1150,7 @@
                     });
                 }
 
-                // تحديث جميع أماكن ظهور الاسم في الصفحة بجوار البروفايل
+                // تحديث جميع أماكن ظهور الاسم في الصفحة بجوار البروفايل والصناديق
                 document.getElementById('profileNameHeader').innerHTML = `${currentAuthenticatedUser} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
                 document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
                 document.getElementById('feedInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
