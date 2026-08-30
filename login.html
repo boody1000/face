@@ -134,7 +134,6 @@
         </div>
     </div>
 
-    <!-- كود ربط Firebase والتحقق وتحديث الحالة والتوجيه -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
@@ -172,52 +171,54 @@
             message.textContent = 'جاري التحقق من الحساب...';
 
             try {
-                // 1. البحث في جدول users للتأكد من وجود اسم المستخدم
+                // 1. البحث في جدول users
                 const usersRef = collection(db, "users");
                 const qUser = query(usersRef, where("username", "==", usernameInput));
                 const userSnapshot = await getDocs(qUser);
 
                 if (!userSnapshot.empty) {
+                    console.log("تم العثور على المستخدم في جدول users");
                     
-                    // 2. البحث في مجموعة statsus عن المستند الخاص بهذا المستخدم بناءً على حقل username
+                    // 2. تحديث الحالة في مجموعة statsus
                     const statsusCollectionRef = collection(db, "statsus");
                     const qStatsus = query(statsusCollectionRef, where("username", "==", usernameInput));
                     const statsusSnapshot = await getDocs(qStatsus);
 
                     if (!statsusSnapshot.empty) {
-                        // إذا وُجد مستند خاص بالمستخدم مسبقاً، نقوم بتحديث حقل statsus إلى online
                         let statsusDocRef = statsusSnapshot.docs[0].ref;
                         await updateDoc(statsusDocRef, {
                             statsus: "online"
                         });
+                        console.log("تم تحديث حالة المستخدم إلى online بنجاح");
                     } else {
-                        // إذا لم يكن له مستند مسبق في مجموعة statsus، نقوم بإنشاء مستند جديد
                         const newStatsusRef = doc(collection(db, "statsus"));
                         await setDoc(newStatsusRef, {
                             username: usernameInput,
                             statsus: "online"
                         });
+                        console.log("تم إنشاء مستند حالة جديد للمستخدم بنجاح");
                     }
 
-                    // 3. نجاح العملية وحفظ اسم المستخدم في التخزين المحلي
+                    // 3. حفظ البيانات والتوجيه
                     message.style.color = 'green';
                     message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
                     
                     localStorage.setItem("loggedInUser", usernameInput);
 
-                    // 4. التوجيه التلقائي لصفحة index.html بعد ثانية واحدة
+                    console.log("جاري التوجيه إلى صفحة index.html...");
+                    
+                    // إجبار المتصفح على الانتقال مباشرة بعد نصف ثانية
                     setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
+                        window.location.replace('index.html');
+                    }, 500);
 
                 } else {
-                    // إذا لم يتم العثور على اسم المستخدم في جدول users
                     message.style.color = 'red';
-                    message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو انشئ حساباً جديداً.';
+                    message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح.';
                 }
 
             } catch (error) {
-                console.error("خطأ في تسجيل الدخول أو تحديث الحالة: ", error);
+                console.error("خطأ حدث أثناء التنفيذ: ", error);
                 message.style.color = 'red';
                 message.textContent = 'حدث خطأ: ' + error.message;
             }
