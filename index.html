@@ -680,7 +680,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -726,7 +726,7 @@
             }
         }
 
-        // دالة معالجة وتغيير صورة الغلاف ورفعها كبوست وتخزينها في مجموعة cover
+        // دالة معالجة صورة الغلاف، تخزينها في collection: cover, document: profile, field: pic_voer، ونشرها كبوست
         window.handleCoverUpload = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -736,34 +736,33 @@
                 const base64Image = e.target.result;
 
                 try {
-                    // 1. تحديث صورة الغلاف في قاعدة البيانات داخل collection cover -> document profile -> field pic_voer
-                    const coverDocRef = doc(db, "cover", "profile");
-                    await setDoc(coverDocRef, {
+                    // 1. التخزين في الداتابيز بالمجلد المطلوبة: collection -> cover, document -> profile, field -> pic_voer
+                    const coverRef = doc(db, "cover", "profile");
+                    await setDoc(coverRef, {
                         pic_voer: base64Image
                     }, { merge: true });
 
-                    // 2. نشر الغلاف الجديد كبوست في الـ feed
+                    // 2. نشر الغلاف كبوست في خلاصة المنشورات
                     await addDoc(collection(db, "posts"), {
                         author: "محمد خالد",
                         avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200",
-                        content: "قام بتغيير صورة الغلاف الشخصية.",
+                        content: "قام بتحديث صورة الغلاف الشخصية.",
                         image: base64Image,
                         time: "الآن",
                         likes: 0
                     });
 
-                    // 3. تحديث واجهة الغلاف فورياً
+                    // 3. تحديث واجهة الغلاف فورياً وعرض المنشورات الجديدة
                     document.getElementById('profileCoverImage').src = base64Image;
                     fetchPosts();
-                    alert("تم تحديث غلاف الملف الشخصي ونشره بنجاح!");
                 } catch (error) {
-                    console.error("خطأ أثناء حفظ صورة الغلاف: ", error);
+                    console.error("خطأ أثناء حفظ وتحديث الغلاف: ", error);
                 }
             };
             reader.readAsDataURL(file);
         }
 
-        // جلب صورة الغلاف المحفوظة مسبقاً عند تحميل الصفحة
+        // جلب صورة الغلاف المحفوظة مسبقاً من الداتابيز عند تحميل الصفحة
         async function loadCoverPhoto() {
             try {
                 const docRef = doc(db, "cover", "profile");
@@ -776,7 +775,7 @@
             }
         }
 
-        // دالة جلب المنشورات من قاعدة البيانات وعرضها في الواجهة
+        // دالة جلب المنشورات من قاعدة البيانات وعرضها في الواجهة بدون الحاجة لفهارس (Indexes) مركبة معقدة
         async function fetchPosts() {
             const homeContainer = document.getElementById('posts-container-home');
             const profileContainer = document.getElementById('posts-container-profile');
@@ -785,7 +784,8 @@
             profileContainer.innerHTML = '';
 
             try {
-                const q = query(collection(db, "posts"), orderBy("__name__", "desc"));
+                // جلب المنشورات مباشرة بدون orderBy لتفادي أي أخطاء مؤشر (Index error)
+                const q = query(collection(db, "posts"));
                 const querySnapshot = await getDocs(q);
                 
                 homeContainer.innerHTML = '';
@@ -829,7 +829,7 @@
             }
         }
 
-        // تشغيل الوظائف عند التحميل الأولي
+        // تشغيل التحميل الأولي للغلاف والمنشورات عند فتح الصفحة
         loadCoverPhoto();
         fetchPosts();
     </script>
