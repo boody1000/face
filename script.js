@@ -204,30 +204,49 @@ function updateAvatar(event) {
     }
 }
 
-// دالة تحديث صورة الغلاف وتثبيتها ونشرها تلقائياً
-function updateCover(event) {
+// دالة تحديث صورة الغلاف، تخزينها في collection: cover -> document: profile -> field: pic_cover ونشرها كمنشور
+async function updateCover(event) {
     const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const coverUrl = e.target.result;
-            document.getElementById('coverImg').src = coverUrl;
+    if (!file) return;
 
-            const currentAvatar = document.getElementById('topAvatarImg').src;
-            const currentName = document.getElementById('dispName').innerText;
-            
-            savePostToDatabase({
-                name: currentName,
-                avatar: currentAvatar,
-                text: "قام بتحديث صورة الغلاف الشخصي ✨",
-                image: coverUrl,
-                video: "",
-                timestamp: Date.now(),
-                time: 'الآن'
-            });
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const coverUrl = e.target.result;
+        
+        // 1. تحديث الصورة في الواجهة فوراً
+        const coverImgElement = document.getElementById('coverImg');
+        if (coverImgElement) {
+            coverImgElement.src = coverUrl;
         }
-        reader.readAsDataURL(file);
-    }
+
+        // 2. تخزين الرابط في قاعدة البيانات (cover -> profile -> pic_cover)
+        if (window.db && window.setDoc && window.doc) {
+            try {
+                await window.setDoc(window.doc(window.db, "cover", "profile"), {
+                    pic_cover: coverUrl,
+                    updatedAt: Date.now()
+                }, { merge: true });
+                console.log("تم تخزين رابط الغلاف في مجموعة cover / مستند profile بنجاح");
+            } catch (error) {
+                console.error("خطأ أثناء حفظ رابط الغلاف في الداتابيز: ", error);
+            }
+        }
+
+        // 3. نشر صورة الغلاف كمنشور جديد في الخلاصة
+        const currentAvatar = document.getElementById('topAvatarImg')?.src || '';
+        const currentName = document.getElementById('dispName')?.innerText || 'مستخدم';
+        
+        savePostToDatabase({
+            name: currentName,
+            avatar: currentAvatar,
+            text: "قام بتحديث صورة الغلاف الشخصي ✨",
+            image: coverUrl,
+            video: "",
+            timestamp: Date.now(),
+            time: 'الآن'
+        });
+    };
+    reader.readAsDataURL(file);
 }
 
 function toggleLike(button) {
@@ -332,7 +351,7 @@ async function savePostToDatabase(postData) {
     }
     try {
         await window.addDoc(window.collection(window.db, "posts"), postData);
-        console.log("تم حفظ المنشور في الداتابيز بنجاح");
+        console.log("تم حفظ المنشور في الداتابيز بنجاح[cite: 4]");
         loadPostsFromDatabase();
     } catch (error) {
         console.error("حدث خطأ أثناء حفظ المنشور: ", error);
@@ -391,10 +410,32 @@ async function loadPostsFromDatabase() {
     }
 }
 
-// تحميل المنشورات تلقائياً عند فتح الصفحة
+// دالة لجلب واستعراض صورة الغلاف المحفوظة من الداتابيز عند فتح الصفحة
+async function loadCoverFromDatabase() {
+    if (!window.db || !window.getDoc || !window.doc) return;
+    try {
+        const docRef = window.doc(window.db, "cover", "profile");
+        const docSnap = await window.getDoc(docRef);
+        
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            if (data.pic_cover) {
+                const coverImgElement = document.getElementById('coverImg');
+                if (coverImgElement) {
+                    coverImgElement.src = data.pic_cover;
+                }
+            }
+        }
+    } catch (error) {
+        console.error("خطأ في جلب صورة الغلاف:", error);
+    }
+}
+
+// تحميل المنشورات وصورة الغلاف تلقائياً عند فتح الصفحة
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         if (window.db) {
+            loadCoverFromDatabase();
             loadPostsFromDatabase();
         }
     }, 1000);
