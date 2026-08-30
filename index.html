@@ -3,247 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة فيسبوك المصغرة</title>
+    <title>تصميم صفحات فيسبوك مودرن</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #1877f2;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-color: #050505;
+            --text-secondary: #65676b;
+            --border-color: #e4e6eb;
+            --hover-color: #f2f2f2;
+        }
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            background-color: #f0f2f5;
-            color: #050505;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #ffffff;
-            height: 60px;
-            padding: 0 20px;
+
+        /* شريط التنقل العلوي */
+        header {
+            background-color: var(--card-bg);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            height: 60px;
         }
-        .logo {
-            color: #1877f2;
-            font-size: 26px;
-            font-weight: bold;
-        }
-        .nav-left {
+
+        .nav-brand {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .search-box {
-            background-color: #f0f2f5;
-            border: none;
-            border-radius: 20px;
-            padding: 10px 15px;
-            outline: none;
+
+        .nav-brand i {
+            color: var(--primary-color);
+            font-size: 2.2rem;
         }
-        .nav-center {
+
+        .nav-tabs {
             display: flex;
             gap: 15px;
         }
-        .nav-btn {
+
+        .tab-btn {
             background: none;
             border: none;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
             cursor: pointer;
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 8px;
-            color: #65676b;
-            transition: background-color 0.2s, color 0.2s;
+            transition: 0.3s;
         }
-        .nav-btn.active, .nav-btn:hover {
-            background-color: #e7f3ff;
-            color: #1877f2;
+
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--hover-color);
+            color: var(--primary-color);
         }
-        .page {
+
+        /* الحاويات الرئيسية للpages */
+        .page-container {
             display: none;
-            padding: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
+            max-width: 900px;
+            margin: 20px auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
-        .page.active-page {
+
+        .page-container.active {
             display: block;
         }
-        .profile-header {
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        
-        /* تصميم صورة الغلاف المودرن مع زر التعديل */
-        .cover-container {
+
+        /* تصميم الغلاف والصورة الشخصية */
+        .cover-section {
             position: relative;
-            height: 250px;
-            background: linear-gradient(135deg, #1877f2, #42b72a);
-            background-size: cover;
-            background-position: center;
+            height: 300px;
+            background: linear-gradient(135deg, #1877f2, #8a2be2);
         }
-        .edit-cover-btn {
+
+        .cover-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-header-content {
+            padding: 0 20px 20px 20px;
+            position: relative;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .avatar-container {
             position: absolute;
-            bottom: 15px;
-            left: 15px;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #050505;
-            border: none;
-            padding: 8px 15px;
+            bottom: 20px;
+            right: 30px;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 4px solid var(--card-bg);
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            margin-right: 180px;
+            padding-top: 15px;
+        }
+
+        .profile-info h1 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-info h1 i {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .profile-info p {
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* أزرار الإجراءات */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 8px 16px;
             border-radius: 6px;
-            font-weight: bold;
+            border: none;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            transition: background-color 0.2s;
-        }
-        .edit-cover-btn:hover {
-            background-color: #ffffff;
+            transition: 0.2s;
         }
 
-        .profile-info {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            gap: 20px;
-            position: relative;
-        }
-        .avatar {
-            width: 100px;
-            height: 100px;
-            background-color: #ccc;
-            border-radius: 50%;
-            border: 4px solid #fff;
-            margin-top: -50px;
-        }
-        .public-avatar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            background-color: #1877f2;
+        .btn-primary {
+            background-color: var(--primary-color);
             color: white;
         }
-        .follow-btn {
-            margin-right: auto;
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .follow-btn:hover {
+
+        .btn-primary:hover {
             background-color: #166fe5;
         }
+
+        .btn-secondary {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #d8dadf;
+        }
+
+        /* محتوى المنشورات */
         .content-body {
-            display: flex;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 15px;
+            padding: 20px;
+            background-color: var(--bg-color);
         }
-        .sidebar {
-            flex: 1;
-            background: #fff;
-            padding: 15px;
+
+        .sidebar-card, .post-card {
+            background: var(--card-bg);
             border-radius: 8px;
-            height: fit-content;
+            padding: 15px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
         }
-        .sidebar h3 {
+
+        .sidebar-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+        }
+
+        .sidebar-card li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* تصميم المنشورات */
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 10px;
         }
-        .sidebar p {
-            margin-bottom: 8px;
-            color: #65676b;
+
+        .post-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
         }
-        .feed {
-            flex: 2;
+
+        .post-meta h4 {
+            font-size: 0.95rem;
         }
-        .full-width {
-            flex: 1;
+
+        .post-meta span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
         }
-        .post-box, .post {
-            background: #fff;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+
+        .post-text {
+            margin-bottom: 10px;
+            line-height: 1.5;
         }
-        .post-box textarea {
+
+        .post-image {
             width: 100%;
-            border: none;
-            background: #f0f2f5;
-            padding: 10px;
             border-radius: 6px;
-            resize: none;
-            outline: none;
+            max-height: 350px;
+            object-fit: cover;
         }
-        .post-btn {
-            background-color: #1877f2;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            margin-top: 10px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .post-btn:hover {
-            background-color: #166fe5;
-        }
-        .post h4 {
-            margin-bottom: 8px;
-        }
-        .post p {
-            color: #4b4f56;
-        }
-        .videos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 15px;
-        }
-        .video-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            padding-bottom: 10px;
-        }
-        .video-placeholder {
-            height: 160px;
-            background-color: #242526;
-            color: white;
+
+        /* تفاعلات المنشور */
+        .post-actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
+            justify-content: space-around;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 5px 0;
+            margin-top: 10px;
         }
-        .video-card p {
-            padding: 10px;
-            font-weight: bold;
+
+        .action-item {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 6px 20px;
+            border-radius: 4px;
+            transition: 0.2s;
         }
+
+        .action-item:hover {
+            background-color: var(--hover-color);
+        }
+
+        .action-item.liked {
+            color: var(--primary-color);
+        }
+
+        /* استجابة الشاشات الصغيرة */
         @media (max-width: 768px) {
             .content-body {
-                flex-direction: column;
+                grid-template-columns: 1fr;
             }
-            .navbar {
-                flex-direction: column;
-                height: auto;
-                padding: 10px;
-                gap: 10px;
+            .profile-info {
+                margin-right: 0;
+                text-align: center;
+                padding-top: 80px;
             }
-            .nav-center {
-                flex-wrap: wrap;
+            .avatar-container {
+                right: 50%;
+                transform: translateX(50%);
+                top: -80px;
+            }
+            .action-buttons {
                 justify-content: center;
             }
         }
@@ -251,156 +309,159 @@
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="nav-left">
-            <h2 class="logo">facebook</h2>
-            <input type="text" placeholder="بحث في فيسبوك" class="search-box">
+    <header>
+        <div class="nav-brand">
+            <i class="fa-brands fa-facebook"></i>
+            <span style="font-weight: bold; font-size: 1.2rem;">SocialUI</span>
         </div>
-        <div class="nav-center">
-            <button class="nav-btn active" onclick="switchPage('profile', event)">🏠 الصفحة الشخصية</button>
-            <button class="nav-btn" onclick="switchPage('public', event)">🌐 الصفحة العامة</button>
-            <button class="nav-btn" onclick="switchPage('videos', event)">🎬 الفيديوهات</button>
-        </div>
-        <div class="nav-right">
-            <span>👤 محمد أحمد</span>
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchPage('profile')">الصفحة الشخصية</button>
+            <button class="tab-btn" onclick="switchPage('business')">الصفحة العامة (Page)</button>
         </div>
     </header>
 
-    <main class="main-container">
-        <!-- 1. الصفحة الشخصية -->
-        <section id="profile" class="page active-page">
-            <div class="profile-header">
-                <!-- حاوية صورة الغلاف مع زر التعديل المودرن -->
-                <div class="cover-container" id="coverContainer">
-                    <button class="edit-cover-btn" onclick="document.getElementById('coverInput').click()">
-                        📷 تعديل صورة الغلاف
-                    </button>
-                    <!-- حقل مخفي لاختيار الصورة من الجهاز -->
-                    <input type="file" id="coverInput" accept="image/*" style="display: none;" onchange="changeCover(event)">
+    <div id="profile" class="page-container active">
+        <div class="cover-section">
+            <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1000" alt="Cover">
+        </div>
+        <div class="profile-header-content">
+            <div class="avatar-container">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Avatar">
+            </div>
+            <div class="profile-info">
+                <h1>أحمد محمد <i class="fa-solid fa-circle-check" title="حساب موثق"></i></h1>
+                <p>مطور واجهات أمامية (Front-End Developer) شغوف بالتكنولوجيا 💻🚀</p>
+                <div class="action-buttons">
+                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> إضافة إلى القصة</button>
+                    <button class="btn btn-secondary"><i class="fa-solid fa-pen"></i> تعديل الملف الشخصي</button>
                 </div>
-                <div class="profile-info">
-                    <div class="avatar"></div>
-                    <div>
-                        <h2>محمد أحمد</h2>
-                        <p>500 صديق</p>
+            </div>
+        </div>
+
+        <div class="content-body">
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>التفاصيل الشخصية</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-briefcase"></i> يعمل لدى Tech Company</li>
+                        <li><i class="fa-solid fa-graduation-cap"></i> درس علوم الحاسب في جامعة القاهرة</li>
+                        <li><i class="fa-solid fa-house"></i> يقيم في القاهرة، مصر</li>
+                        <li><i class="fa-solid fa-heart"></i> أعزب</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posts-feed">
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
+                        <div class="post-meta">
+                            <h4>أحمد محمد</h4>
+                            <span>منذ ساعتين <i class="fa-solid fa-earth-americas"></i></span>
+                        </div>
+                    </div>
+                    <div class="post-text">
+                        أتممت اليوم بنجاح تطوير مشروع جديد باستخدام HTML5, CSS3 و JavaScript الحديث! العمل الجماعي دائمًا يصنع الفارق 🎯✨.
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" alt="Post Image" class="post-image">
+                    <div class="post-actions">
+                        <button class="action-item" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
+                        <button class="action-item"><i class="fa-regular fa-comment"></i> تعليق</button>
+                        <button class="action-item"><i class="fa-solid fa-share"></i> مشاركة</button>
                     </div>
                 </div>
             </div>
-            <div class="content-body">
-                <div class="sidebar">
-                    <h3>التفاصيل</h3>
-                    <p>📍 يعيش في القاهرة، مصر</p>
-                    <p>💼 يعمل كـ مبرمج ويب</p>
+        </div>
+    </div>
+
+    <div id="business" class="page-container">
+        <div class="cover-section">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000" alt="Page Cover">
+        </div>
+        <div class="profile-header-content">
+            <div class="avatar-container">
+                <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=200" alt="Page Logo">
+            </div>
+            <div class="profile-info">
+                <h1>عالم البرمجة والتكنولوجيا <i class="fa-solid fa-circle-check"></i></h1>
+                <p>صفحة تعليمية تقنية لنشر أحدث أخبار البرمجة والذكاء الاصطناعي • 45K إعجاب</p>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="likePageBtn" onclick="togglePageLike()"><i class="fa-solid fa-thumbs-up"></i> إعجاب</button>
+                    <button class="btn btn-secondary"><i class="fa-solid fa-message"></i> إرسال رسالة</button>
                 </div>
-                <div class="feed">
-                    <div class="post-box">
-                        <textarea placeholder="ما الذي تفكر فيه، محمد؟"></textarea>
-                        <button class="post-btn">نشر</button>
+            </div>
+        </div>
+
+        <div class="content-body">
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h3>حول الصفحة</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-globe"></i> tech-world-edu.com</li>
+                        <li><i class="fa-solid fa-envelope"></i> contact@techworld.com</li>
+                        <li><i class="fa-solid fa-tags"></i> تعليم وتكنولوجيا</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="posts-feed">
+                <div class="post-card">
+                    <div class="post-header">
+                        <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc" alt="Page">
+                        <div class="post-meta">
+                            <h4>عالم البرمجة والتكنولوجيا</h4>
+                            <span>منذ 5 ساعات <i class="fa-solid fa-earth-americas"></i></span>
+                        </div>
                     </div>
-                    <div class="post">
-                        <h4>محمد أحمد</h4>
-                        <p>هذا منشور تجريبي على صفحتي الشخصية!</p>
+                    <div class="post-text">
+                        ما هي لغة البرمجة المفضلة لديك في عام 2026؟ شاركنا رأيك في التعليقات ولا تنسَ دعم المحتوى التقني! 💡🤖
+                    </div>
+                    <div class="post-actions">
+                        <button class="action-item" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
+                        <button class="action-item"><i class="fa-regular fa-comment"></i> تعليق</button>
+                        <button class="action-item"><i class="fa-solid fa-share"></i> مشاركة</button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <!-- 2. الصفحة العامة -->
-        <section id="public" class="page">
-            <div class="profile-header public-header">
-                <div class="cover-container" style="background: linear-gradient(135deg, #242526, #1877f2);"></div>
-                <div class="profile-info">
-                    <div class="avatar public-avatar">🌐</div>
-                    <div>
-                        <h2>مجتمع المبرمجين العرب</h2>
-                        <p>15 ألف إعجاب • صفحة عامة</p>
-                    </div>
-                    <button class="follow-btn">إعجاب بالصفحة</button>
-                </div>
-            </div>
-            <div class="content-body">
-                <div class="feed full-width">
-                    <div class="post">
-                        <h4>مجتمع المبرمجين العرب</h4>
-                        <p>مرحباً بالجميع! شاركونا أحدث مشاريعكم البرمجية اليوم.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <script>
+        // دالة التبديل بين الصفحات
+        function switchPage(pageId) {
+            // إزالة التنشيط من جميع الحاويات والأزرار
+            document.querySelectorAll('.page-container').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
 
-        <!-- 3. صفحة الفيديوهات -->
-        <section id="videos" class="page">
-            <h2>فيديوهات مقترحة لك</h2>
-            <div class="videos-grid">
-                <div class="video-card">
-                    <div class="video-placeholder">▶ فيديو 1</div>
-                    <p>تعلم HTML و CSS في ساعة واحدة</p>
-                </div>
-                <div class="video-card">
-                    <div class="video-placeholder">▶ فيديو 2</div>
-                    <p>أسرار لغة JavaScript للمبتدئين</p>
-                </div>
-                <div class="video-card">
-                    <div class="video-placeholder">▶ فيديو 3</div>
-                    <p>تصميم واجهات المستخدم باحترافية</p>
-                </div>
-            </div>
-        </section>
-    </main>
+            // تنشيط الصفحة المطلوبة
+            document.getElementById(pageId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
 
-    <!-- كود الجافاسكريبت المدمج مع تفعيل Firebase والتنقل وتغيير الغلاف -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
-            authDomain: "faceb-bb002.firebaseapp.com",
-            projectId: "faceb-bb002",
-            storageBucket: "faceb-bb002.firebasestorage.app",
-            messagingSenderId: "456482622109",
-            appId: "1:456482622109:web:32a45c12e5f1b2a210e274",
-            measurementId: "G-5Y46BEF6V1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        console.log("تم اتصال Firebase Firestore بنجاح!", db);
-
-        // دالة التنقل بين الصفحات
-        window.switchPage = function(pageId, event) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => {
-                page.classList.remove('active-page');
-            });
-
-            const buttons = document.querySelectorAll('.nav-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.classList.add('active-page');
+        // دالة تفاعل الإعجاب للمنشورات
+        function toggleLike(button) {
+            button.classList.toggle('liked');
+            const icon = button.querySelector('i');
+            if (button.classList.contains('liked')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
             }
+        }
 
-            if (event && event.currentTarget) {
-                event.currentTarget.classList.add('active');
+        // دالة تفاعل زر الإعجاب الخاص بالصفحة العامة
+        function togglePageLike() {
+            const btn = document.getElementById('likePageBtn');
+            if (btn.classList.contains('btn-primary')) {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الإعجاب';
+            } else {
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-primary');
+                btn.innerHTML = '<i class="fa-solid fa-thumbs-up"></i> إعجاب';
             }
-        };
-
-        // دالة تغيير وتحديث صورة الغلاف فوراً
-        window.changeCover = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const coverContainer = document.getElementById('coverContainer');
-                    coverContainer.style.backgroundImage = `url('${e.target.result}')`;
-                }
-                reader.readAsDataURL(file);
-            }
-        };
+        }
     </script>
 </body>
 </html>
