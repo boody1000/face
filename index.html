@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الشخصية وقسم حول للمستخدم الحالي</title>
+    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي مع قسم حول وقاعدة البيانات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -16,7 +16,6 @@
             --fb-card-bg: #ffffff;
             --fb-hover: #f2f2f2;
             --fb-border: #ced0d4;
-            --fb-online: #31a24c;
         }
 
         * {
@@ -292,20 +291,7 @@
             font-weight: bold;
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        /* مؤشر حالة النشاط (Online Indicator Dot) */
-        .online-status-indicator {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            background-color: var(--fb-online);
-            border: 2px solid white;
-            border-radius: 50%;
-            margin-right: 4px;
-            vertical-align: middle;
-            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            gap: 6px;
         }
 
         .profile-text-info p {
@@ -376,6 +362,7 @@
             padding: 0 16px;
         }
 
+        /* تصميم كرت إنشاء المنشور المودرن و قسم حول */
         .fb-card {
             background-color: var(--fb-card-bg);
             border-radius: 12px;
@@ -404,7 +391,7 @@
             font-size: 0.95rem;
         }
 
-        /* تصميم محتوى قسم حول (About Section) */
+        /* تصميم محتوى قسم حول الجديد (About Section) */
         .about-section-container {
             display: none;
         }
@@ -613,6 +600,7 @@
             background: transparent;
         }
 
+        /* صندوق معاينة الصورة داخل المودال */
         .modal-media-preview {
             position: relative;
             margin-top: 10px;
@@ -808,13 +796,12 @@
 </head>
 <body>
 
-    <!-- الشريط العلوي لفيسبوك -->
     <header>
         <div class="nav-left">
             <i class="fa-brands fa-facebook"></i>
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="بحث في فيسبوك">
+                <input type="text" id="searchInput" placeholder="بحث باسم المستخدم أو الحالة" onkeypress="handleSearchInput(event)">
             </div>
         </div>
         <div class="nav-center">
@@ -827,13 +814,12 @@
         </div>
     </header>
 
-    <!-- 1. واجهة الصفحة الرئيسية -->
     <div id="home-view" class="app-view">
         <div class="home-layout">
             <div class="side-menu">
                 <a href="#" class="menu-item">
                     <img id="sideUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="User">
-                    <span id="sideUserName">جاري التحميل...</span>
+                    <span id="sideUserName">محمد خالد</span>
                 </a>
                 <div class="menu-item"><i class="fa-solid fa-user-group"></i> الأصدقاء</div>
                 <div class="menu-item"><i class="fa-solid fa-store"></i> السوق (Marketplace)</div>
@@ -847,7 +833,7 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" id="feedPlaceholderText" onclick="openModal()">بما تفكر؟</div>
+                            <div class="modern-input-fake" id="feedPlaceholderText" onclick="openModal()">بما تفكر يا محمد؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
@@ -871,11 +857,11 @@
                 <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال</h4>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="C"> عمر أحمد</div>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="C"> سارة علي</div>
+                <div class="menu-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="C"> كريم محمود</div>
             </div>
         </div>
     </div>
 
-    <!-- 2. واجهة الصفحة الشخصية -->
     <div id="profile-view" class="app-view active">
         <div class="profile-container">
             <div class="cover-photo">
@@ -896,11 +882,8 @@
                             </button>
                         </div>
                         <div class="profile-text-info">
-                            <h1 id="profileNameHeader">
-                                <span id="profileNameText">جاري التحميل...</span>
-                                <span id="onlineIndicator" class="online-status-indicator" title="متصل الآن (Online)" style="display: none;"></span>
-                            </h1>
-                            <p>500 صديق</p>
+                            <h1 id="profileNameHeader">محمد خالد <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i></h1>
+                            <p id="profileStatusSub">500 صديق</p>
                         </div>
                     </div>
                     <div class="profile-actions">
@@ -908,7 +891,6 @@
                         <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-pen"></i> تعديل الملف الشخصي</button>
                     </div>
                 </div>
-                <!-- التبويبات الخاصة بالصفحة الشخصية -->
                 <div class="profile-nav-tabs">
                     <div class="p-tab active" onclick="switchProfileTab('posts', this)">المنشورات</div>
                     <div class="p-tab" onclick="switchProfileTab('about', this)">حول</div>
@@ -918,7 +900,6 @@
             </div>
         </div>
 
-        <!-- تبويب المنشورات -->
         <div id="tab-content-posts" class="profile-main-layout">
             <div class="left-sidebar">
                 <div class="fb-card">
@@ -936,7 +917,7 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedBoxAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" id="profilePlaceholderText" onclick="openModal()">بما تفكر؟</div>
+                            <div class="modern-input-fake" id="feedBoxPlaceholder" onclick="openModal()">بما تفكر يا محمد؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
@@ -957,7 +938,6 @@
             </div>
         </div>
 
-        <!-- تبويب قسم حول (About Section) -->
         <div id="tab-content-about" class="about-section-container">
             <div style="max-width: 940px; margin: 16px auto; padding: 0 16px;">
                 <div class="about-box-wrapper">
@@ -1001,7 +981,6 @@
 
     </div>
 
-    <!-- نافذة كتابة منشور جديد (Modal) -->
     <div id="postModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -1011,10 +990,10 @@
             <div class="modal-body">
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
                     <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                    <h4 id="modalAuthorName" style="font-size: 0.95rem;">جاري التحميل...</h4>
+                    <h4 id="modalUserName" style="font-size: 0.95rem;">محمد خالد</h4>
                 </div>
                 
-                <textarea id="postTextContent" placeholder="بما تفكر؟"></textarea>
+                <textarea id="postTextContent" placeholder="بما تفكر يا محمد؟"></textarea>
 
                 <div id="modalMediaPreview" class="modal-media-preview">
                     <button class="remove-preview-btn" onclick="clearMediaPreview()"><i class="fa-solid fa-xmark"></i></button>
@@ -1045,11 +1024,10 @@
         </div>
     </div>
 
-    <!-- كود جلب المستخدم الحالي بدقة وعدم التداخل مع البقية -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, limit } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -1065,11 +1043,7 @@
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        // 1. تحديد بريد أو معرف المستخدم الحالي الذي قام بتسجيل الدخول (يمكن ربطه بجلسة حقيقية لاحقاً)
-        // هذا المتغير يضمن جلب مستخدم واحد فريد تماماً وعدم حدوث أي تداخل مع حسابات أشخاص آخرين
-        const currentUserEmail = "mohamed.khaled@example.com"; 
-        const currentFallbackName = "محمد خالد";
-
+        let currentUserName = "محمد خالد";
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
         let uploadedMediaData = { type: "", url: "" };
 
@@ -1126,9 +1100,8 @@
             if(!text.trim() && !uploadedMediaData.url) return;
 
             try {
-                const activeName = document.getElementById('profileNameText').innerText;
                 await addDoc(collection(db, "posts"), {
-                    author: activeName,
+                    author: currentUserName,
                     avatar: currentAvatarUrl,
                     content: text,
                     mediaType: uploadedMediaData.type,
@@ -1188,24 +1161,80 @@
             reader.readAsDataURL(file);
         }
 
-        // استعلام دقيق للمستخدم الحالي فقط مع قصر النتيجة على عنصر واحد لمنع أي تداخل
-        async function loadProfileData() {
+        // دالة لجلب معلومات المستخدم عبر "الاسم" أو "الحالة" فقط
+        window.fetchUserByNameOrStatus = async function(searchTerm) {
             try {
                 const usersRef = collection(db, "users");
-                // البحث بالبريد الفريد أو المعرف لضمان جلب مستخدم واحد فقط بدقة
-                const q = query(usersRef, where("email", "==", currentUserEmail), limit(1));
-                const querySnapshot = await getDocs(q);
+                
+                // البحث باستخدام الاسم
+                const qName = query(usersRef, where("name", "==", searchTerm));
+                let querySnapshot = await getDocs(qName);
+
+                // إذا لم يتم العثور بالاسم، جرب البحث باستخدام الحالة (مثلاً الحقل status أو liveIn)
+                if (querySnapshot.empty) {
+                    const qStatus = query(usersRef, where("status", "==", searchTerm));
+                    querySnapshot = await getDocs(qStatus);
+                }
 
                 if (!querySnapshot.empty) {
-                    // إذا وُجد المستخدم، قم بتحديث حالته إلى online وجلب بياناته الفردية
-                    const docSnap = querySnapshot.docs[0];
-                    const userDocRef = doc(db, "users", docSnap.id);
-                    
-                    await updateDoc(userDocRef, { status: "online" });
+                    querySnapshot.forEach((docSnap) => {
+                        const userData = docSnap.data();
+                        console.log("تم العثور على معلومات المستخدم:", userData);
+                        
+                        // تحديث واجهة المستخدم بالبيانات المسترجعة
+                        if(userData.name) {
+                            currentUserName = userData.name;
+                            document.getElementById('profileNameHeader').innerHTML = `${userData.name} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
+                            document.getElementById('sideUserName').innerText = userData.name;
+                            document.getElementById('modalUserName').innerText = userData.name;
+                            document.getElementById('feedPlaceholderText').innerText = `بما تفكر يا ${userData.name}؟`;
+                            document.getElementById('feedBoxPlaceholder').innerText = `بما تفكر يا ${userData.name}؟`;
+                        }
+                        if(userData.work) {
+                            document.getElementById('sidebarWork').innerText = userData.work;
+                            document.getElementById('aboutWork').innerText = userData.work;
+                        }
+                        if(userData.education) {
+                            document.getElementById('sidebarEducation').innerText = userData.education;
+                            document.getElementById('aboutEducation').innerText = userData.education;
+                        }
+                        if(userData.liveIn) {
+                            document.getElementById('sidebarLive').innerText = userData.liveIn;
+                            document.getElementById('aboutLive').innerText = userData.liveIn;
+                        }
+                        if(userData.from) {
+                            document.getElementById('sidebarFrom').innerText = userData.from;
+                            document.getElementById('aboutFrom').innerText = userData.from;
+                        }
+                        if(userData.status) {
+                            document.getElementById('profileStatusSub').innerText = userData.status;
+                        }
+                    });
+                } else {
+                    alert("لم يتم العثور على مستخدم بهذا الاسم أو الحالة.");
+                }
+            } catch (e) {
+                console.error("خطأ أثناء البحث عن المستخدم: ", e);
+            }
+        }
 
-                    const userData = docSnap.data();
+        // تفاعل شريط البحث العلوي عند الضغط على Enter للبحث بالاسم أو الحالة
+        window.handleSearchInput = function(event) {
+            if (event.key === 'Enter') {
+                const term = event.target.value.trim();
+                if (term) {
+                    fetchUserByNameOrStatus(term);
+                }
+            }
+        }
 
-                    // عرض معلومات الداتابيز في قسم التفاصيل وقسم حول
+        async function loadProfileData() {
+            try {
+                const userDocRef = doc(db, "users", "profile_info");
+                const userSnap = await getDoc(userDocRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
                     if(userData.work) {
                         document.getElementById('sidebarWork').innerText = userData.work;
                         document.getElementById('aboutWork').innerText = userData.work;
@@ -1222,43 +1251,21 @@
                         document.getElementById('sidebarFrom').innerText = userData.from;
                         document.getElementById('aboutFrom').innerText = userData.from;
                     }
-                    
                     if(userData.name) {
-                        document.getElementById('profileNameText').innerText = userData.name;
+                        currentUserName = userData.name;
+                        document.getElementById('profileNameHeader').innerHTML = `${userData.name} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
                         document.getElementById('sideUserName').innerText = userData.name;
-                        document.getElementById('modalAuthorName').innerText = userData.name;
-                        document.getElementById('feedPlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
-                        document.getElementById('profilePlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
-
-                        if(userData.status === "online") {
-                            document.getElementById('onlineIndicator').style.display = 'inline-block';
-                        }
+                        document.getElementById('modalUserName').innerText = userData.name;
                     }
                 } else {
-                    // إذا لم يكن مسجلاً مسبقاً، يتم إنشاؤه افتراضياً ببياناته الخاصة وحالة online
-                    await addDoc(usersRef, {
-                        email: currentUserEmail,
-                        name: currentFallbackName,
-                        status: "online",
+                    await setDoc(userDocRef, {
+                        name: "محمد خالد",
                         work: "يعمل لدى شركة برمجيات كبرى",
                         education: "درس هندسة الحاسب",
                         liveIn: "يقيم في الرياض",
-                        from: "من الإسكندرية"
+                        from: "من الإسكندرية",
+                        status: "نشط الآن"
                     });
-                    
-                    document.getElementById('profileNameText').innerText = currentFallbackName;
-                    document.getElementById('onlineIndicator').style.display = 'inline-block';
-                    document.getElementById('sideUserName').innerText = currentFallbackName;
-                    document.getElementById('modalAuthorName').innerText = currentFallbackName;
-                    
-                    document.getElementById('sidebarWork').innerText = "يعمل لدى شركة برمجيات كبرى";
-                    document.getElementById('aboutWork').innerText = "يعمل لدى شركة برمجيات كبرى";
-                    document.getElementById('sidebarEducation').innerText = "درس هندسة الحاسب";
-                    document.getElementById('aboutEducation').innerText = "درس هندسة الحاسب";
-                    document.getElementById('sidebarLive').innerText = "يقيم في الرياض";
-                    document.getElementById('aboutLive').innerText = "يقيم في الرياض";
-                    document.getElementById('sidebarFrom').innerText = "من الإسكندرية";
-                    document.getElementById('aboutFrom').innerText = "من الإسكندرية";
                 }
 
                 const coverRef = doc(db, "cover", "profile");
@@ -1278,7 +1285,7 @@
                     document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
             } catch (e) {
-                console.error("خطأ في جلب بيانات البروفايل للمستخدم الحالي: ", e);
+                console.error("خطأ في جلب بيانات البروفايل: ", e);
             }
         }
 
