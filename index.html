@@ -79,10 +79,36 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-        .cover-photo {
-            height: 200px;
-            background: linear-gradient(to right, #1877f2, #42b72a);
+        
+        /* تصميم صورة الغلاف المودرن مع زر التعديل */
+        .cover-container {
+            position: relative;
+            height: 250px;
+            background: linear-gradient(135deg, #1877f2, #42b72a);
+            background-size: cover;
+            background-position: center;
         }
+        .edit-cover-btn {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #050505;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: background-color 0.2s;
+        }
+        .edit-cover-btn:hover {
+            background-color: #ffffff;
+        }
+
         .profile-info {
             display: flex;
             align-items: center;
@@ -241,9 +267,17 @@
     </header>
 
     <main class="main-container">
+        <!-- 1. الصفحة الشخصية -->
         <section id="profile" class="page active-page">
             <div class="profile-header">
-                <div class="cover-photo"></div>
+                <!-- حاوية صورة الغلاف مع زر التعديل المودرن -->
+                <div class="cover-container" id="coverContainer">
+                    <button class="edit-cover-btn" onclick="document.getElementById('coverInput').click()">
+                        📷 تعديل صورة الغلاف
+                    </button>
+                    <!-- حقل مخفي لاختيار الصورة من الجهاز -->
+                    <input type="file" id="coverInput" accept="image/*" style="display: none;" onchange="changeCover(event)">
+                </div>
                 <div class="profile-info">
                     <div class="avatar"></div>
                     <div>
@@ -271,9 +305,10 @@
             </div>
         </section>
 
+        <!-- 2. الصفحة العامة -->
         <section id="public" class="page">
             <div class="profile-header public-header">
-                <div class="cover-photo public-cover"></div>
+                <div class="cover-container" style="background: linear-gradient(135deg, #242526, #1877f2);"></div>
                 <div class="profile-info">
                     <div class="avatar public-avatar">🌐</div>
                     <div>
@@ -293,6 +328,7 @@
             </div>
         </section>
 
+        <!-- 3. صفحة الفيديوهات -->
         <section id="videos" class="page">
             <h2>فيديوهات مقترحة لك</h2>
             <div class="videos-grid">
@@ -312,8 +348,27 @@
         </section>
     </main>
 
-    <script>
-        function switchPage(pageId, event) {
+    <!-- كود الجافاسكريبت المدمج مع تفعيل Firebase والتنقل وتغيير الغلاف -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
+            authDomain: "faceb-bb002.firebaseapp.com",
+            projectId: "faceb-bb002",
+            storageBucket: "faceb-bb002.firebasestorage.app",
+            messagingSenderId: "456482622109",
+            appId: "1:456482622109:web:32a45c12e5f1b2a210e274",
+            measurementId: "G-5Y46BEF6V1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        console.log("تم اتصال Firebase Firestore بنجاح!", db);
+
+        // دالة التنقل بين الصفحات
+        window.switchPage = function(pageId, event) {
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => {
                 page.classList.remove('active-page');
@@ -332,7 +387,20 @@
             if (event && event.currentTarget) {
                 event.currentTarget.classList.add('active');
             }
-        }
+        };
+
+        // دالة تغيير وتحديث صورة الغلاف فوراً
+        window.changeCover = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const coverContainer = document.getElementById('coverContainer');
+                    coverContainer.style.backgroundImage = `url('${e.target.result}')`;
+                }
+                reader.readAsDataURL(file);
+            }
+        };
     </script>
 </body>
 </html>
