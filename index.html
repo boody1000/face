@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الرئيسية، الملف الشخصي وصفحة الفيديوهات</title>
+    <title>الهواري - الصفحة الرئيسية، الملف الشخصي وصفحة الفيديوهات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -53,9 +53,10 @@
             gap: 8px;
         }
 
-        .nav-left i {
+        .nav-left .brand-title {
             color: var(--fb-blue);
-            font-size: 2.4rem;
+            font-size: 1.8rem;
+            font-weight: bold;
         }
 
         .search-box {
@@ -945,10 +946,10 @@
 
     <header>
         <div class="nav-left">
-            <i class="fa-brands fa-facebook"></i>
+            <span class="brand-title">الهواري</span>
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="بحث في فيسبوك">
+                <input type="text" placeholder="بحث في الهواري">
             </div>
         </div>
         <div class="nav-center">
@@ -968,10 +969,8 @@
             <div class="side-menu">
                 <a href="#" class="menu-item">
                     <img id="sideUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="User">
-                    <span id="sideUserName">محمد خالد</span>
+                    <span id="sideUserName"> </span>
                 </a>
-                <div class="menu-item"><i class="fa-solid fa-user-group"></i> الأصدقاء</div>
-                <div class="menu-item"><i class="fa-solid fa-store"></i> السوق (Marketplace)</div>
                 <!-- زر الفيديوهات الموجه إلى صفحة الفيديوهات الجديدة -->
                 <div class="menu-item" onclick="switchAppView('videos', document.querySelector('.nav-tab:nth-child(2)'))">
                     <i class="fa-solid fa-tv"></i> الفيديوهات
@@ -1015,12 +1014,7 @@
                 <div id="homePostsContainer"></div>
             </div>
 
-            <div class="side-menu">
-                <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال</h4>
-                <div class="menu-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="C"> عمر أحمد</div>
-                <div class="menu-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="C"> سارة علي</div>
-            </div>
-        </div>
+           
     </div>
 
     <!-- صفحة الفيديوهات المستقلة الجديدة مطابقة لفيسبوك تماماً -->
@@ -1043,7 +1037,7 @@
             <div class="cover-photo">
                 <img id="profileCoverImage" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
                 <button class="edit-cover-btn" onclick="triggerCoverFileInput()">
-                    <i class="fa-solid fa-camera"></i> تعديل غلاف الملف الشخصي (من الجهاز)
+                    <i class="fa-solid fa-camera"></i> تعديل غلاف الملف الشخصي
                 </button>
                 <input type="file" id="coverFileInput" style="display: none;" accept="image/*" onchange="uploadCoverImage(this)">
             </div>
@@ -1059,11 +1053,11 @@
                         </div>
                         <div class="profile-text-info">
                             <h1 id="profileNameHeader">
-                                <span id="profileUsernameDisplay">محمد خالد</span>
+                                <span id="profileUsernameDisplay"> </span>
                                 <span id="profileUserFromUsers" style="margin-right: 8px; font-size: 1.5rem; font-weight: bold; color: var(--fb-text);"></span>
                                 <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>
                             </h1>
-                            <p>500 صديق</p>
+                           
                         </div>
                     </div>
                     <div class="profile-actions">
@@ -1077,7 +1071,7 @@
                 <div class="profile-nav-tabs">
                     <div class="p-tab active" onclick="switchProfileTab('posts', this)">المنشورات</div>
                     <div class="p-tab" onclick="switchProfileTab('about', this)">حول</div>
-                    <div class="p-tab" onclick="switchProfileTab('friends', this)">الأصدقاء</div>
+                    <div class="p-tab" onclick="switchProfileTab('friends', this)">الفيديوا</div>
                     <div class="p-tab" onclick="switchProfileTab('photos', this)">الصور</div>
                 </div>
             </div>
@@ -1101,7 +1095,7 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedBoxAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" id="profileInputText" onclick="openModalForMedia()">بما تفكر يا محمد؟</div>
+                            <div class="modern-input-fake" id="profileInputText" onclick="openModalForMedia()">بما تفكر يا </div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
@@ -1186,7 +1180,7 @@
             <div class="modal-body">
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
                     <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                    <h4 id="modalUserName" style="font-size: 0.95rem;">محمد خالد</h4>
+                    <h4 id="modalUserName" style="font-size: 0.95rem;"> </h4>
                 </div>
                 
                 <textarea id="postTextContent" placeholder="اكتب شيئاً..."></textarea>
