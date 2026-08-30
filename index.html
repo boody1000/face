@@ -3,421 +3,600 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تصميم صفحات فيسبوك مودرن</title>
+    <title>Facebook Replica - واجهة فيسبوك حقيقية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #1877f2;
-            --bg-color: #f0f2f5;
-            --card-bg: #ffffff;
-            --text-color: #050505;
-            --text-secondary: #65676b;
-            --border-color: #e4e6eb;
-            --hover-color: #f2f2f2;
+            --fb-bg: #f0f2f5;
+            --fb-header: #ffffff;
+            --fb-blue: #1877f2;
+            --fb-blue-hover: #166fe5;
+            --fb-text: #050505;
+            --fb-secondary-text: #65676b;
+            --fb-card-bg: #ffffff;
+            --fb-hover: #f2f2f2;
+            --fb-border: #ced0d4;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--fb-bg);
+            color: var(--fb-text);
         }
 
-        /* شريط التنقل العلوي */
+        /* 1. الشريط العلوي للفيسبوك (Navbar) */
         header {
-            background-color: var(--card-bg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            position: sticky;
+            background-color: var(--fb-header);
+            height: 56px;
+            position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
-            height: 60px;
+            padding: 0 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
 
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-brand i {
-            color: var(--primary-color);
-            font-size: 2.2rem;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 15px;
-        }
-
-        .tab-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 8px;
-            transition: 0.3s;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background-color: var(--hover-color);
-            color: var(--primary-color);
-        }
-
-        /* الحاويات الرئيسية للpages */
-        .page-container {
-            display: none;
-            max-width: 900px;
-            margin: 20px auto;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-
-        .page-container.active {
-            display: block;
-        }
-
-        /* تصميم الغلاف والصورة الشخصية */
-        .cover-section {
-            position: relative;
-            height: 300px;
-            background: linear-gradient(135deg, #1877f2, #8a2be2);
-        }
-
-        .cover-section img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-header-content {
-            padding: 0 20px 20px 20px;
-            position: relative;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .avatar-container {
-            position: absolute;
-            bottom: 20px;
-            right: 30px;
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            border: 4px solid var(--card-bg);
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-
-        .avatar-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-info {
-            margin-right: 180px;
-            padding-top: 15px;
-        }
-
-        .profile-info h1 {
-            font-size: 1.8rem;
+        .nav-left {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .profile-info h1 i {
-            color: var(--primary-color);
+        .nav-left i {
+            color: var(--fb-blue);
+            font-size: 2.4rem;
+        }
+
+        .search-box {
+            background-color: var(--fb-bg);
+            border-radius: 50px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--fb-secondary-text);
+        }
+
+        .search-box input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-center {
+            display: flex;
+            gap: 10px;
+            height: 100%;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 110px;
+            height: 100%;
+            border-bottom: 3px solid transparent;
+            color: var(--fb-secondary-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav-tab.active {
+            border-bottom: 3px solid var(--fb-blue);
+            color: var(--fb-blue);
+        }
+
+        .nav-tab:hover {
+            background-color: var(--fb-hover);
+            border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-icon-btn {
+            width: 40px;
+            height: 40px;
+            background-color: #e4e6eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        /* حاويات الصفحات */
+        .page-wrapper {
+            display: none;
+            margin-top: 56px;
+        }
+
+        .page-wrapper.active {
+            display: block;
+        }
+
+        /* تصميم الـ Profile Header المتطابق */
+        .profile-container {
+            background-color: var(--fb-card-bg);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .profile-content-width {
+            max-width: 940px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        .cover-photo {
+            height: 350px;
+            background: linear-gradient(to bottom, #d1d5db, #9ca3af);
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            position: relative;
+        }
+
+        .cover-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .profile-details-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding-bottom: 16px;
+            position: relative;
+        }
+
+        .profile-avatar-area {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+        }
+
+        .avatar-wrapper {
+            width: 168px;
+            height: 168px;
+            border-radius: 50%;
+            border: 4px solid white;
+            overflow: hidden;
+            margin-top: -110px;
+            background-color: white;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .avatar-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-text-info h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .profile-text-info h1 i {
+            color: var(--fb-blue);
             font-size: 1.2rem;
         }
 
-        .profile-info p {
-            color: var(--text-secondary);
-            margin-top: 5px;
-        }
-
-        /* أزرار الإجراءات */
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: flex-end;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: none;
+        .profile-text-info p {
+            color: var(--fb-secondary-text);
             font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .fb-btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
-            transition: 0.2s;
+            font-size: 0.95rem;
         }
 
-        .btn-primary {
-            background-color: var(--primary-color);
+        .fb-btn-blue {
+            background-color: var(--fb-blue);
             color: white;
         }
 
-        .btn-primary:hover {
-            background-color: #166fe5;
+        .fb-btn-gray {
+            background-color: #e4e6eb;
+            color: var(--fb-text);
         }
 
-        .btn-secondary {
-            background-color: var(--border-color);
-            color: var(--text-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: #d8dadf;
-        }
-
-        /* محتوى المنشورات */
-        .content-body {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 15px;
-            padding: 20px;
-            background-color: var(--bg-color);
-        }
-
-        .sidebar-card, .post-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-        }
-
-        .sidebar-card h3 {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .sidebar-card ul {
-            list-style: none;
-        }
-
-        .sidebar-card li {
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+        .profile-nav-tabs {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            border-top: 1px solid var(--fb-border);
+            gap: 4px;
         }
 
-        /* تصميم المنشورات */
-        .post-header {
+        .p-tab {
+            padding: 16px 14px;
+            color: var(--fb-secondary-text);
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .p-tab.active {
+            color: var(--fb-blue);
+            border-bottom: 3px solid var(--fb-blue);
+        }
+
+        /* هيكل المنشورات والصفحة الرئيسية (Feed & Sidebar) */
+        .main-content-layout {
+            max-width: 940px;
+            margin: 16px auto;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 16px;
+            padding: 0 16px;
+        }
+
+        .fb-card {
+            background-color: var(--fb-card-bg);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
+        }
+
+        .fb-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .intro-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: var(--fb-secondary-text);
+        }
+
+        .intro-list li {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
+            font-size: 0.95rem;
         }
 
-        .post-header img {
+        /* صندوق إنشاء منشور */
+        .create-post-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--fb-border);
+        }
+
+        .create-post-box img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
         }
 
-        .post-meta h4 {
-            font-size: 0.95rem;
-        }
-
-        .post-meta span {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        .post-text {
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-
-        .post-image {
+        .create-post-input {
+            background-color: var(--fb-bg);
+            border-radius: 50px;
+            padding: 10px 16px;
             width: 100%;
-            border-radius: 6px;
-            max-height: 350px;
+            color: var(--fb-secondary-text);
+            cursor: pointer;
+        }
+
+        /* تصميم منشور الفيسبوك الحقيقي */
+        .post-header-fb {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-user-info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .post-user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             object-fit: cover;
         }
 
-        /* تفاعلات المنشور */
-        .post-actions {
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            padding: 5px 0;
-            margin-top: 10px;
+        .post-user-info h4 {
+            font-size: 0.95rem;
         }
 
-        .action-item {
+        .post-user-info span {
+            font-size: 0.75rem;
+            color: var(--fb-secondary-text);
+        }
+
+        .post-body-text {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .post-media {
+            margin: 0 -16px;
+        }
+
+        .post-media img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .post-interactions {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--fb-border);
+            color: var(--fb-secondary-text);
+            font-size: 0.9rem;
+        }
+
+        .post-actions-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 4px;
+        }
+
+        .action-btn-fb {
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--fb-secondary-text);
             font-weight: 600;
+            padding: 8px 0;
+            width: 32%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             cursor: pointer;
-            padding: 6px 20px;
             border-radius: 4px;
             transition: 0.2s;
         }
 
-        .action-item:hover {
-            background-color: var(--hover-color);
+        .action-btn-fb:hover {
+            background-color: var(--fb-hover);
         }
 
-        .action-item.liked {
-            color: var(--primary-color);
+        .action-btn-fb.liked {
+            color: var(--fb-blue);
         }
 
-        /* استجابة الشاشات الصغيرة */
         @media (max-width: 768px) {
-            .content-body {
+            .main-content-layout {
                 grid-template-columns: 1fr;
             }
-            .profile-info {
-                margin-right: 0;
+            .profile-details-flex {
+                flex-direction: column;
+                align-items: center;
                 text-align: center;
-                padding-top: 80px;
             }
-            .avatar-container {
-                right: 50%;
-                transform: translateX(50%);
-                top: -80px;
+            .profile-avatar-area {
+                flex-direction: column;
+                align-items: center;
             }
-            .action-buttons {
+            .profile-text-info h1 {
                 justify-content: center;
+            }
+            .nav-center {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- الشريط العلوي الحقيقي لفيسبوك -->
     <header>
-        <div class="nav-brand">
+        <div class="nav-left">
             <i class="fa-brands fa-facebook"></i>
-            <span style="font-weight: bold; font-size: 1.2rem;">SocialUI</span>
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="بحث في فيسبوك">
+            </div>
         </div>
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchPage('profile')">الصفحة الشخصية</button>
-            <button class="tab-btn" onclick="switchPage('business')">الصفحة العامة (Page)</button>
+        <div class="nav-center">
+            <div class="nav-tab active" onclick="switchView('profile', this)" title="الصفحة الشخصية"><i class="fa-solid fa-user"></i></div>
+            <div class="nav-tab" onclick="switchView('page', this)" title="الصفحة العامة"><i class="fa-solid fa-flag"></i></div>
+        </div>
+        <div class="nav-right">
+            <button class="nav-icon-btn"><i class="fa-solid fa-bars"></i></button>
+            <button class="nav-icon-btn"><i class="fa-solid fa-solid fa-bell"></i></button>
         </div>
     </header>
 
-    <div id="profile" class="page-container active">
-        <div class="cover-section">
-            <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1000" alt="Cover">
-        </div>
-        <div class="profile-header-content">
-            <div class="avatar-container">
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Avatar">
+    <!-- 1. الصفحة الشخصية (Profile View) -->
+    <div id="profile-view" class="page-wrapper active">
+        <div class="profile-container">
+            <div class="cover-photo">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
             </div>
-            <div class="profile-info">
-                <h1>أحمد محمد <i class="fa-solid fa-circle-check" title="حساب موثق"></i></h1>
-                <p>مطور واجهات أمامية (Front-End Developer) شغوف بالتكنولوجيا 💻🚀</p>
-                <div class="action-buttons">
-                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> إضافة إلى القصة</button>
-                    <button class="btn btn-secondary"><i class="fa-solid fa-pen"></i> تعديل الملف الشخصي</button>
+            <div class="profile-content-width">
+                <div class="profile-details-flex">
+                    <div class="profile-avatar-area">
+                        <div class="avatar-wrapper">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Avatar">
+                        </div>
+                        <div class="profile-text-info">
+                            <h1>محمد خالد <i class="fa-solid fa-circle-check"></i></h1>
+                            <p>500 صديق</p>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="fb-btn fb-btn-blue"><i class="fa-solid fa-plus"></i> إضافة إلى القصة</button>
+                        <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-pen"></i> تعديل الملف الشخصي</button>
+                    </div>
+                </div>
+                <div class="profile-nav-tabs">
+                    <div class="p-tab active">المنشورات</div>
+                    <div class="p-tab">حول</div>
+                    <div class="p-tab">الأصدقاء</div>
+                    <div class="p-tab">الصور</div>
                 </div>
             </div>
         </div>
 
-        <div class="content-body">
-            <div class="sidebar">
-                <div class="sidebar-card">
-                    <h3>التفاصيل الشخصية</h3>
-                    <ul>
-                        <li><i class="fa-solid fa-briefcase"></i> يعمل لدى Tech Company</li>
-                        <li><i class="fa-solid fa-graduation-cap"></i> درس علوم الحاسب في جامعة القاهرة</li>
-                        <li><i class="fa-solid fa-house"></i> يقيم في القاهرة، مصر</li>
-                        <li><i class="fa-solid fa-heart"></i> أعزب</li>
+        <!-- محتوى المنشورات والجانبي -->
+        <div class="main-content-layout">
+            <div class="left-sidebar">
+                <div class="fb-card">
+                    <h3>التفاصيل</h3>
+                    <ul class="intro-list">
+                        <li><i class="fa-solid fa-briefcase"></i> يعمل لدى شركة برمجيات كبرى</li>
+                        <li><i class="fa-solid fa-graduation-cap"></i> درس هندسة الحاسب</li>
+                        <li><i class="fa-solid fa-house"></i> يقيم في الرياض</li>
+                        <li><i class="fa-solid fa-location-dot"></i> من الإسكندرية</li>
                     </ul>
                 </div>
             </div>
-            <div class="posts-feed">
-                <div class="post-card">
-                    <div class="post-header">
+            <div class="feed-section">
+                <div class="fb-card">
+                    <div class="create-post-box">
                         <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                        <div class="post-meta">
-                            <h4>أحمد محمد</h4>
-                            <span>منذ ساعتين <i class="fa-solid fa-earth-americas"></i></span>
+                        <div class="create-post-input">بما تفكر يا محمد؟</div>
+                    </div>
+                </div>
+                <!-- منشور حقيقي -->
+                <div class="fb-card">
+                    <div class="post-header-fb">
+                        <div class="post-user-info">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
+                            <div>
+                                <h4>محمد خالد</h4>
+                                <span>منذ ٣ ساعات · <i class="fa-solid fa-earth-americas"></i></span>
+                            </div>
                         </div>
+                        <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
                     </div>
-                    <div class="post-text">
-                        أتممت اليوم بنجاح تطوير مشروع جديد باستخدام HTML5, CSS3 و JavaScript الحديث! العمل الجماعي دائمًا يصنع الفارق 🎯✨.
+                    <div class="post-body-text">
+                        أجمل الأوقات تقضى في كتابة الأكواد وتطوير واجهات المستخدم لتكون سلسة وسريعة تماماً كفيسبوك! 💻✨
                     </div>
-                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600" alt="Post Image" class="post-image">
-                    <div class="post-actions">
-                        <button class="action-item" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
-                        <button class="action-item"><i class="fa-regular fa-comment"></i> تعليق</button>
-                        <button class="action-item"><i class="fa-solid fa-share"></i> مشاركة</button>
+                    <div class="post-media">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600" alt="Post">
+                    </div>
+                    <div class="post-interactions">
+                        <span>👍 125</span>
+                        <span>12 تعليق</span>
+                    </div>
+                    <div class="post-actions-buttons">
+                        <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
+                        <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
+                        <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="business" class="page-container">
-        <div class="cover-section">
-            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1000" alt="Page Cover">
-        </div>
-        <div class="profile-header-content">
-            <div class="avatar-container">
-                <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=200" alt="Page Logo">
+    <!-- 2. الصفحة العامة (Page View) -->
+    <div id="page-view" class="page-wrapper">
+        <div class="profile-container">
+            <div class="cover-photo">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200" alt="Page Cover">
             </div>
-            <div class="profile-info">
-                <h1>عالم البرمجة والتكنولوجيا <i class="fa-solid fa-circle-check"></i></h1>
-                <p>صفحة تعليمية تقنية لنشر أحدث أخبار البرمجة والذكاء الاصطناعي • 45K إعجاب</p>
-                <div class="action-buttons">
-                    <button class="btn btn-primary" id="likePageBtn" onclick="togglePageLike()"><i class="fa-solid fa-thumbs-up"></i> إعجاب</button>
-                    <button class="btn btn-secondary"><i class="fa-solid fa-message"></i> إرسال رسالة</button>
+            <div class="profile-content-width">
+                <div class="profile-details-flex">
+                    <div class="profile-avatar-area">
+                        <div class="avatar-wrapper">
+                            <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=200" alt="Logo">
+                        </div>
+                        <div class="profile-text-info">
+                            <h1>أخبار التقنية اليوم <i class="fa-solid fa-circle-check"></i></h1>
+                            <p>35 ألف إعجاب · 40 ألف متابع</p>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="fb-btn fb-btn-blue" id="likePageBtn" onclick="togglePageLike()"><i class="fa-solid fa-thumbs-up"></i> إعجاب</button>
+                        <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-message"></i> إرسال رسالة</button>
+                    </div>
+                </div>
+                <div class="profile-nav-tabs">
+                    <div class="p-tab active">المنشورات</div>
+                    <div class="p-tab">حول</div>
+                    <div class="p-tab">الفيديوهات</div>
+                    <div class="p-tab">المجتمع</div>
                 </div>
             </div>
         </div>
 
-        <div class="content-body">
-            <div class="sidebar">
-                <div class="sidebar-card">
+        <div class="main-content-layout">
+            <div class="left-sidebar">
+                <div class="fb-card">
                     <h3>حول الصفحة</h3>
-                    <ul>
-                        <li><i class="fa-solid fa-globe"></i> tech-world-edu.com</li>
-                        <li><i class="fa-solid fa-envelope"></i> contact@techworld.com</li>
-                        <li><i class="fa-solid fa-tags"></i> تعليم وتكنولوجيا</li>
+                    <ul class="intro-list">
+                        <li><i class="fa-solid fa-globe"></i> www.tech-news-today.com</li>
+                        <li><i class="fa-solid fa-envelope"></i> info@technews.com</li>
+                        <li><i class="fa-solid fa-tags"></i> مدونة تقنية وتعليمية</li>
                     </ul>
                 </div>
             </div>
-            <div class="posts-feed">
-                <div class="post-card">
-                    <div class="post-header">
-                        <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc" alt="Page">
-                        <div class="post-meta">
-                            <h4>عالم البرمجة والتكنولوجيا</h4>
-                            <span>منذ 5 ساعات <i class="fa-solid fa-earth-americas"></i></span>
+            <div class="feed-section">
+                <div class="fb-card">
+                    <div class="post-header-fb">
+                        <div class="post-user-info">
+                            <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc" alt="Page">
+                            <div>
+                                <h4>أخبار التقنية اليوم</h4>
+                                <span>منذ ساعة واحدة · <i class="fa-solid fa-earth-americas"></i></span>
+                            </div>
                         </div>
+                        <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
                     </div>
-                    <div class="post-text">
-                        ما هي لغة البرمجة المفضلة لديك في عام 2026؟ شاركنا رأيك في التعليقات ولا تنسَ دعم المحتوى التقني! 💡🤖
+                    <div class="post-body-text">
+                        ما هي أبرز توقعاتك لتطورات الذكاء الاصطناعي خلال هذا العام؟ شاركنا برأيك في التعليقات 👇
                     </div>
-                    <div class="post-actions">
-                        <button class="action-item" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
-                        <button class="action-item"><i class="fa-regular fa-comment"></i> تعليق</button>
-                        <button class="action-item"><i class="fa-solid fa-share"></i> مشاركة</button>
+                    <div class="post-interactions">
+                        <span>❤️ 👍 340</span>
+                        <span>45 تعليق · 10 مشاركات</span>
+                    </div>
+                    <div class="post-actions-buttons">
+                        <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
+                        <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
+                        <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
                     </div>
                 </div>
             </div>
@@ -425,22 +604,24 @@
     </div>
 
     <script>
-        // دالة التبديل بين الصفحات
-        function switchPage(pageId) {
-            // إزالة التنشيط من جميع الحاويات والأزرار
-            document.querySelectorAll('.page-container').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        // التبديل بين عرض الصفحة الشخصية والعامة من الأيقونات العلوية
+        function switchView(viewName, tabElement) {
+            document.querySelectorAll('.page-wrapper').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
 
-            // تنشيط الصفحة المطلوبة
-            document.getElementById(pageId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if(viewName === 'profile') {
+                document.getElementById('profile-view').classList.add('active');
+            } else {
+                document.getElementById('page-view').classList.add('active');
+            }
+            tabElement.classList.add('active');
         }
 
-        // دالة تفاعل الإعجاب للمنشورات
-        function toggleLike(button) {
-            button.classList.toggle('liked');
-            const icon = button.querySelector('i');
-            if (button.classList.contains('liked')) {
+        // تفاعل زر الإعجاب للمنشورات
+        function toggleLike(btn) {
+            btn.classList.toggle('liked');
+            const icon = btn.querySelector('i');
+            if(btn.classList.contains('liked')) {
                 icon.classList.remove('fa-regular');
                 icon.classList.add('fa-solid');
             } else {
@@ -449,16 +630,16 @@
             }
         }
 
-        // دالة تفاعل زر الإعجاب الخاص بالصفحة العامة
+        // تفاعل زر الإعجاب بالصفحة العامة
         function togglePageLike() {
             const btn = document.getElementById('likePageBtn');
-            if (btn.classList.contains('btn-primary')) {
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-secondary');
+            if(btn.classList.contains('fb-btn-blue')) {
+                btn.classList.remove('fb-btn-blue');
+                btn.classList.add('fb-btn-gray');
                 btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الإعجاب';
             } else {
-                btn.classList.remove('btn-secondary');
-                btn.classList.add('btn-primary');
+                btn.classList.remove('fb-btn-gray');
+                btn.classList.add('fb-btn-blue');
                 btn.innerHTML = '<i class="fa-solid fa-thumbs-up"></i> إعجاب';
             }
         }
