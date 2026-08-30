@@ -147,7 +147,7 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
         import { getFirestore, collection, query, where, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // إعدادات الـ Firebase الخاصة بك
+        // إعدادات الـ Firebase الخاصة بك[cite: 2]
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
             authDomain: "faceb-bb002.firebaseapp.com",
@@ -158,7 +158,7 @@
             measurementId: "G-5Y46BEF6V1"
         };
 
-        // تهيئة Firebase
+        // تهيئة Firebase[cite: 2]
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
@@ -169,7 +169,6 @@
         // دالة لتحديث الحالة في collection تسمى statsus
         async function updateUserStatus(username, statusState) {
             try {
-                // نستخدم اسم المستخدم كمعرف (Document ID) لتسهيل التحديث وعدم تكرار الوثائق
                 const statusRef = doc(db, "statsus", username);
                 await setDoc(statusRef, {
                     username: username,
@@ -196,24 +195,28 @@
             message.textContent = 'جاري التحقق من الحساب...';
 
             try {
-                // البحث في قاعدة البيانات داخل جدول users عن اسم المستخدم المدخل
+                // البحث في قاعدة البيانات داخل جدول users عن اسم المستخدم المدخل[cite: 2]
                 const q = query(collection(db, "users"), where("username", "==", usernameInput));
                 const querySnapshot = await getDocs(q);
 
                 if (!querySnapshot.empty) {
                     // إذا وجدنا المستخدم
                     message.style.color = 'green';
-                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
+                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك إلى الصفحة الرئيسية...';
                     
-                    // حفظ اسم المستخدم في التخزين المحلي
+                    // حفظ اسم المستخدم في التخزين المحلي[cite: 2]
                     localStorage.setItem("loggedInUser", usernameInput);
 
                     // تحديث حالته إلى online في collection المسمى statsus
                     await updateUserStatus(usernameInput, "online");
 
-                    // يمكنك توجيهه للصفحة الرئيسية بعد ثانية (مثال: window.location.href = 'index.html';)
+                    // التوجيه التلقائي إلى index.html بعد ثانية واحدة
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+
                 } else {
-                    // إذا لم يتم العثور على اسم المستخدم
+                    // إذا لم يتم العثور على اسم المستخدم[cite: 2]
                     message.style.color = 'red';
                     message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو أنشئ حساباً جديداً.';
                 }
@@ -229,8 +232,6 @@
         window.addEventListener('beforeunload', function() {
             const loggedUser = localStorage.getItem("loggedInUser");
             if (loggedUser) {
-                // نستخدم sendBeacon أو استدعاء متزامن بسيط لتحديث الحالة عند المغادرة
-                // نظراً لأن الجلسة تنتهي، نقوم بتحديث الحالة إلى offline في قاعدة البيانات
                 updateUserStatus(loggedUser, "offline");
             }
         });
