@@ -1027,13 +1027,13 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
             authDomain: "faceb-bb002.firebaseapp.com",
             projectId: "faceb-bb002",
-            storageBucket: "faceb-bb002.firebassetorage.app",
+            storageBucket: "faceb-bb002.firebasestorage.app",
             messagingSenderId: "456482622109",
             appId: "1:456482622109:web:32a45c12e5f1b2a210e274",
             measurementId: "G-5Y46BEF6V1"
@@ -1162,40 +1162,50 @@
             reader.readAsDataURL(file);
         }
 
-        // التحقق من قاعدة البيانات: جلب الحالات من collection status التي حالة الطقس/المستخدم فيها online ومطابقتها مع collection users
+        // دالة الفحص لطباعة وفحص بيانات الـ status وجلب اسم المستخدم بدقة
         async function checkStatusAndLoadUser() {
             try {
-                // جلب الحالات التي تكون فيها الحالة online من collection status
-                const statusQuery = query(collection(db, "status"), where("state", "==", "online"));
-                const statusSnap = await getDocs(statusQuery);
-
+                console.log("--- جاري فحص مجموعة status ---");
+                const statusSnap = await getDocs(collection(db, "status"));
                 let onlineUserNames = [];
-                statusSnap.forEach((doc) => {
-                    const data = doc.data();
-                    if (data.username) {
-                        onlineUserNames.push(data.username);
+
+                if (statusSnap.empty) {
+                    console.log("مجموعة status فارغة تماماً!");
+                }
+
+                statusSnap.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    console.log("مستند في status:", docSnap.id, data);
+                    
+                    // التحقق المرن من الحالة والاسم
+                    if (data.status === "online" || data.state === "online" || data.active === true) {
+                        if (data.username) {
+                            onlineUserNames.push(data.username);
+                        } else if (data.name) {
+                            onlineUserNames.push(data.name);
+                        }
                     }
                 });
 
-                // إذا وجدنا حالات online، نقوم بالبحث عنها في collection users
+                console.log("الأسماء المتاحة في status بحالة اتصال:", onlineUserNames);
+
                 if (onlineUserNames.length > 0) {
                     const usersSnap = await getDocs(collection(db, "users"));
                     usersSnap.forEach((docSnap) => {
                         const userData = docSnap.data();
-                        // إذا كان اسم المستخدم في collection users يطابق اسم المستخدم في status وحالته online
                         if (userData.name && onlineUserNames.includes(userData.name)) {
                             currentAuthenticatedUser = userData.name;
+                            console.لج("تم مطابقة اسم المستخدم بنجاح:", currentAuthenticatedUser);
                         }
                     });
                 }
             } catch (e) {
-                console.log("تنبيه أو خطأ أثناء فحص جدول status:", e);
+                console.error("خطأ في فحص الـ status:", e);
             }
         }
 
         async function loadProfileData() {
             try {
-                // تنفيذ التحقق من الـ status أولاً
                 await checkStatusAndLoadUser();
 
                 const userDocRef = doc(db, "users", "profile_info");
@@ -1220,7 +1230,7 @@
                         document.getElementById('sidebarFrom').innerText = userData.from;
                         document.getElementById('aboutFrom').innerText = userData.from;
                     }
-                    if(userData.name) {
+                    if(userData.name && currentAuthenticatedUser === "محمد خالد") {
                         currentAuthenticatedUser = userData.name;
                     }
                 } else {
@@ -1233,7 +1243,7 @@
                     });
                 }
 
-                // تحديث الواجهة باسم المستخدم الحالي
+                // تحديث واجهة المستخدم بالاسم الذي تم جلبه
                 document.getElementById('profileNameHeader').innerHTML = `${currentAuthenticatedUser} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
                 document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
                 document.getElementById('feedInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
