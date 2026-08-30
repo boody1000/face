@@ -680,7 +680,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -775,7 +775,7 @@
             }
         }
 
-        // دالة جلب المنشورات من قاعدة البيانات وعرضها في الواجهة بدون الحاجة لفهارس (Indexes) مركبة معقدة
+        // دالة جلب المنشورات من قاعدة البيانات وعرضها في الواجهة بشكل مباشر بدون استعلامات معقدة
         async function fetchPosts() {
             const homeContainer = document.getElementById('posts-container-home');
             const profileContainer = document.getElementById('posts-container-profile');
@@ -784,9 +784,7 @@
             profileContainer.innerHTML = '';
 
             try {
-                // جلب المنشورات مباشرة بدون orderBy لتفادي أي أخطاء مؤشر (Index error)
-                const q = query(collection(db, "posts"));
-                const querySnapshot = await getDocs(q);
+                const querySnapshot = await getDocs(collection(db, "posts"));
                 
                 homeContainer.innerHTML = '';
                 profileContainer.innerHTML = '';
