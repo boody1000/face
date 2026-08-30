@@ -3,55 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول إلى فيسبوك</title>
-    <!-- ربط ملف الـ CSS الخارجي -->
+    <title>منصة فيسبوك المصغرة</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="facebook-container">
-        <!-- القسم الأيمن: الترحيب والشعار -->
-        <div class="fb-info">
-            <h1 class="fb-logo">facebook</h1>
-            <p>يساعدك فيسبوك على التواصل والمشاركة مع الأشخاص الذين تعرفهم.</p>
+    <header class="navbar">
+        <div class="nav-left">
+            <h2 class="logo">facebook</h2>
+            <input type="text" placeholder="بحث في فيسبوك" class="search-box">
         </div>
+        <div class="nav-center">
+            <button class="nav-btn active" onclick="switchPage('profile')">🏠 الصفحة الشخصية</button>
+            <button class="nav-btn" onclick="switchPage('public')">🌐 الصفحة العامة</button>
+            <button class="nav-btn" onclick="switchPage('videos')">🎬 الفيديوهات</button>
+        </div>
+        <div class="nav-right">
+            <span>👤 حساب المستخدم</span>
+        </div>
+    </header>
 
-        <!-- القسم الأيسر: نموذج تسجيل الدخول -->
-        <div class="fb-form-wrapper">
-            <div class="fb-card">
-                <form id="loginForm">
-                    <input type="text" id="email" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
-                    <input type="password" id="password" placeholder="كلمة السر" required>
-                    <button type="submit" class="login-btn">تسجيل الدخول</button>
-                </form>
-                
-                <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
-                
-                <hr class="divider">
-                
-                <div class="create-account-container">
-                    <button type="button" class="create-btn">إنشاء حساب جديد</button>
+    <main class="main-container">
+
+        <section id="profile" class="page active-page">
+            <div class="profile-header">
+                <div class="cover-photo"></div>
+                <div class="profile-info">
+                    <div class="avatar"></div>
+                    <div>
+                        <h2>محمد أحمد</h2>
+                        <p>500 صديق</p>
+                    </div>
                 </div>
             </div>
-            
-            <div class="fb-page-footer">
-                <p><b>إنشاء صفحة</b> لشخصية مشهورة أو علامة تجارية أو شركة.</p>
+            <div class="content-body">
+                <div class="sidebar">
+                    <h3>التفاصيل</h3>
+                    <p>📍 يعيش في القاهرة، مصر</p>
+                    <p>💼 يعمل كـ مبرمج ويب</p>
+                </div>
+                <div class="feed">
+                    <div class="post-box">
+                        <textarea placeholder="ما الذي تفكر فيه، محمد؟"></textarea>
+                        <button class="post-btn">نشر</button>
+                    </div>
+                    <div class="post">
+                        <h4>محمد أحمد</h4>
+                        <p>هذا منشور تجريبي على صفحتي الشخصية!</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- كود الـ JavaScript (يمكن وضعه هنا أو في ملف منفصل script.js) -->
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault(); // منع إعادة تحميل الصفحة
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if(email && password) {
-                alert('تم النقر على تسجيل الدخول بنجاح! (هذه صفحة تجريبية)');
-            }
-        });
-    </script>
+        <section id="public" class="page">
+            <div class="profile-header public-header">
+                <div class="cover-photo public-cover"></div>
+                <div class="profile-info">
+                    <div class="avatar public-avatar">🌐</div>
+                    <div>
+                        <h2>مجتمع المبرمجين العرب</h2>
+                        <p>15 ألف إعجاب • صفحة عامة</p>
+                    </div>
+                    <button class="follow-btn">إعجاب بالصفحة</button>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="feed full-width">
+                    <div class="post">
+                        <h4>مجتمع المبرمجين العرب</h4>
+                        <p>مرحباً بالجميع! شاركونا أحدث مشاريعكم البرمجية اليوم.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="videos" class="page">
+            <h2>فيديوهات مقترحة لك</h2>
+            <div class="videos-grid">
+                <div class="video-card">
+                    <div class="video-placeholder">▶ فيديو 1</div>
+                    <p>تعلم HTML و CSS في ساعة واحدة</p>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder">▶ فيديو 2</div>
+                    <p>أسرار لغة JavaScript للمبتدئين</p>
+                </div>
+                <div class="video-card">
+                    <div class="video-placeholder">▶ فيديو 3</div>
+                    <p>تصميم واجهات المستخدم باحترافية</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
