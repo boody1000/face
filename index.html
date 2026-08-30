@@ -1,27 +1,13 @@
 <?php
-// إعدادات الاتصال بقاعدة البيانات
+// إعدادات الاتصال بقاعدة البيانات (إذا احتجت لاستخدامها لاحقاً)
 $host = 'localhost';
 $dbname = 'اسم_قاعدة_البيانات';
 $username = 'اسم_المستخدم';
 $password = 'كلمة_المرور';
 
-$matchedUser = null;
-
 try {
     $pdo = new PDO("mysql:host=$host;charset=utf8", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // استقبال الاسم المدخل من حقل النص في نموذج تسجيل الدخول أو البحث
-    $inputName = $_POST['login_username'] ?? '';
-
-    if (!empty($inputName)) {
-        // الاستعلام من جدول users للتحقق من تطابق الاسم وأن الحالة online وجلب البروفايل
-        $sql = "SELECT username, profile_image FROM users WHERE username = :inputName AND status = 'online'";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute(['inputName' => $inputName]);
-        
-        $matchedUser = $stmt->fetch(PDO::FETCH_ASSOC);
-    }
 } catch (PDOException $e) {
     // التعامل مع أخطاء الاتصال بصمت أو عرضها حسب الحاجة
 }
@@ -883,22 +869,7 @@ try {
             </div>
 
             <div class="side-menu">
-                <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال (Online)</h4>
-                
-                <!-- عرض المستخدم المتطابق إذا وُجد في قاعدة البيانات -->
-                <?php if ($matchedUser): ?>
-                    <div class="menu-item">
-                        <img src="<?php echo htmlspecialchars($matchedUser['profile_image']); ?>" alt="User Avatar">
-                        <span><?php echo htmlspecialchars($matchedUser['username']); ?></span>
-                    </div>
-                <?php else: ?>
-                    <!-- نموذج بسيط لإدخال اسم المستخدم المراد التحقق من حالته في حال عدم وجود إرسال سابق -->
-                    <form method="POST" style="padding: 5px 0;">
-                        <input type="text" name="login_username" placeholder="ادخل اسم المستخدم..." style="width: 100%; padding: 6px; border: 1px solid var(--fb-border); border-radius: 6px; outline: none; font-size: 0.85rem;">
-                        <button type="submit" style="margin-top: 5px; width: 100%; background: var(--fb-blue); color: white; border: none; padding: 5px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;">بحث</button>
-                    </form>
-                <?php endif; ?>
-
+                <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال</h4>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="C"> عمر أحمد</div>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="C"> سارة علي</div>
             </div>
@@ -1107,7 +1078,6 @@ try {
             clearMediaPreview();
         }
 
-        // اختيار وعرض معاينة الصورة أو الفيديو داخل النافذة
         window.handleModalMediaUpload = function(event, type) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1130,7 +1100,6 @@ try {
             reader.readAsDataURL(file);
         }
 
-        // مسح المعاينة
         window.clearMediaPreview = function() {
             uploadedMediaData = { type: "", url: "" };
             document.getElementById('previewContainer').innerHTML = '';
@@ -1139,7 +1108,6 @@ try {
             document.getElementById('modalVideoInput').value = '';
         }
 
-        // زر نشر: حفظ المنشور في قاعدة البيانات وعرضه
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value;
             if(!text.trim() && !uploadedMediaData.url) return;
@@ -1164,7 +1132,6 @@ try {
             }
         }
 
-        // تحديث صورة الغلاف
         window.handleCoverUpload = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1184,7 +1151,6 @@ try {
             reader.readAsDataURL(file);
         }
 
-        // تحديث صورة البروفايل
         window.handleAvatarUpload = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -1197,11 +1163,11 @@ try {
                     await setDoc(avatarRef, { pic_avatar: base64Image }, { merge: true });
 
                     currentAvatarUrl = base64Image;
-                    document.getElementById('profileAvatarImage').src = base64Image;
-                    document.getElementById('sideUserAvatar').src = base64Image;
-                    document.getElementById('feedUserAvatar').src = base64Image;
-                    document.getElementById('feedBoxAvatar').src = base64Image;
-                    document.getElementById('modalUserAvatar').src = base64Image;
+                    document.getElementById('profileAvatarImage').src = currentAvatarUrl;
+                    document.getElementById('sideUserAvatar').src = currentAvatarUrl;
+                    document.getElementById('feedUserAvatar').src = currentAvatarUrl;
+                    document.getElementById('feedBoxAvatar').src = currentAvatarUrl;
+                    document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 } catch (error) {
                     console.error("خطأ أثناء حفظ وتحديث البروفايل: ", error);
                 }
@@ -1209,17 +1175,13 @@ try {
             reader.readAsDataURL(file);
         }
 
-        // جلب بيانات البروفايل وقسم "حول" من مجموعة users في قاعدة البيانات
         async function loadProfileData() {
             try {
-                // جلب بيانات مجموعة المستخدمين (users) لمعلومات قسم حول
                 const userDocRef = doc(db, "users", "profile_info");
                 const userSnap = await getDoc(userDocRef);
                 
                 if (userSnap.exists()) {
                     const userData = userSnap.data();
-                    
-                    // تحديث النصوص في الشريط الجانبي وقسم حول
                     if(userData.work) {
                         document.getElementById('sidebarWork').innerText = userData.work;
                         document.getElementById('aboutWork').innerText = userData.work;
@@ -1240,7 +1202,6 @@ try {
                         document.getElementById('profileNameHeader').innerHTML = `${userData.name} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
                     }
                 } else {
-                    // قيم افتراضية في حال عدم وجود وثيقة مسبقة في collection users
                     await setDoc(userDocRef, {
                         name: "محمد خالد",
                         work: "يعمل لدى شركة برمجيات كبرى",
@@ -1271,7 +1232,6 @@ try {
             }
         }
 
-        // جلب المنشورات وعرضها
         async function fetchPosts() {
             const homeContainer = document.getElementById('posts-container-home');
             const profileContainer = document.getElementById('posts-container-profile');
@@ -1346,7 +1306,6 @@ try {
             tabElement.classList.add('active');
         }
 
-        // تبديل التبويبات داخل الصفحة الشخصية (المنشورات / حول / إلخ)
         function switchProfileTab(tabName, tabElement) {
             document.querySelectorAll('.p-tab').forEach(el => el.classList.remove('active'));
             tabElement.classList.add('active');
