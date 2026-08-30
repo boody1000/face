@@ -141,11 +141,11 @@
         </div>
     </div>
 
-    <!-- كود ربط Firebase والتحقق من الاسم، تحديث الحالة إلى online، والتوجيه إلى index.html -->
+    <!-- كود ربط Firebase والتحقق من اسم المستخدم وحفظ الحالة -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         // إعدادات الـ Firebase الخاصة بك
         const firebaseConfig = {
@@ -166,6 +166,21 @@
         const loginForm = document.getElementById('loginForm');
         const message = document.getElementById('message');
 
+        // دالة لتحديث الحالة في collection تسمى statsus
+        async function updateUserStatus(username, statusState) {
+            try {
+                // نستخدم اسم المستخدم كمعرف (Document ID) لتسهيل التحديث وعدم تكرار الوثائق
+                const statusRef = doc(db, "statsus", username);
+                await setDoc(statusRef, {
+                    username: username,
+                    status: statusState,
+                    lastUpdated: new Date()
+                }, { merge: true });
+            } catch (error) {
+                console.error("خطأ في تحديث الحالة: ", error);
+            }
+        }
+
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -178,7 +193,7 @@
             }
 
             message.style.color = '#555';
-            message.textContent = 'جاري التحقق من الحساب وتحديث الحالة...';
+            message.textContent = 'جاري التحقق من الحساب...';
 
             try {
                 // البحث في قاعدة البيانات داخل جدول users عن اسم المستخدم المدخل
@@ -186,37 +201,276 @@
                 const querySnapshot = await getDocs(q);
 
                 if (!querySnapshot.empty) {
-                    // جلب الـ ID الخاص بالمستند (Document) للمستخدم المطابق
-                    const userDocSnap = querySnapshot.docs[0];
-                    const userDocRef = doc(db, "users", userDocSnap.id);
-
-                    // تحديث حقل status في قاعدة البيانات ليصبح "online"
-                    await updateDoc(userDocRef, {
-                        status: "online"
-                    });
-
-                    // إذا وجدنا المستخدم وتتم العملية بنجاح
+                    // إذا وجدنا المستخدم
                     message.style.color = 'green';
-                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية... 🎉';
+                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
                     
-                    // حفظ اسم المستخدم في التخزين المحلي لاستخدامه لاحقاً
+                    // حفظ اسم المستخدم في التخزين المحلي
                     localStorage.setItem("loggedInUser", usernameInput);
 
-                    // التوجيه التلقائي إلى صفحة index.html بعد ثانيتين
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 2000);
+                    // تحديث حالته إلى online في collection المسمى statsus
+                    await updateUserStatus(usernameInput, "online");
 
+                    // يمكنك توجيهه للصفحة الرئيسية بعد ثانية (مثال: window.location.href = 'index.html';)
                 } else {
-                    // إذا لم يتم العثور على اسم المستخدم في قاعدة البيانات
+                    // إذا لم يتم العثور على اسم المستخدم
                     message.style.color = 'red';
-                    message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو انشئ حساباً جديداً.';
+                    message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو أنشئ حساباً جديداً.';
                 }
 
             } catch (error) {
                 console.error("خطأ في تسجيل الدخول: ", error);
                 message.style.color = 'red';
                 message.textContent = 'حدث خطأ في الاتصال بقاعدة البيانات، يرجى المحاولة لاحقاً.';
+            }
+        });
+
+        // رصد خروج المستخدم أو إغلاقه للصفحة لتحويل حالته إلى offline
+        window.addEventListener('beforeunload', function() {
+            const loggedUser = localStorage.getItem("loggedInUser");
+            if (loggedUser) {
+                // نستخدم sendBeacon أو استدعاء متزامن بسيط لتحديث الحالة عند المغادرة
+                // نظراً لأن الجلسة تنتهي، نقوم بتحديث الحالة إلى offline في قاعدة البيانات
+                updateUserStatus(loggedUser, "offline");
+            }
+        });
+    </script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        /* إعدادات عامة وتنسيق الخلفية المتناسقة مع صفحة التسجيل */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('11381059848964530080.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* صندوق تسجيل الدخول */
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s ease;
+        }
+
+        .login-container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* عنوان الصفحة */
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 26px;
+        }
+
+        /* حقل الإدخال */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        /* زر الدخول */
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* رسائل الخطأ والنجاح */
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* رابط الانتقال لإنشاء حساب */
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>تسجيل الدخول</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">اسم المستخدم</label>
+                <input type="text" id="username" placeholder="أدخل اسم المستخدم الخاص بك" required>
+            </div>
+
+            <button type="submit" class="btn-submit">دخول</button>
+            <div id="message"></div>
+        </form>
+
+        <div class="register-link">
+            ليس لديك حساب؟ <a href="regster.html">إنشاء حساب جديد</a>
+        </div>
+    </div>
+
+    <!-- كود ربط Firebase والتحقق من اسم المستخدم وحفظ الحالة -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
+        import { getFirestore, collection, query, where, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+        // إعدادات الـ Firebase الخاصة بك
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
+            authDomain: "faceb-bb002.firebaseapp.com",
+            projectId: "faceb-bb002",
+            storageBucket: "faceb-bb002.firebasestorage.app",
+            messagingSenderId: "456482622109",
+            appId: "1:456482622109:web:32a45c12e5f1b2a210e274",
+            measurementId: "G-5Y46BEF6V1"
+        };
+
+        // تهيئة Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        const loginForm = document.getElementById('loginForm');
+        const message = document.getElementById('message');
+
+        // دالة لتحديث الحالة في collection تسمى statsus
+        async function updateUserStatus(username, statusState) {
+            try {
+                // نستخدم اسم المستخدم كمعرف (Document ID) لتسهيل التحديث وعدم تكرار الوثائق
+                const statusRef = doc(db, "statsus", username);
+                await setDoc(statusRef, {
+                    username: username,
+                    status: statusState,
+                    lastUpdated: new Date()
+                }, { merge: true });
+            } catch (error) {
+                console.error("خطأ في تحديث الحالة: ", error);
+            }
+        }
+
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const usernameInput = document.getElementById('username').value.trim();
+
+            if (usernameInput === '') {
+                message.style.color = 'red';
+                message.textContent = 'يرجى إدخال اسم المستخدم!';
+                return;
+            }
+
+            message.style.color = '#555';
+            message.textContent = 'جاري التحقق من الحساب...';
+
+            try {
+                // البحث في قاعدة البيانات داخل جدول users عن اسم المستخدم المدخل
+                const q = query(collection(db, "users"), where("username", "==", usernameInput));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    // إذا وجدنا المستخدم
+                    message.style.color = 'green';
+                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
+                    
+                    // حفظ اسم المستخدم في التخزين المحلي
+                    localStorage.setItem("loggedInUser", usernameInput);
+
+                    // تحديث حالته إلى online في collection المسمى statsus
+                    await updateUserStatus(usernameInput, "online");
+
+                    // يمكنك توجيهه للصفحة الرئيسية بعد ثانية (مثال: window.location.href = 'index.html';)
+                } else {
+                    // إذا لم يتم العثور على اسم المستخدم
+                    message.style.color = 'red';
+                    message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو أنشئ حساباً جديداً.';
+                }
+
+            } catch (error) {
+                console.error("خطأ في تسجيل الدخول: ", error);
+                message.style.color = 'red';
+                message.textContent = 'حدث خطأ في الاتصال بقاعدة البيانات، يرجى المحاولة لاحقاً.';
+            }
+        });
+
+        // رصد خروج المستخدم أو إغلاقه للصفحة لتحويل حالته إلى offline
+        window.addEventListener('beforeunload', function() {
+            const loggedUser = localStorage.getItem("loggedInUser");
+            if (loggedUser) {
+                // نستخدم sendBeacon أو استدعاء متزامن بسيط لتحديث الحالة عند المغادرة
+                // نظراً لأن الجلسة تنتهي، نقوم بتحديث الحالة إلى offline في قاعدة البيانات
+                updateUserStatus(loggedUser, "offline");
             }
         });
     </script>
