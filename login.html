@@ -134,7 +134,7 @@
         </div>
     </div>
 
-    <!-- كود ربط Firebase والتحقق وتحديث الحالة -->
+    <!-- كود ربط Firebase والتحقق وتحديث الحالة والتوجيه -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
@@ -191,7 +191,7 @@
                             statsus: "online"
                         });
                     } else {
-                        // إذا لم يكن له مستند مسبق في مجموعة statsus، نقوم بإنشاء مستند جديد يحوي اسم المستخدم وحقل statsus
+                        // إذا لم يكن له مستند مسبق في مجموعة statsus، نقوم بإنشاء مستند جديد
                         const newStatsusRef = doc(collection(db, "statsus"));
                         await setDoc(newStatsusRef, {
                             username: usernameInput,
@@ -199,16 +199,16 @@
                         });
                     }
 
-                    // 3. نجاح العملية
+                    // 3. نجاح العملية وحفظ اسم المستخدم في التخزين المحلي
                     message.style.color = 'green';
-                    message.textContent = 'تم تسجيل الدخول بنجاح وتحديث الحالة إلى online! جاري تحويلك...';
+                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
                     
                     localStorage.setItem("loggedInUser", usernameInput);
 
-                    // توجيه المستخدم لصفحة أخرى بعد ثانية (اختياري)
-                    // setTimeout(() => {
-                    //     window.location.href = 'index.html';
-                    // }, 1000);
+                    // 4. التوجيه التلقائي لصفحة index.html بعد ثانية واحدة
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
 
                 } else {
                     // إذا لم يتم العثور على اسم المستخدم في جدول users
