@@ -11,13 +11,10 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
-
         body {
             background-color: #f0f2f5;
             color: #050505;
         }
-
-        /* شريط التنقل */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -30,19 +27,16 @@
             top: 0;
             z-index: 1000;
         }
-
         .logo {
             color: #1877f2;
             font-size: 26px;
             font-weight: bold;
         }
-
         .nav-left {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-
         .search-box {
             background-color: #f0f2f5;
             border: none;
@@ -50,12 +44,10 @@
             padding: 10px 15px;
             outline: none;
         }
-
         .nav-center {
             display: flex;
             gap: 15px;
         }
-
         .nav-btn {
             background: none;
             border: none;
@@ -67,25 +59,19 @@
             color: #65676b;
             transition: background-color 0.2s, color 0.2s;
         }
-
         .nav-btn.active, .nav-btn:hover {
             background-color: #e7f3ff;
             color: #1877f2;
         }
-
-        /* إدارة الصفحات (إخفاء وإظهار) */
         .page {
             display: none;
             padding: 20px;
             max-width: 1000px;
             margin: 0 auto;
         }
-
         .page.active-page {
             display: block;
         }
-
-        /* تصميم الصفحة الشخصية والعامة */
         .profile-header {
             background: #fff;
             border-radius: 8px;
@@ -93,12 +79,10 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-
         .cover-photo {
             height: 200px;
             background: linear-gradient(to right, #1877f2, #42b72a);
         }
-
         .profile-info {
             display: flex;
             align-items: center;
@@ -106,7 +90,6 @@
             gap: 20px;
             position: relative;
         }
-
         .avatar {
             width: 100px;
             height: 100px;
@@ -115,7 +98,6 @@
             border: 4px solid #fff;
             margin-top: -50px;
         }
-
         .public-avatar {
             display: flex;
             align-items: center;
@@ -124,7 +106,6 @@
             background-color: #1877f2;
             color: white;
         }
-
         .follow-btn {
             margin-right: auto;
             background-color: #1877f2;
@@ -135,17 +116,13 @@
             font-weight: bold;
             cursor: pointer;
         }
-
         .follow-btn:hover {
             background-color: #166fe5;
         }
-
-        /* محتوى المنشورات */
         .content-body {
             display: flex;
             gap: 20px;
         }
-
         .sidebar {
             flex: 1;
             background: #fff;
@@ -154,24 +131,19 @@
             height: fit-content;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-
         .sidebar h3 {
             margin-bottom: 10px;
         }
-
         .sidebar p {
             margin-bottom: 8px;
             color: #65676b;
         }
-
         .feed {
             flex: 2;
         }
-
         .full-width {
             flex: 1;
         }
-
         .post-box, .post {
             background: #fff;
             padding: 15px;
@@ -179,7 +151,6 @@
             margin-bottom: 15px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-
         .post-box textarea {
             width: 100%;
             border: none;
@@ -189,7 +160,6 @@
             resize: none;
             outline: none;
         }
-
         .post-btn {
             background-color: #1877f2;
             color: white;
@@ -200,27 +170,21 @@
             cursor: pointer;
             font-weight: bold;
         }
-
         .post-btn:hover {
             background-color: #166fe5;
         }
-
         .post h4 {
             margin-bottom: 8px;
         }
-
         .post p {
             color: #4b4f56;
         }
-
-        /* صفحة الفيديوهات */
         .videos-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 15px;
         }
-
         .video-card {
             background: white;
             border-radius: 8px;
@@ -228,7 +192,6 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             padding-bottom: 10px;
         }
-
         .video-placeholder {
             height: 160px;
             background-color: #242526;
@@ -239,13 +202,10 @@
             font-size: 20px;
             font-weight: bold;
         }
-
         .video-card p {
             padding: 10px;
             font-weight: bold;
         }
-
-        /* التجاوب مع شاشات الجوال */
         @media (max-width: 768px) {
             .content-body {
                 flex-direction: column;
@@ -265,7 +225,6 @@
 </head>
 <body>
 
-    <!-- شريط التنقل العُلوي (Navbar) -->
     <header class="navbar">
         <div class="nav-left">
             <h2 class="logo">facebook</h2>
@@ -281,10 +240,7 @@
         </div>
     </header>
 
-    <!-- المحتوى الرئيسي (الصفحات) -->
     <main class="main-container">
-
-        <!-- 1. الصفحة الشخصية -->
         <section id="profile" class="page active-page">
             <div class="profile-header">
                 <div class="cover-photo"></div>
@@ -315,7 +271,6 @@
             </div>
         </section>
 
-        <!-- 2. الصفحة العامة -->
         <section id="public" class="page">
             <div class="profile-header public-header">
                 <div class="cover-photo public-cover"></div>
@@ -338,7 +293,6 @@
             </div>
         </section>
 
-        <!-- 3. صفحة الفيديوهات -->
         <section id="videos" class="page">
             <h2>فيديوهات مقترحة لك</h2>
             <div class="videos-grid">
@@ -356,31 +310,25 @@
                 </div>
             </div>
         </section>
-
     </main>
 
-    <!-- كود الجافاسكريبت مدمج بالداخل لمنع أخطاء التحميل -->
     <script>
         function switchPage(pageId, event) {
-            // إخفاء جميع الصفحات
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => {
                 page.classList.remove('active-page');
             });
 
-            // إزالة التحديد عن جميع الأزرار
             const buttons = document.querySelectorAll('.nav-btn');
             buttons.forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // إظهار الصفحة المطلوبة
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active-page');
             }
 
-            // تفعيل الزر المضغوط
             if (event && event.currentTarget) {
                 event.currentTarget.classList.add('active');
             }
