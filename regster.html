@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد</title>
+    <style>
+        /* إعدادات عامة وتنسيق الخلفية */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* وضع الصورة في الخلفية مع طبقة تعتيم خفيفة لكي تظهر الحقول بوضوح */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('11381059848964530080.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        /* صندوق التسجيل (Container) مع خلفية شبه شفافة */
+        .signup-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+            transition: transform 0.3s ease;
+        }
+
+        .signup-container:hover {
+            transform: translateY(-5px);
+        }
+
+        /* عنوان الصفحة */
+        .signup-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 26px;
+        }
+
+        /* مجموعات الإدخال */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #555;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .input-group input, 
+        .input-group select {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, 
+        .input-group select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        /* زر التسجيل */
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        /* رسائل الخطأ والنجاح */
+        #message {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* روابط إضافية (تسجيل الدخول) */
+        .login-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h2>إنشاء حساب</h2>
+        <form id="signupForm">
+            <div class="input-group">
+                <label for="username">اسم المستخدم</label>
+                <input type="text" id="username" placeholder="أدخل اسم المستخدم">
+            </div>
+
+            <div class="input-group">
+                <label for="gender">النوع</label>
+                <select id="gender">
+                    <option value="">اختر النوع</option>
+                    <option value="male">ذكر</option>
+                    <option value="female">أنثى</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="socialStatus">الحالة الاجتماعية</label>
+                <select id="socialStatus">
+                    <option value="">اختر الحالة الاجتماعية</option>
+                    <option value="single">أعزب / عزباء</option>
+                    <option value="married">متزوج / متزوجة</option>
+                    <option value="divorced">مطلق / مطلقة</option>
+                    <option value="widowed">أرمل / أرملة</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="job">العمل / الوظيفة</label>
+                <input type="text" id="job" placeholder="أدخل عملك أو تخصصك">
+            </div>
+
+            <div class="input-group">
+                <label for="city">المدينة</label>
+                <input type="text" id="city" placeholder="أدخل اسم مدينتك">
+            </div>
+
+            <button type="submit" class="btn-submit">تسجيل</button>
+            <div id="message"></div>
+        </form>
+
+        <div class="login-link">
+            لديك حساب بالفعل؟ <a href="#">تسجيل الدخول</a>
+        </div>
+    </div>
+
+    <!-- كود تهيئة Firebase وربط إرسال البيانات -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
+            authDomain: "faceb-bb002.firebaseapp.com",
+            projectId: "faceb-bb002",
+            storageBucket: "faceb-bb002.firebasestorage.app",
+            messagingSenderId: "456482622109",
+            appId: "1:456482622109:web:32a45c12e5f1b2a210e274",
+            measurementId: "G-5Y46BEF6V1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // كود الـ JavaScript للتحقق من المدخلات وحفظها في قاعدة البيانات
+        const form = document.getElementById('signupForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const gender = document.getElementById('gender').value;
+            const socialStatus = document.getElementById('socialStatus').value;
+            const job = document.getElementById('job').value.trim();
+            const city = document.getElementById('city').value.trim();
+
+            // التحقق من الحقول المتبقية
+            if (username === '' || gender === '' || socialStatus === '' || job === '' || city === '') {
+                message.style.color = 'red';
+                message.textContent = 'يرجى ملء جميع الحقول المطلوبة!';
+                return;
+            }
+
+            try {
+                // حفظ البيانات في قاعدة البيانات داخل مجموعة (Collection) باسم users
+                await addDoc(collection(db, "users"), {
+                    username: username,
+                    gender: gender,
+                    socialStatus: socialStatus,
+                    job: job,
+                    city: city,
+                    createdAt: new Date()
+                });
+
+                message.style.color = 'green';
+                message.textContent = 'تم تسجيل البيانات بنجاح في قاعدة البيانات! 🎉';
+                form.reset(); // تفريغ حقول النموذج بعد الإرسال الناجح
+            } catch (error) {
+                console.error("خطأ أثناء الإرسال: ", error);
+                message.style.color = 'red';
+                message.textContent = 'حدث خطأ أثناء حفظ البيانات، يرجى المحاولة لاحقاً.';
+            }
+        });
+    </script>
+
+</body>
+</html>
