@@ -848,7 +848,7 @@
                     </div>
                 </div>
 
-                <!-- حاوية عرض المنشورات التي يتم جلبها من الداتابيز -->
+                <!-- حاوية عرض المنشورات -->
                 <div id="postsContainer"></div>
             </div>
         </div>
@@ -1009,15 +1009,16 @@
             document.getElementById('modalVideoInput').value = '';
         }
 
-        // دالة نشر المنشور وحفظه في مجموعة posts في الداتابيز
+        // دالة نشر المنشور وحفظه في مجموعة posts
         window.addNewPost = async function() {
-            const text = document.getElementById('postTextContent').value;
-            if(!text.trim() && !uploadedMediaData.url) {
-                alert("الرجاء كتابة نص أو إرفاق صورة/فيديو قبل النشر!");
+            const text = document.getElementById('postTextContent').value.trim();
+            if(!text && !uploadedMediaData.url) {
+                console.log("الرجاء كتابة نص أو إرفاق صورة/فيديو");
                 return;
             }
 
             try {
+                // إرسال البيانات مباشرة إلى قاعدة البيانات
                 await addDoc(collection(db, "posts"), {
                     author: currentAuthenticatedUser,
                     avatar: currentAvatarUrl,
@@ -1031,15 +1032,13 @@
                 document.getElementById('postTextContent').value = '';
                 clearMediaPreview();
                 closeModal();
-                alert("تم نشر المنشور بنجاح وحفظه في الداتابيز!");
-                loadPosts(); // إعادة تحميل المنشورات لعرض الجديد
+                loadPosts(); // تحديث وعرض المنشورات مباشرة
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
-                alert("حدث خطأ أثناء النشر، تأكد من اتصال الإنترنت أو حجم الملف.");
             }
         }
 
-        // دالة لجلب وعرض المنشورات من مجموعة posts في الصفحة
+        // دالة جلب وعرض المنشورات في الصفحة
         async function loadPosts() {
             try {
                 const postsContainer = document.getElementById('postsContainer');
@@ -1055,7 +1054,7 @@
                     if (post.mediaType === "image" && post.mediaUrl) {
                         mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 400px; object-fit: cover;"></div>`;
                     } else if (post.mediaType === "video" && post.mediaUrl) {
-                        mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl} "controls style="width: 100%; border-radius: 8px; max-height: 400px;"></video></div>`;
+                        mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 400px;"></video></div>`;
                     }
 
                     const postElement = document.createElement('div');
@@ -1197,7 +1196,6 @@
                     document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
 
-                // استدعاء دالة عرض المنشورات عند التحميل
                 loadPosts();
             } catch (e) {
                 console.error("خطأ في جلب بيانات البروفايل: ", e);
