@@ -966,7 +966,6 @@
             document.getElementById('postModal').style.display = 'flex';
         }
 
-        // فتح نافذة اختيار الملفات من الجهاز مباشرة
         window.triggerFilePicker = function(type) {
             openModal();
             if (type === 'image') {
@@ -976,27 +975,69 @@
             }
         }
 
-        // معالجة الملف المختار من الجهاز وتحويله إلى رابط (Data URL) ومعاينته
+        // دالة لضغط الصور تلقائياً لكي لا تتجاوز حجم 1 ميجابايت الخاص بـ Firebase
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // تصغير الأبعاد الكبيرة جداً للحفاظ على الحجم الصغير
+                    const maxDimension = 800;
+                    if (width > height && width > maxDimension) {
+                        height = Math.round((height * maxDimension) / width);
+                        width = maxDimension;
+                    } else if (height > maxDimension) {
+                        width = Math.round((width * maxDimension) / height);
+                        height = maxDimension;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // تحويل الصورة إلى صيغة تسعف الحجم (JPEG بجودة 0.7)
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    callback(compressedDataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // معالجة الملف المختار من الجهاز
         window.handlePostFileSelected = function(event, type) {
             const file = event.target.files[0];
             if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const fileUrl = e.target.result;
-                uploadedMediaData = { type: type, url: fileUrl };
+            const previewDiv = document.getElementById('previewContainer');
+            const previewWrapper = document.getElementById('modalMediaPreview');
 
-                const previewDiv = document.getElementById('previewContainer');
-                const previewWrapper = document.getElementById('modalMediaPreview');
-
-                if (type === 'image') {
-                    previewDiv.innerHTML = `<img src="${fileUrl}" alt="Image Preview">`;
-                } else {
-                    previewDiv.innerHTML = `<video src="${fileUrl}" controls></video>`;
+            if (type === 'image') {
+                compressImage(file, function(compressedUrl) {
+                    uploadedMediaData = { type: 'image', url: compressedUrl };
+                    previewDiv.innerHTML = `<img src="${compressedUrl}" alt="Image Preview">`;
+                    previewWrapper.style.display = 'block';
+                });
+            } else {
+                // الفيديوهات الكبيرة تتجاوز الحد المسموح في Firestore، نتحقق من الحجم (أقل من 800 كيلوبايت مثلاً أو تحذير)
+                if (file.size > 800 * 1024) {
+                    alert("حجم الفيديو كبير جداً بالنسبة لقاعدة البيانات المجانية (الحد الأقصى للملف الواحد حوالي 800 كيلوبايت). يرجى اختيار فيديو أصغر حجماً.");
+                    return;
                 }
-                previewWrapper.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const fileUrl = e.target.result;
+                    uploadedMediaData = { type: 'video', url: fileUrl };
+                    previewDiv.innerHTML = `<video src="${fileUrl}" controls></video>`;
+                    previewWrapper.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         window.clearMediaPreview = function() {
@@ -1007,7 +1048,7 @@
             document.getElementById('postVideoFileInput').value = '';
         }
 
-        // حفظ المنشور مع رابط الملف في الداتابيز
+        // حفظ المنشور مع التأكد من الحجم قبل الإرسال لعدم حدوث خطأ Firebase
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value.trim();
             if(!text && !uploadedMediaData.url) {
@@ -1032,6 +1073,7 @@
                 loadPosts(); 
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
+                alert("حدث خطأ: قد يكون حجم الصورة أو الفيديو كبيراً جداً على قاعدة البيانات.");
             }
         }
 
@@ -1040,7 +1082,7 @@
             clearMediaPreview();
         }
 
-        // جلب وعرض المنشورات والروابط المخزنة من قاعدة البيانات
+        // جلب وعرض المنشورات
         async function loadPosts() {
             try {
                 const postsContainer = document.getElementById('postsContainer');
@@ -1083,9 +1125,7 @@
             const file = event.target.files[0];
             if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const base64Image = e.target.result;
+            compressImage(file, async function(base64Image) {
                 try {
                     const coverRef = doc(db, "cover", "profile");
                     await setDoc(coverRef, { pic_voer: base64Image }, { merge: true });
@@ -1093,17 +1133,14 @@
                 } catch (error) {
                     console.error("خطأ أثناء حفظ وتحديث الغلاف: ", error);
                 }
-            };
-            reader.readAsDataURL(file);
+            });
         }
 
         window.handleAvatarUpload = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const base64ImageResult = e.target.result;
+            compressImage(file, async function(base64ImageResult) {
                 try {
                     const avatarRef = doc(db, "cover", "profile_avatar");
                     await setDoc(avatarRef, { pic_avatar: base64ImageResult }, { merge: true });
@@ -1117,8 +1154,7 @@
                 } catch (error) {
                     console.error("خطأ أثناء حفظ وتحديث البروفايل: ", error);
                 }
-            };
-            reader.readAsDataURL(file);
+            });
         }
 
         async function checkStatusAndLoadUser() {
