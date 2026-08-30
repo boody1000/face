@@ -58,11 +58,11 @@
             <div class="bg-slate-800 p-4 rounded-xl shadow-md border border-slate-700 space-y-3">
                 <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
                     <img id="feedBoxAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover">
-                    <input type="text" id="postText" placeholder="بما تفكر يا صديق؟ (ممنوع كتابة أرقام الهواتف)" class="bg-slate-700 text-slate-200 px-4 py-2.5 rounded-full w-full focus:outline-none">
+                    <input type="text" id="postText" placeholder="بما تفكر يا صديق؟" class="bg-slate-700 text-slate-200 px-4 py-2.5 rounded-full w-full focus:outline-none">
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <input type="text" id="postImage" placeholder="رابط الصورة أو اسم الملف المختار" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600" oninput="previewMedia('postImage', 'postVideo', 'postPreviewContainer')">
-                    <input type="text" id="postVideo" placeholder="رابط الفيديو أو اسم الملف المختار" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600" oninput="previewMedia('postImage', 'postVideo', 'postPreviewContainer')">
+                    <input type="text" id="postImage" placeholder="رابط الصورة" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600">
+                    <input type="text" id="postVideo" placeholder="رابط الفيديو" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600">
                 </div>
                 <div id="postPreviewContainer" class="hidden relative w-full bg-black rounded-lg overflow-hidden max-h-60 p-2 border border-slate-700"></div>
                 <div class="flex justify-between items-center pt-2">
@@ -95,51 +95,30 @@
     <div id="videosView" class="hidden container mx-auto max-w-3xl p-4 space-y-6">
         <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-md flex items-center justify-between">
             <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
-                <i class="fa-solid fa-tv text-blue-500"></i> الفيديوهات المقترحة والمنشورة (Watch)
+                <i class="fa-solid fa-tv text-blue-500"></i> الفيديوهات المقترحة (Watch)
             </h1>
-            <span class="text-xs text-slate-400">شاهد أحدث المقاطع</span>
-        </div>
-        <div class="space-y-6">
-            <div class="bg-slate-800 rounded-xl shadow-md border border-slate-700 overflow-hidden">
-                <div class="flex items-center justify-between p-4">
-                    <div class="flex items-center gap-3">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" class="w-10 h-10 rounded-full object-cover">
-                        <div>
-                            <h4 class="font-bold text-slate-100 text-sm">قناة التقنية والتطوير</h4>
-                            <span class="text-xs text-slate-400">فيديو تعليمي · منذ 3 ساعات</span>
-                        </div>
-                    </div>
-                    <button class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg transition">متابعة</button>
-                </div>
-                <div class="px-4 pb-2 text-sm text-slate-200">شرح مبسط لكيفية بناء واجهات تفاعلية باستخدام Tailwind CSS.</div>
-                <div class="w-full bg-black">
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls class="w-full max-h-[450px] object-contain mx-auto"></video>
-                </div>
-                <div class="grid grid-cols-3 p-1 border-t border-slate-700 text-slate-300 text-sm">
-                    <button onclick="toggleLike(this)" class="flex items-center justify-center gap-2 py-2 hover:bg-slate-700 rounded-lg transition"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
-                    <button class="flex items-center justify-center gap-2 py-2 hover:bg-slate-700 rounded-lg transition"><i class="fa-regular fa-comment"></i> تعليق</button>
-                    <button class="flex items-center justify-center gap-2 py-2 hover:bg-slate-700 rounded-lg transition"><i class="fa-solid fa-share"></i> مشاركة</button>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- 4. محتوى الصفحة الشخصية -->
     <div id="profileView" class="hidden container mx-auto max-w-5xl p-0 md:p-4">
         <div class="bg-slate-800 rounded-b-xl shadow-md overflow-hidden border border-slate-700">
+            <!-- الغلاف وصورة الغلاف مع زر التعديل -->
             <div class="h-64 w-full bg-gradient-to-r from-blue-800 to-indigo-900 relative group">
                 <img id="coverImg" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200" class="w-full h-full object-cover opacity-80">
-                <button onclick="document.getElementById('coverInput').click()" class="absolute bottom-4 left-4 bg-slate-900/80 hover:bg-slate-900 text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2 transition shadow-lg border border-slate-600">
-                    <i class="fa-solid fa-camera"></i> تعديل صورة الغلاف
+                <button onclick="document.getElementById('coverInput').click()" class="absolute bottom-4 left-4 bg-slate-900/90 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-medium flex items-center gap-2 transition shadow-lg border border-slate-600">
+                    <i class="fa-solid fa-camera"></i> تغيير صورة الغلاف
                 </button>
                 <input type="file" id="coverInput" accept="image/*" class="hidden" onchange="updateCover(event)">
             </div>
+
+            <!-- البروفايل وصورة البروفايل مع زر التعديل -->
             <div class="px-6 pb-4 relative flex flex-col md:flex-row items-center md:items-end justify-between -mt-20 md:-mt-10 gap-4">
                 <div class="flex flex-col md:flex-row items-center gap-4 text-center md:text-right">
                     <div class="relative group">
                         <img id="profileAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" class="w-36 h-36 rounded-full object-cover border-4 border-slate-800 shadow-xl">
-                        <button onclick="document.getElementById('avatarInput').click()" class="absolute bottom-2 right-2 bg-slate-700 hover:bg-slate-600 text-white w-9 h-9 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-800 transition">
-                            <i class="fa-solid fa-camera text-xs"></i>
+                        <button onclick="document.getElementById('avatarInput').click()" class="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-500 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-800 transition">
+                            <i class="fa-solid fa-camera text-sm"></i>
                         </button>
                         <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="updateAvatar(event)">
                     </div>
@@ -149,11 +128,10 @@
                     </div>
                 </div>
             </div>
+            
             <div class="flex border-t border-slate-700 px-6 gap-2 overflow-x-auto">
                 <button onclick="switchProfileSection('posts')" id="btnProfilePosts" class="py-3 px-4 text-blue-500 border-b-2 border-blue-500 font-semibold text-sm transition">المحتوى</button>
                 <button onclick="switchProfileSection('about')" id="btnProfileAbout" class="py-3 px-4 text-slate-400 hover:text-slate-200 font-semibold text-sm transition">حول</button>
-                <button onclick="switchProfileSection('photos')" id="btnProfilePhotos" class="py-3 px-4 text-slate-400 hover:text-slate-200 font-semibold text-sm transition">الصور</button>
-                <button onclick="switchProfileSection('videos')" id="btnProfileVideos" class="py-3 px-4 text-slate-400 hover:text-slate-200 font-semibold text-sm transition">الفيديو</button>
             </div>
         </div>
 
@@ -162,148 +140,32 @@
                 <div class="space-y-4">
                     <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-md space-y-4">
                         <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                            <h2 class="font-bold text-lg text-slate-100">نبذة تعريفية ومعلومات</h2>
-                            <button onclick="toggleEditBio()" id="editBioBtn" class="text-xs text-blue-400 hover:underline">تعديل</button>
+                            <h2 class="font-bold text-lg text-slate-100">نبذة تعريفية</h2>
                         </div>
-                        
                         <div id="bioDisplayMode" class="space-y-3 text-sm text-slate-300">
                             <p class="text-center italic text-slate-200 bg-slate-700/50 p-2 rounded-lg" id="dispBio">أهلاً بك في ملفي الشخصي.</p>
-                            <div class="space-y-2 pt-1 border-t border-slate-700">
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-user text-blue-400 w-5"></i> <span class="font-semibold text-slate-400">الاسم:</span> <span id="dispName">اسم المستخدم</span></p>
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-cake-candles text-blue-400 w-5"></i> <span class="font-semibold text-slate-400">السن:</span> <span id="dispAge">25 سنة</span></p>
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-graduation-cap text-blue-400 w-5"></i> <span class="font-semibold text-slate-400">المؤهل:</span> <span id="dispDegree">بكالوريوس حاسب آلي</span></p>
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-ring text-blue-400 w-5"></i> <span class="font-semibold text-slate-400">الحالة الاجتماعية:</span> <span id="dispStatus">أعزب</span></p>
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-briefcase text-blue-400 w-5"></i> <span class="font-semibold text-slate-400">العمل:</span> <span id="dispWork">مطور برمجيات</span></p>
-                                <p class="flex items-center gap-2"><i class="fa-solid fa-envelope text-blue-400 w-5"></i> <span class="font-semibold text-slate-400">البريد:</span> <span id="dispEmail">user@example.com</span></p>
-                            </div>
-                        </div>
-                        
-                        <div id="bioEditContainer" class="hidden space-y-3 text-sm">
-                            <div>
-                                <label class="block text-xs text-slate-400 mb-1">النبذة:</label>
-                                <textarea id="inputBio" class="w-full bg-slate-700 text-slate-200 text-xs p-2 rounded-lg border border-slate-600 focus:outline-none" rows="2">أهلاً بك في ملفي الشخصي.</textarea>
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-400 mb-1">الاسم:</label>
-                                <input type="text" id="inputName" class="w-full bg-slate-700 text-slate-200 text-xs p-2 rounded-lg border border-slate-600 focus:outline-none" value="اسم المستخدم">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-400 mb-1">السن:</label>
-                                <input type="text" id="inputAge" class="w-full bg-slate-700 text-slate-200 text-xs p-2 rounded-lg border border-slate-600 focus:outline-none" value="25 سنة">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-400 mb-1">المؤهل:</label>
-                                <input type="text" id="inputDegree" class="w-full bg-slate-700 text-slate-200 text-xs p-2 rounded-lg border border-slate-600 focus:outline-none" value="بكالوريوس حاسب آلي">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-400 mb-1">الحالة الاجتماعية:</label>
-                                <input type="text" id="inputStatus" class="w-full bg-slate-700 text-slate-200 text-xs p-2 rounded-lg border border-slate-600 focus:outline-none" value="أعزب">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-400 mb-1">العمل:</label>
-                                <input type="text" id="inputWork" class="w-full bg-slate-700 text-slate-200 text-xs p-2 rounded-lg border border-slate-600 focus:outline-none" value="مطور برمجيات">
-                            </div>
-                            <div>
-                                <label class="block text-xs text-slate-400 mb-1">البريد الإلكتروني:</label>
-                                <input type="text" id="inputEmail" class="w-full bg-slate-700 text-slate-200 text-xs p-2 rounded-lg border border-slate-600 focus:outline-none" value="user@example.com">
-                            </div>
-
-                            <div class="flex justify-end gap-2 pt-2">
-                                <button onclick="toggleEditBio()" class="bg-slate-600 hover:bg-slate-500 text-white text-xs px-3 py-1.5 rounded-lg transition">إلغاء</button>
-                                <button onclick="saveBio()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs px-3 py-1.5 rounded-lg transition">حفظ</button>
-                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="md:col-span-2 space-y-4">
-                    <div class="bg-slate-800 p-4 rounded-xl shadow-md border border-slate-700 space-y-3">
-                        <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
-                            <img id="profileBoxAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover">
-                            <input type="text" id="profilePostText" placeholder="اكتب منشوراً في ملفك الشخصي..." class="bg-slate-700 text-slate-200 px-4 py-2.5 rounded-full w-full focus:outline-none">
-                        </div>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <input type="text" id="profilePostImage" placeholder="رابط الصورة أو اسم الملف المختار" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600" oninput="previewMedia('profilePostImage', 'profilePostVideo', 'profilePreviewContainer')">
-                            <input type="text" id="profilePostVideo" placeholder="رابط الفيديو أو اسم الملف المختار" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600" oninput="previewMedia('profilePostImage', 'profilePostVideo', 'profilePreviewContainer')">
-                        </div>
-
-                        <div id="profilePreviewContainer" class="hidden relative w-full bg-black rounded-lg overflow-hidden max-h-60 p-2 border border-slate-700"></div>
-
-                        <div class="flex justify-between items-center pt-2">
-                            <div class="flex gap-2">
-                                <label class="flex items-center gap-1 text-slate-300 text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg cursor-pointer transition">
-                                    <i class="fa-solid fa-images text-green-500"></i> صورة
-                                    <input type="file" accept="image/*" class="hidden" onchange="handleFileSelect(event, 'profilePostImage', 'profilePreviewContainer', 'image')">
-                                </label>
-                                <label class="flex items-center gap-1 text-slate-300 text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg cursor-pointer transition">
-                                    <i class="fa-solid fa-video text-red-500"></i> فيديو
-                                    <input type="file" accept="video/*" class="hidden" onchange="handleFileSelect(event, 'profilePostVideo', 'profilePreviewContainer', 'video')">
-                                </label>
-                            </div>
-                            <button onclick="createProfilePost()" class="bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-2 rounded-lg text-sm transition shadow-md">نشر</button>
-                        </div>
-                    </div>
-                    
-                    <div id="profilePostsFeed" class="space-y-4"></div>
-                </div>
-            </div>
-            
-            <div id="sectionAbout" class="hidden bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-md space-y-4">
-                <h2 class="text-xl font-bold text-slate-100 border-b border-slate-700 pb-3">معلومات حول المستخدم</h2>
-                <p class="text-slate-300 text-sm">مطور برمجيات بخبرة واسعة في تطوير تطبيقات الويب.</p>
-            </div>
-            <div id="sectionPhotos" class="hidden bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-md">
-                <h2 class="text-xl font-bold text-slate-100 border-b border-slate-700 pb-3 mb-4">الصور</h2>
-            </div>
-            <div id="sectionVideos" class="hidden bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-md">
-                <h2 class="text-xl font-bold text-slate-100 border-b border-slate-700 pb-3 mb-4">الفيديوهات</h2>
             </div>
         </div>
     </div>
 
-    <!-- Firebase SDK Setup -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-        
-        const firebaseConfig = {
-            apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
-            authDomain: "faceb-bb002.firebaseapp.com",
-            projectId: "faceb-bb002",
-            storageBucket: "faceb-bb002.firebasestorage.app",
-            messagingSenderId: "456482622109",
-            appId: "1:456482622109:web:32a45c12e5f1b2a210e274",
-            measurementId: "G-5Y46BEF6V1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.firebaseApp = app;
-        window.db = db;
-        window.collection = collection;
-        window.addDoc = addDoc;
-        window.getDocs = getDocs;
-        window.query = query;
-        window.orderBy = orderBy;
-    </script>
-    
-    <!-- الوظائف البرمجية المدمجة لتحديث الغلاف والبروفايل وباقي الأزرار -->
+    <!-- كود الجافاسكريبت والتحكم في الصور والأزرار -->
     <script>
-        // دالة تحديث وعرض صورة الغلاف
+        // دالة تغيير صورة الغلاف
         function updateCover(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('coverImg').src = e.target.result;
-                }
+                };
                 reader.readAsDataURL(file);
             }
         }
 
-        // دالة تحديث وعرض صورة البروفايل في كل الموقع
+        // دالة تغيير صورة البروفايل وتحديثها في كل مكان بالموقع تلقائياً
         function updateAvatar(event) {
             const file = event.target.files[0];
             if (file) {
@@ -314,13 +176,11 @@
                     document.getElementById('topAvatarImg').src = imageUrl;
                     document.getElementById('sidebarAvatarImg').src = imageUrl;
                     document.getElementById('feedBoxAvatarImg').src = imageUrl;
-                    document.getElementById('profileBoxAvatarImg').src = imageUrl;
-                }
+                };
                 reader.readAsDataURL(file);
             }
         }
 
-        // دوال التنقل والتبديل (مثال أساسي)
         function switchTab(tab) {
             document.getElementById('homeView').classList.add('hidden');
             document.getElementById('videosView').classList.add('hidden');
@@ -332,48 +192,7 @@
         }
 
         function switchProfileSection(section) {
-            document.getElementById('sectionPosts').classList.add('hidden');
-            document.getElementById('sectionAbout').classList.add('hidden');
-            document.getElementById('sectionPhotos').classList.add('hidden');
-            document.getElementById('sectionVideos').classList.add('hidden');
-
-            if (section === 'posts') document.getElementById('sectionPosts').classList.remove('hidden');
-            if (section === 'about') document.getElementById('sectionAbout').classList.remove('hidden');
-            if (section === 'photos') document.getElementById('sectionPhotos').classList.remove('hidden');
-            if (section === 'videos') document.getElementById('sectionVideos').classList.remove('hidden');
-        }
-
-        function toggleEditBio() {
-            const displayMode = document.getElementById('bioDisplayMode');
-            const editMode = document.getElementById('bioEditContainer');
-            const btn = document.getElementById('editBioBtn');
-            if (displayMode.classList.contains('hidden')) {
-                displayMode.classList.remove('hidden');
-                editMode.classList.add('hidden');
-                btn.innerText = 'تعديل';
-            } else {
-                displayMode.classList.add('hidden');
-                editMode.classList.remove('hidden');
-                btn.innerText = 'إلغاء';
-            }
-        }
-
-        function saveBio() {
-            document.getElementById('dispBio').innerText = document.getElementById('inputBio').value;
-            document.getElementById('dispName').innerText = document.getElementById('inputName').value;
-            document.getElementById('profileUserName').innerText = document.getElementById('inputName').value;
-            document.getElementById('sidebarUserName').innerText = document.getElementById('inputName').value;
-            document.getElementById('dispAge').innerText = document.getElementById('inputAge').value;
-            document.getElementById('dispDegree').innerText = document.getElementById('inputDegree').value;
-            document.getElementById('dispStatus').innerText = document.getElementById('inputStatus').value;
-            document.getElementById('dispWork').innerText = document.getElementById('inputWork').value;
-            document.getElementById('profileUserWorkHeader').innerText = document.getElementById('inputWork').value;
-            document.getElementById('dispEmail').innerText = document.getElementById('inputEmail').value;
-            toggleEditBio();
-        }
-
-        function previewMedia(inputId, videoId, containerId) {
-            // المعاينة المبسطة
+            // إدارة الأقسام
         }
 
         function handleFileSelect(event, inputId, containerId, type) {
@@ -386,24 +205,14 @@
                     container.classList.remove('hidden');
                     if (type === 'image') {
                         container.innerHTML = `<img src="${e.target.result}" class="w-full max-h-56 object-contain rounded-lg">`;
-                    } else {
-                        container.innerHTML = `<video src="${e.target.result}" controls class="w-full max-h-56 object-contain rounded-lg"></video>`;
                     }
-                }
+                };
                 reader.readAsDataURL(file);
             }
         }
 
         function createPost() {
             alert('تم النشر بنجاح!');
-        }
-
-        function createProfilePost() {
-            alert('تم النشر في الملف الشخصي بنجاح!');
-        }
-
-        function toggleLike(btn) {
-            btn.classList.toggle('text-blue-500');
         }
     </script>
 </body>
