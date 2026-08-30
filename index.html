@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي مع قاعدة البيانات</title>
+    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي مع قسم حول وقاعدة البيانات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -345,6 +345,7 @@
             font-weight: 600;
             cursor: pointer;
             border-bottom: 3px solid transparent;
+            transition: 0.2s;
         }
 
         .p-tab.active {
@@ -361,7 +362,7 @@
             padding: 0 16px;
         }
 
-        /* تصميم كرت إنشاء المنشور المودرن */
+        /* تصميم كرت إنشاء المنشور المودرن و قسم حول */
         .fb-card {
             background-color: var(--fb-card-bg);
             border-radius: 12px;
@@ -388,6 +389,89 @@
             align-items: center;
             gap: 10px;
             font-size: 0.95rem;
+        }
+
+        /* تصميم محتوى قسم حول الجديد (About Section) */
+        .about-section-container {
+            display: none;
+        }
+
+        .about-section-container.active {
+            display: block;
+        }
+
+        .about-box-wrapper {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+            min-height: 350px;
+        }
+
+        .about-sidebar-tabs {
+            width: 240px;
+            border-left: 1px solid var(--fb-border);
+            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .about-tab-item {
+            padding: 12px 16px;
+            font-weight: 600;
+            color: var(--fb-text);
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 0 8px;
+            transition: 0.2s;
+        }
+
+        .about-tab-item:hover {
+            background-color: var(--fb-hover);
+        }
+
+        .about-tab-item.active {
+            background-color: #e7f3ff;
+            color: var(--fb-blue);
+        }
+
+        .about-content-area {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .about-content-area h3 {
+            font-size: 1.25rem;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--fb-border);
+            padding-bottom: 8px;
+        }
+
+        .about-info-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .about-info-row i {
+            font-size: 1.3rem;
+            color: var(--fb-secondary-text);
+            margin-top: 2px;
+        }
+
+        .about-info-text h4 {
+            font-size: 1rem;
+            color: var(--fb-text);
+        }
+
+        .about-info-text p {
+            font-size: 0.85rem;
+            color: var(--fb-secondary-text);
+            margin-top: 2px;
         }
 
         .modern-create-box {
@@ -699,6 +783,14 @@
             .modal-box {
                 width: 90%;
             }
+            .about-box-wrapper {
+                flex-direction: column;
+            }
+            .about-sidebar-tabs {
+                width: 100%;
+                border-left: none;
+                border-bottom: 1px solid var(--fb-border);
+            }
         }
     </style>
 </head>
@@ -790,7 +882,7 @@
                             </button>
                         </div>
                         <div class="profile-text-info">
-                            <h1>محمد خالد <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i></h1>
+                            <h1 id="profileNameHeader">محمد خالد <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i></h1>
                             <p>500 صديق</p>
                         </div>
                     </div>
@@ -800,23 +892,23 @@
                     </div>
                 </div>
                 <div class="profile-nav-tabs">
-                    <div class="p-tab active">المنشورات</div>
-                    <div class="p-tab">حول</div>
-                    <div class="p-tab">الأصدقاء</div>
-                    <div class="p-tab">الصور</div>
+                    <div class="p-tab active" onclick="switchProfileTab('posts', this)">المنشورات</div>
+                    <div class="p-tab" onclick="switchProfileTab('about', this)">حول</div>
+                    <div class="p-tab" onclick="switchProfileTab('friends', this)">الأصدقاء</div>
+                    <div class="p-tab" onclick="switchProfileTab('photos', this)">الصور</div>
                 </div>
             </div>
         </div>
 
-        <div class="profile-main-layout">
+        <div id="tab-content-posts" class="profile-main-layout">
             <div class="left-sidebar">
                 <div class="fb-card">
                     <h3>التفاصيل</h3>
-                    <ul class="intro-list">
-                        <li><i class="fa-solid fa-briefcase"></i> يعمل لدى شركة برمجيات كبرى</li>
-                        <li><i class="fa-solid fa-graduation-cap"></i> درس هندسة الحاسب</li>
-                        <li><i class="fa-solid fa-house"></i> يقيم في الرياض</li>
-                        <li><i class="fa-solid fa-location-dot"></i> من الإسكندرية</li>
+                    <ul class="intro-list" id="sidebarIntroList">
+                        <li><i class="fa-solid fa-briefcase"></i> <span id="sidebarWork">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-graduation-cap"></i> <span id="sidebarEducation">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-house"></i> <span id="sidebarLive">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-location-dot"></i> <span id="sidebarFrom">جاري التحميل...</span></li>
                     </ul>
                 </div>
             </div>
@@ -845,6 +937,48 @@
                 <div id="posts-container-profile"></div>
             </div>
         </div>
+
+        <div id="tab-content-about" class="about-section-container">
+            <div style="max-width: 940px; margin: 16px auto; padding: 0 16px;">
+                <div class="about-box-wrapper">
+                    <div class="about-sidebar-tabs">
+                        <div class="about-tab-item active">نظرة عامة</div>
+                    </div>
+                    <div class="about-content-area">
+                        <h3>نظرة عامة</h3>
+                        <div class="about-info-row">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <div class="about-info-text">
+                                <h4 id="aboutWork">جاري التحميل...</h4>
+                                <p>العمل</p>
+                            </div>
+                        </div>
+                        <div class="about-info-row">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <div class="about-info-text">
+                                <h4 id="aboutEducation">جاري التحميل...</h4>
+                                <p>التعليم</p>
+                            </div>
+                        </div>
+                        <div class="about-info-row">
+                            <i class="fa-solid fa-house"></i>
+                            <div class="about-info-text">
+                                <h4 id="aboutLive">جاري التحميل...</h4>
+                                <p>مكان الإقامة الحالي</p>
+                            </div>
+                        </div>
+                        <div class="about-info-row">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div class="about-info-text">
+                                <h4 id="aboutFrom">جاري التحميل...</h4>
+                                <p>المدينة الأصلية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div id="postModal" class="modal-overlay">
@@ -962,7 +1096,7 @@
             document.getElementById('modalVideoInput').value = '';
         }
 
-        // زر نشر: حفظ المنشور (النص والصورة أو الفيديو) في قاعدة البيانات (Firestore) وعرضه
+        // زر نشر: حفظ المنشور في قاعدة البيانات وعرضه
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value;
             if(!text.trim() && !uploadedMediaData.url) return;
@@ -981,7 +1115,7 @@
                 document.getElementById('postTextContent').value = '';
                 clearMediaPreview();
                 closeModal();
-                fetchPosts(); // تحديث القائمة فوراً
+                fetchPosts();
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
             }
@@ -1032,9 +1166,47 @@
             reader.readAsDataURL(file);
         }
 
-        // جلب بيانات البروفايل عند التحميل
+        // جلب بيانات البروفايل وقسم "حول" من مجموعة users في قاعدة البيانات
         async function loadProfileData() {
             try {
+                // جلب بيانات مجموعة المستخدمين (users) لمعلومات قسم حول
+                const userDocRef = doc(db, "users", "profile_info");
+                const userSnap = await getDoc(userDocRef);
+                
+                if (userSnap.exists()) {
+                    const userData = userSnap.data();
+                    
+                    // تحديث النصوص في الشريط الجانبي وقسم حول
+                    if(userData.work) {
+                        document.getElementById('sidebarWork').innerText = userData.work;
+                        document.getElementById('aboutWork').innerText = userData.work;
+                    }
+                    if(userData.education) {
+                        document.getElementById('sidebarEducation').innerText = userData.education;
+                        document.getElementById('aboutEducation').innerText = userData.education;
+                    }
+                    if(userData.liveIn) {
+                        document.getElementById('sidebarLive').innerText = userData.liveIn;
+                        document.getElementById('aboutLive').innerText = userData.liveIn;
+                    }
+                    if(userData.from) {
+                        document.getElementById('sidebarFrom').innerText = userData.from;
+                        document.getElementById('aboutFrom').innerText = userData.from;
+                    }
+                    if(userData.name) {
+                        document.getElementById('profileNameHeader').innerHTML = `${userData.name} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
+                    }
+                } else {
+                    // قيم افتراضية في حال عدم وجود وثيقة مسبقة في collection users
+                    await setDoc(userDocRef, {
+                        name: "محمد خالد",
+                        work: "يعمل لدى شركة برمجيات كبرى",
+                        education: "درس هندسة الحاسب",
+                        liveIn: "يقيم في الرياض",
+                        from: "من الإسكندرية"
+                    });
+                }
+
                 const coverRef = doc(db, "cover", "profile");
                 const coverSnap = await getDoc(coverRef);
                 if (coverSnap.exists() && coverSnap.data().pic_voer) {
@@ -1129,6 +1301,23 @@
                 document.getElementById('profile-view').classList.add('active');
             }
             tabElement.classList.add('active');
+        }
+
+        // تبديل التبويبات داخل الصفحة الشخصية (المنشورات / حول / إلخ)
+        function switchProfileTab(tabName, tabElement) {
+            document.querySelectorAll('.p-tab').forEach(el => el.classList.remove('active'));
+            tabElement.classList.add('active');
+
+            const postsLayout = document.getElementById('tab-content-posts');
+            const aboutSection = document.getElementById('tab-content-about');
+
+            if(tabName === 'about') {
+                postsLayout.style.display = 'none';
+                aboutSection.classList.add('active');
+            } else {
+                aboutSection.classList.remove('active');
+                postsLayout.style.display = 'grid';
+            }
         }
 
         function toggleLike(btn) {
