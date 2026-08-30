@@ -472,6 +472,13 @@
             line-height: 1.5;
         }
 
+        .post-media img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
         .post-interactions {
             display: flex;
             justify-content: space-between;
@@ -597,8 +604,9 @@
     <div id="profile-view" class="app-view">
         <div class="profile-container">
             <div class="cover-photo">
-                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
-                <button class="edit-cover-btn" onclick="alert('خاصية تعديل الغلاف قيد التفعيل')">
+                <img id="profileCoverImage" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
+                <input type="file" id="coverFileInput" accept="image/*" style="display: none;" onchange="handleCoverUpload(event)">
+                <button class="edit-cover-btn" onclick="document.getElementById('coverFileInput').click()">
                     <i class="fa-solid fa-camera"></i> تعديل غلاف الملف الشخصي
                 </button>
             </div>
@@ -672,7 +680,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -706,14 +714,65 @@
                     author: "محمد خالد",
                     avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200",
                     content: text,
+                    image: "",
                     time: "الآن",
                     likes: 0
                 });
                 document.getElementById('postTextContent').value = '';
                 closeModal();
-                fetchPosts(); // إعادة تحميل المنشورات لعرض الجديد
+                fetchPosts();
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
+            }
+        }
+
+        // دالة معالجة وتغيير صورة الغلاف ورفعها كبوست وتخزينها في مجموعة cover
+        window.handleCoverUpload = async function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64Image = e.target.result;
+
+                try {
+                    // 1. تحديث صورة الغلاف في قاعدة البيانات داخل collection cover -> document profile -> field pic_voer
+                    const coverDocRef = doc(db, "cover", "profile");
+                    await setDoc(coverDocRef, {
+                        pic_voer: base64Image
+                    }, { merge: true });
+
+                    // 2. نشر الغلاف الجديد كبوست في الـ feed
+                    await addDoc(collection(db, "posts"), {
+                        author: "محمد خالد",
+                        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200",
+                        content: "قام بتغيير صورة الغلاف الشخصية.",
+                        image: base64Image,
+                        time: "الآن",
+                        likes: 0
+                    });
+
+                    // 3. تحديث واجهة الغلاف فورياً
+                    document.getElementById('profileCoverImage').src = base64Image;
+                    fetchPosts();
+                    alert("تم تحديث غلاف الملف الشخصي ونشره بنجاح!");
+                } catch (error) {
+                    console.error("خطأ أثناء حفظ صورة الغلاف: ", error);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // جلب صورة الغلاف المحفوظة مسبقاً عند تحميل الصفحة
+        async function loadCoverPhoto() {
+            try {
+                const docRef = doc(db, "cover", "profile");
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists() && docSnap.data().pic_voer) {
+                    document.getElementById('profileCoverImage').src = docSnap.data().pic_voer;
+                }
+            } catch (e) {
+                console.error("خطأ في جلب صورة الغلاف: ", e);
             }
         }
 
@@ -732,8 +791,10 @@
                 homeContainer.innerHTML = '';
                 profileContainer.innerHTML = '';
 
-                querySnapshot.forEach((doc) => {
-                    const post = doc.data();
+                querySnapshot.forEach((docSnap) => {
+                    const post = docSnap.data();
+                    let imageHTML = post.image ? `<div class="post-media" style="margin-top: 10px;"><img src="${post.image}" alt="Post Image"></div>` : '';
+                    
                     const postHTML = `
                         <div class="fb-card">
                             <div class="post-header-fb">
@@ -747,6 +808,7 @@
                                 <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
                             </div>
                             <div class="post-body-text">${post.content}</div>
+                            ${imageHTML}
                             <div class="post-interactions">
                                 <span>👍 ${post.likes}</span>
                                 <span>0 تعليق</span>
@@ -767,7 +829,8 @@
             }
         }
 
-        // جلب المنشورات فور فتح الصفحة
+        // تشغيل الوظائف عند التحميل الأولي
+        loadCoverPhoto();
         fetchPosts();
     </script>
 
