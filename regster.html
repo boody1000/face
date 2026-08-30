@@ -171,18 +171,17 @@
         </form>
 
         <div class="login-link">
-            لديك حساب بالفعل؟ <a href="#">تسجيل الدخول</a>
+            لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
         </div>
     </div>
 
-    <!-- كود تهيئة وإرسال البيانات لقاعدة بيانات Firebase Firestore -->
+    <!-- كود تهيئة Firebase وحفظ البيانات مع التوجيه التلقائي -->
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
         import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // Your web app's Firebase configuration
+        // إعدادات الـ Firebase الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
             authDomain: "faceb-bb002.firebaseapp.com",
@@ -193,50 +192,54 @@
             measurementId: "G-5Y46BEF6V1"
         };
 
-        // Initialize Firebase
+        // تهيئة Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        // التقاط النموذج وحقل الرسائل
         const form = document.getElementById('signupForm');
         const message = document.getElementById('message');
 
         form.addEventListener('submit', async function(e) {
-            e.preventDefault(); // منع إعادة تحميل الصفحة عند الضغط على تسجيل
+            e.preventDefault();
 
-            // جلب القيم المدخلة وتنظيف الفراغات الزائدة
             const username = document.getElementById('username').value.trim();
             const gender = document.getElementById('gender').value;
             const socialStatus = document.getElementById('socialStatus').value;
             const job = document.getElementById('job').value.trim();
             const city = document.getElementById('city').value.trim();
 
-            // التحقق من عدم ترك أي حقل فارغ
+            // التحقق من الحقول
             if (username === '' || gender === '' || socialStatus === '' || job === '' || city === '') {
                 message.style.color = 'red';
                 message.textContent = 'يرجى ملء جميع الحقول المطلوبة!';
                 return;
             }
 
+            message.style.color = '#555';
+            message.textContent = 'جاري حفظ البيانات وتسجيل الحساب...';
+
             try {
-                // إرسال جميع البيانات المدخلة وحفظها في الـ Collection المسماة "users"
+                // حفظ البيانات في جدول users داخل قاعدة البيانات
                 await addDoc(collection(db, "users"), {
                     username: username,
                     gender: gender,
                     socialStatus: socialStatus,
                     job: job,
                     city: city,
-                    createdAt: new Date() // توقيت عملية التسجيل
+                    createdAt: new Date()
                 });
 
-                // رسالة النجاح وتفريغ الحقول
                 message.style.color = 'green';
-                message.textContent = 'تم تسجيل وحفظ كافة البيانات بنجاح في قاعدة البيانات! 🎉';
-                form.reset(); 
+                message.textContent = 'تم التسجيل بنجاح! جاري تحويلك لصفحة تسجيل الدخول... 🎉';
+
+                // التوجيه التلقائي إلى صفحة login.html بعد ثانيتين
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
 
             } catch (error) {
-                console.error("حدث خطأ أثناء حفظ البيانات: ", error);
+                console.error("خطأ أثناء الحفظ: ", error);
                 message.style.color = 'red';
                 message.textContent = 'حدث خطأ أثناء الاتصال بقاعدة البيانات، يرجى المحاولة لاحقاً.';
             }
