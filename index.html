@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook Replica - واجهة فيسبوك حقيقية</title>
+    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -28,9 +28,10 @@
         body {
             background-color: var(--fb-bg);
             color: var(--fb-text);
+            overflow-x: hidden;
         }
 
-        /* 1. الشريط العلوي للفيسبوك (Navbar) */
+        /* الشريط العلوي الثابت */
         header {
             background-color: var(--fb-header);
             height: 56px;
@@ -76,7 +77,7 @@
 
         .nav-center {
             display: flex;
-            gap: 10px;
+            gap: 4px;
             height: 100%;
         }
 
@@ -121,17 +122,63 @@
             font-size: 1rem;
         }
 
-        /* حاويات الصفحات */
-        .page-wrapper {
+        /* حاويات الصفحات الرئيسية */
+        .app-view {
             display: none;
             margin-top: 56px;
+            min-height: calc(100vh - 56px);
         }
 
-        .page-wrapper.active {
+        .app-view.active {
             display: block;
         }
 
-        /* تصميم الـ Profile Header المتطابق */
+        /* تصميم الصفحة الرئيسية (Home / News Feed) */
+        .home-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            gap: 16px;
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .side-menu {
+            position: sticky;
+            top: 72px;
+            height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--fb-text);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: var(--fb-hover);
+        }
+
+        .menu-item img, .menu-item i {
+            width: 32px;
+            height: 32px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fb-blue);
+            border-radius: 50%;
+        }
+
+        /* تصميم البروفايل (Profile View) */
         .profile-container {
             background-color: var(--fb-card-bg);
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
@@ -200,11 +247,6 @@
             gap: 6px;
         }
 
-        .profile-text-info h1 i {
-            color: var(--fb-blue);
-            font-size: 1.2rem;
-        }
-
         .profile-text-info p {
             color: var(--fb-secondary-text);
             font-weight: 600;
@@ -258,8 +300,7 @@
             border-bottom: 3px solid var(--fb-blue);
         }
 
-        /* هيكل المنشورات والصفحة الرئيسية (Feed & Sidebar) */
-        .main-content-layout {
+        .profile-main-layout {
             max-width: 940px;
             margin: 16px auto;
             display: grid;
@@ -268,6 +309,7 @@
             padding: 0 16px;
         }
 
+        /* المكونات العامة للمنشورات والكرت */
         .fb-card {
             background-color: var(--fb-card-bg);
             border-radius: 8px;
@@ -296,7 +338,6 @@
             font-size: 0.95rem;
         }
 
-        /* صندوق إنشاء منشور */
         .create-post-box {
             display: flex;
             gap: 10px;
@@ -321,7 +362,6 @@
             cursor: pointer;
         }
 
-        /* تصميم منشور الفيسبوك الحقيقي */
         .post-header-fb {
             display: flex;
             justify-content: space-between;
@@ -357,14 +397,11 @@
             line-height: 1.5;
         }
 
-        .post-media {
-            margin: 0 -16px;
-        }
-
         .post-media img {
             width: 100%;
             max-height: 400px;
             object-fit: cover;
+            border-radius: 6px;
         }
 
         .post-interactions {
@@ -406,8 +443,17 @@
             color: var(--fb-blue);
         }
 
+        @media (max-width: 1024px) {
+            .home-layout {
+                grid-template-columns: 1fr;
+            }
+            .side-menu {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
-            .main-content-layout {
+            .profile-main-layout {
                 grid-template-columns: 1fr;
             }
             .profile-details-flex {
@@ -419,9 +465,6 @@
                 flex-direction: column;
                 align-items: center;
             }
-            .profile-text-info h1 {
-                justify-content: center;
-            }
             .nav-center {
                 display: none;
             }
@@ -430,7 +473,6 @@
 </head>
 <body>
 
-    <!-- الشريط العلوي الحقيقي لفيسبوك -->
     <header>
         <div class="nav-left">
             <i class="fa-brands fa-facebook"></i>
@@ -440,17 +482,76 @@
             </div>
         </div>
         <div class="nav-center">
-            <div class="nav-tab active" onclick="switchView('profile', this)" title="الصفحة الشخصية"><i class="fa-solid fa-user"></i></div>
-            <div class="nav-tab" onclick="switchView('page', this)" title="الصفحة العامة"><i class="fa-solid fa-flag"></i></div>
+            <div class="nav-tab active" onclick="switchAppView('home', this)" title="الصفحة الرئيسية"><i class="fa-solid fa-house"></i></div>
+            <div class="nav-tab" onclick="switchAppView('profile', this)" title="الصفحة الشخصية"><i class="fa-solid fa-user"></i></div>
         </div>
         <div class="nav-right">
             <button class="nav-icon-btn"><i class="fa-solid fa-bars"></i></button>
-            <button class="nav-icon-btn"><i class="fa-solid fa-solid fa-bell"></i></button>
+            <button class="nav-icon-btn"><i class="fa-solid fa-bell"></i></button>
         </div>
     </header>
 
-    <!-- 1. الصفحة الشخصية (Profile View) -->
-    <div id="profile-view" class="page-wrapper active">
+    <div id="home-view" class="app-view active">
+        <div class="home-layout">
+            <div class="side-menu">
+                <a href="#" class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="User">
+                    <span>محمد خالد</span>
+                </a>
+                <div class="menu-item"><i class="fa-solid fa-user-group"></i> الأصدقاء</div>
+                <div class="menu-item"><i class="fa-solid fa-store"></i> السوق (Marketplace)</div>
+                <div class="menu-item"><i class="fa-solid fa-tv"></i> الفيديوهات</div>
+                <div class="menu-item"><i class="fa-solid fa-clock-rotate-left"></i> الذكريات</div>
+                <div class="menu-item"><i class="fa-solid fa-bookmark"></i> العناصر المحفوظة</div>
+            </div>
+
+            <div class="main-feed" style="max-width: 680px; width: 100%;">
+                <div class="fb-card">
+                    <div class="create-post-box">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
+                        <div class="create-post-input">بما تفكر يا محمد؟</div>
+                    </div>
+                </div>
+
+                <div class="fb-card">
+                    <div class="post-header-fb">
+                        <div class="post-user-info">
+                            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="Friend">
+                            <div>
+                                <h4>عمر أحمد</h4>
+                                <span>منذ ساعة · <i class="fa-solid fa-earth-americas"></i></span>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
+                    </div>
+                    <div class="post-body-text">
+                        أجواء رائعة اليوم في العمل البرمجي مع فريق العمل الجديد! 🚀
+                    </div>
+                    <div class="post-media" style="margin-top: 10px;">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=700" alt="Post">
+                    </div>
+                    <div class="post-interactions">
+                        <span>👍 48</span>
+                        <span>5 تعليقات</span>
+                    </div>
+                    <div class="post-actions-buttons">
+                        <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
+                        <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
+                        <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-menu">
+                <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال</h4>
+                <div class="menu-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="C"> عمر أحمد</div>
+                <div class="menu-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="C"> سارة علي</div>
+                <div class="menu-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="C"> كريم محمود</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-view" class="app-view">
         <div class="profile-container">
             <div class="cover-photo">
                 <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
@@ -462,7 +563,7 @@
                             <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Avatar">
                         </div>
                         <div class="profile-text-info">
-                            <h1>محمد خالد <i class="fa-solid fa-circle-check"></i></h1>
+                            <h1>محمد خالد <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i></h1>
                             <p>500 صديق</p>
                         </div>
                     </div>
@@ -480,8 +581,7 @@
             </div>
         </div>
 
-        <!-- محتوى المنشورات والجانبي -->
-        <div class="main-content-layout">
+        <div class="profile-main-layout">
             <div class="left-sidebar">
                 <div class="fb-card">
                     <h3>التفاصيل</h3>
@@ -500,7 +600,6 @@
                         <div class="create-post-input">بما تفكر يا محمد؟</div>
                     </div>
                 </div>
-                <!-- منشور حقيقي -->
                 <div class="fb-card">
                     <div class="post-header-fb">
                         <div class="post-user-info">
@@ -515,7 +614,7 @@
                     <div class="post-body-text">
                         أجمل الأوقات تقضى في كتابة الأكواد وتطوير واجهات المستخدم لتكون سلسة وسريعة تماماً كفيسبوك! 💻✨
                     </div>
-                    <div class="post-media">
+                    <div class="post-media" style="margin-top: 10px;">
                         <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600" alt="Post">
                     </div>
                     <div class="post-interactions">
@@ -532,92 +631,46 @@
         </div>
     </div>
 
-    <!-- 2. الصفحة العامة (Page View) -->
-    <div id="page-view" class="page-wrapper">
-        <div class="profile-container">
-            <div class="cover-photo">
-                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1200" alt="Page Cover">
-            </div>
-            <div class="profile-content-width">
-                <div class="profile-details-flex">
-                    <div class="profile-avatar-area">
-                        <div class="avatar-wrapper">
-                            <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc?w=200" alt="Logo">
-                        </div>
-                        <div class="profile-text-info">
-                            <h1>أخبار التقنية اليوم <i class="fa-solid fa-circle-check"></i></h1>
-                            <p>35 ألف إعجاب · 40 ألف متابع</p>
-                        </div>
-                    </div>
-                    <div class="profile-actions">
-                        <button class="fb-btn fb-btn-blue" id="likePageBtn" onclick="togglePageLike()"><i class="fa-solid fa-thumbs-up"></i> إعجاب</button>
-                        <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-message"></i> إرسال رسالة</button>
-                    </div>
-                </div>
-                <div class="profile-nav-tabs">
-                    <div class="p-tab active">المنشورات</div>
-                    <div class="p-tab">حول</div>
-                    <div class="p-tab">الفيديوهات</div>
-                    <div class="p-tab">المجتمع</div>
-                </div>
-            </div>
-        </div>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
 
-        <div class="main-content-layout">
-            <div class="left-sidebar">
-                <div class="fb-card">
-                    <h3>حول الصفحة</h3>
-                    <ul class="intro-list">
-                        <li><i class="fa-solid fa-globe"></i> www.tech-news-today.com</li>
-                        <li><i class="fa-solid fa-envelope"></i> info@technews.com</li>
-                        <li><i class="fa-solid fa-tags"></i> مدونة تقنية وتعليمية</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="feed-section">
-                <div class="fb-card">
-                    <div class="post-header-fb">
-                        <div class="post-user-info">
-                            <img src="https://images.unsplash.com/photo-1614680376593-902f749f7ffc" alt="Page">
-                            <div>
-                                <h4>أخبار التقنية اليوم</h4>
-                                <span>منذ ساعة واحدة · <i class="fa-solid fa-earth-americas"></i></span>
-                            </div>
-                        </div>
-                        <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
-                    </div>
-                    <div class="post-body-text">
-                        ما هي أبرز توقعاتك لتطورات الذكاء الاصطناعي خلال هذا العام؟ شاركنا برأيك في التعليقات 👇
-                    </div>
-                    <div class="post-interactions">
-                        <span>❤️ 👍 340</span>
-                        <span>45 تعليق · 10 مشاركات</span>
-                    </div>
-                    <div class="post-actions-buttons">
-                        <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
-                        <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
-                        <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
+            authDomain: "faceb-bb002.firebaseapp.com",
+            projectId: "faceb-bb002",
+            storageBucket: "faceb-bb002.firebasestorage.app",
+            messagingSenderId: "456482622109",
+            appId: "1:456482622109:web:32a45c12e5f1b2a210e274",
+            measurementId: "G-5Y46BEF6V1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        console.log("Firebase initialized successfully!");
+    </script>
 
     <script>
-        // التبديل بين عرض الصفحة الشخصية والعامة من الأيقونات العلوية
-        function switchView(viewName, tabElement) {
-            document.querySelectorAll('.page-wrapper').forEach(el => el.classList.remove('active'));
+        // دالة التنقل بين الصفحة الرئيسية والصفحة الشخصية عبر الأيقونات العلوية
+        function switchAppView(viewName, tabElement) {
+            document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
 
-            if(viewName === 'profile') {
-                document.getElementById('profile-view').classList.add('active');
+            if(viewName === 'home') {
+                document.getElementById('home-view').classList.add('active');
             } else {
-                document.getElementById('page-view').classList.add('active');
+                document.getElementById('profile-view').classList.add('active');
             }
             tabElement.classList.add('active');
         }
 
-        // تفاعل زر الإعجاب للمنشورات
+        // دالة الإعجاب التفاعلية
         function toggleLike(btn) {
             btn.classList.toggle('liked');
             const icon = btn.querySelector('i');
@@ -627,20 +680,6 @@
             } else {
                 icon.classList.remove('fa-solid');
                 icon.classList.add('fa-regular');
-            }
-        }
-
-        // تفاعل زر الإعجاب بالصفحة العامة
-        function togglePageLike() {
-            const btn = document.getElementById('likePageBtn');
-            if(btn.classList.contains('fb-btn-blue')) {
-                btn.classList.remove('fb-btn-blue');
-                btn.classList.add('fb-btn-gray');
-                btn.innerHTML = '<i class="fa-solid fa-check"></i> تم الإعجاب';
-            } else {
-                btn.classList.remove('fb-btn-gray');
-                btn.classList.add('fb-btn-blue');
-                btn.innerHTML = '<i class="fa-solid fa-thumbs-up"></i> إعجاب';
             }
         }
     </script>
