@@ -938,7 +938,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -1071,32 +1071,22 @@
             reader.readAsDataURL(file);
         }
 
-        // دالة التحقق من الـ statsus وجلب بيانات المستخدم المطابق من users وتحديث قسم "حول" و "التفاصيل"
+        // دالة جلب بيانات المستخدم وتحديث الواجهة بالحقول الصحيحة (مثل job بدلاً من work)
         async function checkStatusAndLoadUser() {
             try {
                 console.log("--- بدء فحص مجموعتي statsus و users ---");
                 const statsusSnap = await getDocs(collection(db, "statsus"));
                 let onlineUsernames = [];
 
-                if (statsusSnap.empty) {
-                    console.log("مجموعة statsus فارغة أو غير موجودة!");
-                }
-
                 statsusSnap.forEach((docSnap) => {
                     const statusData = docSnap.data();
-                    console.log("بيانات الحالة المسترجعة:", statusData);
                     if (statusData.statsus === "online" && statusData.username) {
                         onlineUsernames.push(statusData.username.trim());
                     }
                 });
 
-                console.log("أسماء المستخدمين الـ online الذين تم العثور عليهم:", onlineUsernames);
-
                 if (onlineUsernames.length > 0) {
                     const usersSnap = await getDocs(collection(db, "users"));
-                    if (usersSnap.empty) {
-                        console.log("مجموعة users فارغة أو غير موجودة!");
-                    }
 
                     usersSnap.forEach((docSnap) => {
                         const userData = docSnap.data();
@@ -1106,32 +1096,52 @@
                             if (onlineUsernames.includes(userUName)) {
                                 console.log("تطابق ناجح مع المستخدم:", userUName);
                                 currentAuthenticatedUser = userData.name || userData.username;
-                                document.getElementById('profileUserFromUsers').innerText = userData.username;
+                                
+                                const userDisplayElement = document.getElementById('profileUserFromUsers');
+                                if(userDisplayElement) userDisplayElement.innerText = userData.username;
 
-                                if (userData.work) {
-                                    document.getElementById('sidebarWork').innerText = userData.work;
-                                    document.getElementById('aboutWork').innerText = userData.work;
+                                // استخدام حقل job أو work حسب المتوفر في الوثيقة
+                                const workVal = userData.job || userData.work;
+                                if (workVal) {
+                                    document.getElementById('sidebarWork').innerText = workVal;
+                                    document.getElementById('aboutWork').innerText = workVal;
+                                } else {
+                                    document.getElementById('sidebarWork').innerText = "لا يوجد عمل مضاف";
+                                    document.getElementById('aboutWork').innerText = "لا يوجد عمل مضاف";
                                 }
-                                if (userData.education) {
-                                    document.getElementById('sidebarEducation').innerText = userData.education;
-                                    document.getElementById('aboutEducation').innerText = userData.education;
+
+                                const eduVal = userData.education;
+                                if (eduVal) {
+                                    document.getElementById('sidebarEducation').innerText = eduVal;
+                                    document.getElementById('aboutEducation').innerText = eduVal;
+                                } else {
+                                    document.getElementById('sidebarEducation').innerText = "غير محدد";
+                                    document.getElementById('aboutEducation').innerText = "غير محدد";
                                 }
-                                if (userData.liveIn) {
-                                    document.getElementById('sidebarLive').innerText = userData.liveIn;
-                                    document.getElementById('aboutLive').innerText = userData.liveIn;
+
+                                const liveVal = userData.liveIn || userData.address;
+                                if (liveVal) {
+                                    document.getElementById('sidebarLive').innerText = liveVal;
+                                    document.getElementById('aboutLive').innerText = liveVal;
+                                } else {
+                                    document.getElementById('sidebarLive').innerText = "غير محدد";
+                                    document.getElementById('aboutLive').innerText = "غير محدد";
                                 }
-                                if (userData.from) {
-                                    document.getElementById('sidebarFrom').innerText = userData.from;
-                                    document.getElementById('aboutFrom').innerText = userData.from;
+
+                                const fromVal = userData.from || userData.city;
+                                if (fromVal) {
+                                    document.getElementById('sidebarFrom').innerText = fromVal;
+                                    document.getElementById('aboutFrom').innerText = fromVal;
+                                } else {
+                                    document.getElementById('sidebarFrom').innerText = "غير محدد";
+                                    document.getElementById('aboutFrom').innerText = "غير محدد";
                                 }
                             }
                         }
                     });
-                } else {
-                    console.log("لم يتم العثور على أي مستخدم بحالة online وحقل username صالح.");
                 }
             } catch (e) {
-                console.error("خطأ أثناء جلب وتحقق البيانات (تأكد من قواعد الأمان Security Rules):", e);
+                console.error("خطأ أثناء جلب وتحقق البيانات: ", e);
             }
         }
 
