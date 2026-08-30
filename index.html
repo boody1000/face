@@ -587,7 +587,7 @@
 
         .modal-body textarea {
             width: 100%;
-            height: 100px;
+            height: 90px;
             border: none;
             outline: none;
             font-size: 1.1rem;
@@ -595,78 +595,19 @@
             background: transparent;
         }
 
-        .modal-media-preview {
-            position: relative;
-            margin-top: 10px;
+        .file-input-container {
+            margin: 10px 0;
+            border: 2px dashed var(--fb-border);
+            padding: 12px;
             border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid var(--fb-border);
-            background: #f7f8fa;
-            max-height: 250px;
-            display: none;
             text-align: center;
-        }
-
-        .modal-media-preview img, .modal-media-preview video {
-            width: 100%;
-            max-height: 240px;
-            object-fit: contain;
-        }
-
-        .remove-preview-btn {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 30px; height: 30px;
+            background-color: var(--fb-bg);
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .modal-add-attachments {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid var(--fb-border);
-            border-radius: 8px;
-            padding: 8px 12px;
-            margin-bottom: 16px;
-            background-color: #f7f8fa;
+        .file-input-container input {
+            display: none;
         }
-
-        .modal-add-attachments span {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .attachment-icons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .att-icon-btn {
-            background: none;
-            border: none;
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .att-icon-btn:hover {
-            background-color: #e4e6eb;
-        }
-
-        .att-photo { color: #45bd62; }
-        .att-video { color: #f02849; }
 
         @media (max-width: 1024px) {
             .home-layout {
@@ -750,10 +691,10 @@
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="triggerFilePicker('video')">
+                            <button class="modern-action-btn" onclick="openModalForVideo()">
                                 <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو
                             </button>
-                            <button class="modern-action-btn" onclick="triggerFilePicker('image')">
+                            <button class="modern-action-btn" onclick="openModalForImage()">
                                 <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> صورة
                             </button>
                             <button class="modern-action-btn" onclick="openModal()">
@@ -776,20 +717,20 @@
         <div class="profile-container">
             <div class="cover-photo">
                 <img id="profileCoverImage" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
-                <input type="file" id="coverFileInput" accept="image/*" style="display: none;" onchange="handleCoverUpload(event)">
-                <button class="edit-cover-btn" onclick="document.getElementById('coverFileInput').click()">
-                    <i class="fa-solid fa-camera"></i> تعديل غلاف الملف الشخصي
+                <button class="edit-cover-btn" onclick="triggerCoverFileInput()">
+                    <i class="fa-solid fa-camera"></i> تعديل غلاف الملف الشخصي (من الجهاز)
                 </button>
+                <input type="file" id="coverFileInput" style="display: none;" accept="image/*" onchange="uploadCoverImage(this)">
             </div>
             <div class="profile-content-width">
                 <div class="profile-details-flex">
                     <div class="profile-avatar-area">
                         <div class="avatar-wrapper">
                             <img id="profileAvatarImage" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Avatar">
-                            <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
-                            <button class="edit-avatar-btn" onclick="document.getElementById('avatarFileInput').click()" title="تعديل صورة البروفايل">
+                            <button class="edit-avatar-btn" onclick="triggerAvatarFileInput()" title="تعديل صورة البروفايل (من الجهاز)">
                                 <i class="fa-solid fa-camera"></i>
                             </button>
+                            <input type="file" id="avatarFileInput" style="display: none;" accept="image/*" onchange="uploadAvatarImage(this)">
                         </div>
                         <div class="profile-text-info">
                             <h1 id="profileNameHeader">
@@ -835,11 +776,11 @@
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="triggerFilePicker('video')">
-                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو
+                            <button class="modern-action-btn" onclick="openModalForVideo()">
+                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> زرار فيديو
                             </button>
-                            <button class="modern-action-btn" onclick="triggerFilePicker('image')">
-                                <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> صورة
+                            <button class="modern-action-btn" onclick="openModalForImage()">
+                                <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> زرار صورة
                             </button>
                             <button class="modern-action-btn" onclick="openModal()">
                                 <i class="fa-solid fa-face-smile" style="color: #f7b125; font-size: 1.2rem;"></i> شعور/نشاط
@@ -895,10 +836,6 @@
         </div>
     </div>
 
-    <!-- عناصر الإدخال المخفية لاختيار الملفات من الجهاز -->
-    <input type="file" id="postImageFileInput" accept="image/*" style="display: none;" onchange="handlePostFileSelected(event, 'image')">
-    <input type="file" id="postVideoFileInput" accept="video/*" style="display: none;" onchange="handlePostFileSelected(event, 'video')">
-
     <!-- نافذة كتابة المنشور -->
     <div id="postModal" class="modal-overlay">
         <div class="modal-box">
@@ -913,23 +850,12 @@
                 </div>
                 
                 <textarea id="postTextContent" placeholder="بما تفكر؟"></textarea>
-
-                <div id="modalMediaPreview" class="modal-media-preview">
-                    <button class="remove-preview-btn" onclick="clearMediaPreview()"><i class="fa-solid fa-xmark"></i></button>
-                    <div id="previewContainer"></div>
-                </div>
-
-                <div class="modal-add-attachments">
-                    <span>إضافة إلى منشورك</span>
-                    <div class="attachment-icons">
-                        <button class="att-icon-btn att-photo" onclick="triggerFilePicker('image')" title="رفع صورة من الجهاز">
-                            <i class="fa-solid fa-images"></i>
-                        </button>
-                        <button class="att-icon-btn att-video" onclick="triggerFilePicker('video')" title="رفع فيديو من الجهاز">
-                            <i class="fa-solid fa-video"></i>
-                        </button>
-                        <button class="att-icon-btn" style="color: #f7b125;" title="شعور / نشاط"><i class="fa-solid fa-face-smile"></i></button>
-                    </div>
+                
+                <!-- رفع صورة أو فيديو من الجهاز وحفظه كرابط نصي -->
+                <div class="file-input-container" onclick="document.getElementById('postMediaFile').click()">
+                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem; color: var(--fb-blue); margin-bottom: 5px;"></i>
+                    <p id="fileNameDisplay" style="font-size: 0.9rem; color: var(--fb-secondary-text);">اضغط لاختيار ملف من جهازك (صورة أو فيديو)</p>
+                    <input type="file" id="postMediaFile" accept="image/*,video/*" onchange="previewSelectedFile(this)">
                 </div>
 
                 <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 1rem; border-radius: 8px;" onclick="addNewPost()">
@@ -960,99 +886,62 @@
 
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
         let currentAuthenticatedUser = "محمد خالد";
-        let uploadedMediaData = { type: "", url: "" };
+        let selectedFileBase64 = "";
+        let selectedFileType = "";
 
         window.openModal = function() {
             document.getElementById('postModal').style.display = 'flex';
         }
 
-        window.triggerFilePicker = function(type) {
-            openModal();
-            if (type === 'image') {
-                document.getElementById('postImageFileInput').click();
-            } else {
-                document.getElementById('postVideoFileInput').click();
-            }
+        // زرار مخصص لفتح النافذة واختيار فيديو مباشرة
+        window.openModalForVideo = function() {
+            document.getElementById('postModal').style.display = 'flex';
+            document.getElementById('postMediaFile').accept = "video/*";
+            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار فيديو من جهازك";
         }
 
-        // دالة لضغط الصور تلقائياً لكي لا تتجاوز حجم 1 ميجابايت الخاص بـ Firebase
-        function compressImage(file, callback) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-
-                    // تصغير الأبعاد الكبيرة جداً للحفاظ على الحجم الصغير
-                    const maxDimension = 800;
-                    if (width > height && width > maxDimension) {
-                        height = Math.round((height * maxDimension) / width);
-                        width = maxDimension;
-                    } else if (height > maxDimension) {
-                        width = Math.round((width * maxDimension) / height);
-                        height = maxDimension;
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    // تحويل الصورة إلى صيغة تسعف الحجم (JPEG بجودة 0.7)
-                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                    callback(compressedDataUrl);
-                };
-                img.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
+        // زرار مخصص لفتح النافذة واختيار صورة مباشرة
+        window.openModalForImage = function() {
+            document.getElementById('postModal').style.display = 'flex';
+            document.getElementById('postMediaFile').accept = "image/*";
+            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار صورة من جهازك";
         }
 
-        // معالجة الملف المختار من الجهاز
-        window.handlePostFileSelected = function(event, type) {
-            const file = event.target.files[0];
-            if (!file) return;
+        window.closeModal = function() {
+            document.getElementById('postModal').style.display = 'none';
+            document.getElementById('postTextContent').value = '';
+            document.getElementById('postMediaFile').value = '';
+            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار ملف من جهازك (صورة أو فيديو)";
+            selectedFileBase64 = "";
+            selectedFileType = "";
+        }
 
-            const previewDiv = document.getElementById('previewContainer');
-            const previewWrapper = document.getElementById('modalMediaPreview');
-
-            if (type === 'image') {
-                compressImage(file, function(compressedUrl) {
-                    uploadedMediaData = { type: 'image', url: compressedUrl };
-                    previewDiv.innerHTML = `<img src="${compressedUrl}" alt="Image Preview">`;
-                    previewWrapper.style.display = 'block';
-                });
-            } else {
-                // الفيديوهات الكبيرة تتجاوز الحد المسموح في Firestore، نتحقق من الحجم (أقل من 800 كيلوبايت مثلاً أو تحذير)
-                if (file.size > 800 * 1024) {
-                    alert("حجم الفيديو كبير جداً بالنسبة لقاعدة البيانات المجانية (الحد الأقصى للملف الواحد حوالي 800 كيلوبايت). يرجى اختيار فيديو أصغر حجماً.");
-                    return;
+        // تحويل الملف المختار من الجهاز إلى نص (Base64) ليتم تخزينه في الداتابيز
+        window.previewSelectedFile = function(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                document.getElementById('fileNameDisplay').innerText = "تم اختيار الملف: " + file.name;
+                
+                if (file.type.startsWith("video/")) {
+                    selectedFileType = "video";
+                } else {
+                    selectedFileType = "image";
                 }
+
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const fileUrl = e.target.result;
-                    uploadedMediaData = { type: 'video', url: fileUrl };
-                    previewDiv.innerHTML = `<video src="${fileUrl}" controls></video>`;
-                    previewWrapper.style.display = 'block';
+                    selectedFileBase64 = e.target.result; // الرابط النصي المخزن في الداتابيز
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        window.clearMediaPreview = function() {
-            uploadedMediaData = { type: "", url: "" };
-            document.getElementById('previewContainer').innerHTML = '';
-            document.getElementById('modalMediaPreview').style.display = 'none';
-            document.getElementById('postImageFileInput').value = '';
-            document.getElementById('postVideoFileInput').value = '';
-        }
-
-        // حفظ المنشور مع التأكد من الحجم قبل الإرسال لعدم حدوث خطأ Firebase
+        // حفظ المنشور مع رابط الملف المخزن في الداتابيز
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value.trim();
-            if(!text && !uploadedMediaData.url) {
-                alert("الرجاء كتابة نص أو اختيار صورة أو فيديو من جهازك");
+
+            if(!text && !selectedFileBase64) {
+                alert("الرجاء كتابة نص أو اختيار صورة/فيديو من جهازك");
                 return;
             }
 
@@ -1061,28 +950,21 @@
                     author: currentAuthenticatedUser,
                     avatar: currentAvatarUrl,
                     content: text,
-                    mediaType: uploadedMediaData.type,
-                    mediaUrl: uploadedMediaData.url,
+                    mediaType: selectedFileType,
+                    mediaUrl: selectedFileBase64,
                     time: "الآن",
                     likes: 0
                 });
 
-                document.getElementById('postTextContent').value = '';
-                clearMediaPreview();
                 closeModal();
                 loadPosts(); 
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
-                alert("حدث خطأ: قد يكون حجم الصورة أو الفيديو كبيراً جداً على قاعدة البيانات.");
+                alert("حدث خطأ أثناء حفظ المنشور في قاعدة البيانات.");
             }
         }
 
-        window.closeModal = function() {
-            document.getElementById('postModal').style.display = 'none';
-            clearMediaPreview();
-        }
-
-        // جلب وعرض المنشورات
+        // جلب وعرض المنشورات من قاعدة البيانات
         async function loadPosts() {
             try {
                 const postsContainer = document.getElementById('postsContainer');
@@ -1121,40 +1003,54 @@
             }
         }
 
-        window.handleCoverUpload = async function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            compressImage(file, async function(base64Image) {
-                try {
-                    const coverRef = doc(db, "cover", "profile");
-                    await setDoc(coverRef, { pic_voer: base64Image }, { merge: true });
-                    document.getElementById('profileCoverImage').src = base64Image;
-                } catch (error) {
-                    console.error("خطأ أثناء حفظ وتحديث الغلاف: ", error);
-                }
-            });
+        // تفعيل اختيار صورة الغلاف من الجهاز
+        window.triggerCoverFileInput = function() {
+            document.getElementById('coverFileInput').click();
         }
 
-        window.handleAvatarUpload = async function(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        window.uploadCoverImage = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const base64Url = e.target.result;
+                    try {
+                        const coverRef = doc(db, "cover", "profile");
+                        await setDoc(coverRef, { pic_voer: base64Url }, { merge: true });
+                        document.getElementById('profileCoverImage').src = base64Url;
+                    } catch (error) {
+                        console.error("خطأ أثناء حفظ الغلاف: ", error);
+                    }
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
-            compressImage(file, async function(base64ImageResult) {
-                try {
-                    const avatarRef = doc(db, "cover", "profile_avatar");
-                    await setDoc(avatarRef, { pic_avatar: base64ImageResult }, { merge: true });
+        // تفعيل اختيار صورة البروفايل من الجهاز
+        window.triggerAvatarFileInput = function() {
+            document.getElementById('avatarFileInput').click();
+        }
 
-                    currentAvatarUrl = base64ImageResult;
-                    document.getElementById('profileAvatarImage').src = base64ImageResult;
-                    document.getElementById('sideUserAvatar').src = base64ImageResult;
-                    document.getElementById('feedUserAvatar').src = base64ImageResult;
-                    document.getElementById('feedBoxAvatar').src = base64ImageResult;
-                    document.getElementById('modalUserAvatar').src = base64ImageResult;
-                } catch (error) {
-                    console.error("خطأ أثناء حفظ وتحديث البروفايل: ", error);
-                }
-            });
+        window.uploadAvatarImage = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = async function(e) {
+                    const base64Url = e.target.result;
+                    try {
+                        const avatarRef = doc(db, "cover", "profile_avatar");
+                        await setDoc(avatarRef, { pic_avatar: base64Url }, { merge: true });
+
+                        currentAvatarUrl = base64Url;
+                        document.getElementById('profileAvatarImage').src = base64Url;
+                        document.getElementById('sideUserAvatar').src = base64Url;
+                        document.getElementById('feedUserAvatar').src = base64Url;
+                        document.getElementById('feedBoxAvatar').src = base64Url;
+                        document.getElementById('modalUserAvatar').src = base64Url;
+                    } catch (error) {
+                        console.error("خطأ أثناء حفظ البروفايل: ", error);
+                    }
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
         async function checkStatusAndLoadUser() {
