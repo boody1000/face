@@ -750,10 +750,10 @@
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="openModalWithAction('video')">
+                            <button class="modern-action-btn" onclick="triggerFilePicker('video')">
                                 <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو
                             </button>
-                            <button class="modern-action-btn" onclick="openModalWithAction('photo')">
+                            <button class="modern-action-btn" onclick="triggerFilePicker('image')">
                                 <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> صورة
                             </button>
                             <button class="modern-action-btn" onclick="openModal()">
@@ -835,10 +835,10 @@
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="openModalWithAction('video')">
+                            <button class="modern-action-btn" onclick="triggerFilePicker('video')">
                                 <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو
                             </button>
-                            <button class="modern-action-btn" onclick="openModalWithAction('photo')">
+                            <button class="modern-action-btn" onclick="triggerFilePicker('image')">
                                 <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> صورة
                             </button>
                             <button class="modern-action-btn" onclick="openModal()">
@@ -895,6 +895,11 @@
         </div>
     </div>
 
+    <!-- عناصر الإدخال المخفية لاختيار الملفات من الجهاز -->
+    <input type="file" id="postImageFileInput" accept="image/*" style="display: none;" onchange="handlePostFileSelected(event, 'image')">
+    <input type="file" id="postVideoFileInput" accept="video/*" style="display: none;" onchange="handlePostFileSelected(event, 'video')">
+
+    <!-- نافذة كتابة المنشور -->
     <div id="postModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -909,11 +914,6 @@
                 
                 <textarea id="postTextContent" placeholder="بما تفكر؟"></textarea>
 
-                <!-- مدخل لربط الرابط (Link) مباشرة بدلاً من معالجة الملف الثقيل -->
-                <div style="margin-top: 10px; margin-bottom: 10px;">
-                    <input type="text" id="postMediaLinkInput" placeholder="أدخل رابط الصورة أو الفيديو (URL) هنا..." style="width: 100%; padding: 8px 12px; border: 1px solid var(--fb-border); border-radius: 6px; outline: none; font-size: 0.9rem;" oninput="handleMediaLinkInput(this.value)">
-                </div>
-
                 <div id="modalMediaPreview" class="modal-media-preview">
                     <button class="remove-preview-btn" onclick="clearMediaPreview()"><i class="fa-solid fa-xmark"></i></button>
                     <div id="previewContainer"></div>
@@ -922,10 +922,10 @@
                 <div class="modal-add-attachments">
                     <span>إضافة إلى منشورك</span>
                     <div class="attachment-icons">
-                        <button class="att-icon-btn att-photo" onclick="promptForMediaLink('image')" title="إضافة رابط صورة">
+                        <button class="att-icon-btn att-photo" onclick="triggerFilePicker('image')" title="رفع صورة من الجهاز">
                             <i class="fa-solid fa-images"></i>
                         </button>
-                        <button class="att-icon-btn att-video" onclick="promptForMediaLink('video')" title="إضافة رابط فيديو">
+                        <button class="att-icon-btn att-video" onclick="triggerFilePicker('video')" title="رفع فيديو من الجهاز">
                             <i class="fa-solid fa-video"></i>
                         </button>
                         <button class="att-icon-btn" style="color: #f7b125;" title="شعور / نشاط"><i class="fa-solid fa-face-smile"></i></button>
@@ -966,59 +966,52 @@
             document.getElementById('postModal').style.display = 'flex';
         }
 
-        window.openModalWithAction = function(actionType) {
+        // فتح نافذة اختيار الملفات من الجهاز مباشرة
+        window.triggerFilePicker = function(type) {
             openModal();
-            promptForMediaLink(actionType === 'photo' ? 'image' : 'video');
-        }
-
-        window.promptForMediaLink = function(type) {
-            const link = prompt(type === 'image' ? "أدخل رابط الصورة (URL):" : "أدخل رابط الفيديو (URL):");
-            if (link) {
-                document.getElementById('postMediaLinkInput').value = link;
-                handleMediaLinkInput(link, type);
-            }
-        }
-
-        window.handleMediaLinkInput = function(url, forcedType = '') {
-            const trimmedUrl = url.trim();
-            if (!trimmedUrl) {
-                clearMediaPreview();
-                return;
-            }
-
-            let type = forcedType;
-            if (!type) {
-                if (trimmedUrl.match(/\.(mp4|webm|ogg|mov)$/i) || trimmedUrl.includes('video')) {
-                    type = 'video';
-                } else {
-                    type = 'image';
-                }
-            }
-
-            uploadedMediaData = { type: type, url: trimmedUrl };
-            const previewDiv = document.getElementById('previewContainer');
-            const previewWrapper = document.getElementById('modalMediaPreview');
-
             if (type === 'image') {
-                previewDiv.innerHTML = `<img src="${trimmedUrl}" alt="Image Preview" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507525428034-b723cf961d3e';">`;
+                document.getElementById('postImageFileInput').click();
             } else {
-                previewDiv.innerHTML = `<video src="${trimmedUrl}" controls></video>`;
+                document.getElementById('postVideoFileInput').click();
             }
-            previewWrapper.style.display = 'block';
+        }
+
+        // معالجة الملف المختار من الجهاز وتحويله إلى رابط (Data URL) ومعاينته
+        window.handlePostFileSelected = function(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileUrl = e.target.result;
+                uploadedMediaData = { type: type, url: fileUrl };
+
+                const previewDiv = document.getElementById('previewContainer');
+                const previewWrapper = document.getElementById('modalMediaPreview');
+
+                if (type === 'image') {
+                    previewDiv.innerHTML = `<img src="${fileUrl}" alt="Image Preview">`;
+                } else {
+                    previewDiv.innerHTML = `<video src="${fileUrl}" controls></video>`;
+                }
+                previewWrapper.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
         }
 
         window.clearMediaPreview = function() {
             uploadedMediaData = { type: "", url: "" };
-            document.getElementById('postMediaLinkInput').value = '';
             document.getElementById('previewContainer').innerHTML = '';
             document.getElementById('modalMediaPreview').style.display = 'none';
+            document.getElementById('postImageFileInput').value = '';
+            document.getElementById('postVideoFileInput').value = '';
         }
 
-        // دالة النشر تعتمد على تخزين الـ Link مباشرة دون تعليق أو تجميد
+        // حفظ المنشور مع رابط الملف في الداتابيز
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value.trim();
             if(!text && !uploadedMediaData.url) {
-                alert("الرجاء كتابة نص أو إدخال رابط صورة أو فيديو");
+                alert("الرجاء كتابة نص أو اختيار صورة أو فيديو من جهازك");
                 return;
             }
 
@@ -1047,7 +1040,7 @@
             clearMediaPreview();
         }
 
-        // جلب وعرض المنشورات بالروابط المخزنة
+        // جلب وعرض المنشورات والروابط المخزنة من قاعدة البيانات
         async function loadPosts() {
             try {
                 const postsContainer = document.getElementById('postsContainer');
