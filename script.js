@@ -20,9 +20,8 @@ function switchTab(tabId) {
     if (targetSection) {
         targetSection.classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        console.log("تم الانتقال بنجاح إلى الشاشة: " + tabId);
     } else {
-        console.error("القسم المطلوب غير موجود في الـ HTML: " + targetId);
+        console.error("القسم غير موجود: " + targetId);
     }
 }
 window.switchTab = switchTab;
@@ -111,100 +110,7 @@ function containsPhoneNumber(text) {
     return phoneRegex.test(text);
 }
 
-function previewMedia(imgInputId, videoInputId, previewContainerId) {
-    const imgUrl = document.getElementById(imgInputId).value.trim();
-    const videoUrl = document.getElementById(videoInputId).value.trim();
-    const container = document.getElementById(previewContainerId);
-
-    if (!activeUploadedImage && !activeUploadedVideo) {
-        container.innerHTML = '';
-        if (imgUrl) {
-            container.classList.remove('hidden');
-            container.innerHTML = `<img src="${imgUrl}" class="w-full max-h-52 object-contain mx-auto rounded-lg">`;
-        } else if (videoUrl) {
-            container.classList.remove('hidden');
-            container.innerHTML = `<video src="${videoUrl}" controls class="w-full max-h-52 mx-auto rounded-lg"></video>`;
-        } else {
-            container.classList.add('hidden');
-        }
-    }
-}
-
-function toggleEditBio() {
-    const bioDisplayMode = document.getElementById('bioDisplayMode');
-    const bioEditContainer = document.getElementById('bioEditContainer');
-    const editBioBtn = document.getElementById('editBioBtn');
-
-    if (bioEditContainer.classList.contains('hidden')) {
-        document.getElementById('inputBio').value = document.getElementById('dispBio').innerText;
-        document.getElementById('inputName').value = document.getElementById('dispName').innerText;
-        document.getElementById('inputAge').value = document.getElementById('dispAge').innerText;
-        document.getElementById('inputDegree').value = document.getElementById('dispDegree').innerText;
-        document.getElementById('inputStatus').value = document.getElementById('dispStatus').innerText;
-        document.getElementById('inputWork').value = document.getElementById('dispWork').innerText;
-        document.getElementById('inputEmail').value = document.getElementById('dispEmail').innerText;
-
-        bioDisplayMode.classList.add('hidden');
-        bioEditContainer.classList.remove('hidden');
-        editBioBtn.classList.add('hidden');
-    } else {
-        bioDisplayMode.classList.remove('hidden');
-        bioEditContainer.classList.add('hidden');
-        editBioBtn.classList.remove('hidden');
-    }
-}
-
-function saveBio() {
-    const newBio = document.getElementById('inputBio').value;
-    const newName = document.getElementById('inputName').value;
-    const newAge = document.getElementById('inputAge').value;
-    const newDegree = document.getElementById('inputDegree').value;
-    const newStatus = document.getElementById('inputStatus').value;
-    const newWork = document.getElementById('inputWork').value;
-    const newEmail = document.getElementById('inputEmail').value;
-    
-    if (containsPhoneNumber(newBio) || containsPhoneNumber(newName)) {
-        alert('عذراً، يُمنع كتابة أرقام التليفونات في البيانات أو النبذة التعريفية!');
-        return;
-    }
-
-    if (!newName.trim()) {
-        alert('الاسم لا يمكن أن يكون فارغاً!');
-        return;
-    }
-
-    document.getElementById('dispBio').innerText = newBio;
-    document.getElementById('dispName').innerText = newName;
-    document.getElementById('dispAge').innerText = newAge;
-    document.getElementById('dispDegree').innerText = newDegree;
-    document.getElementById('dispStatus').innerText = newStatus;
-    document.getElementById('dispWork').innerText = newWork;
-    document.getElementById('dispEmail').innerText = newEmail;
-
-    document.getElementById('profileUserName').innerText = newName;
-    document.getElementById('sidebarUserName').innerText = newName;
-    document.getElementById('profileUserWorkHeader').innerText = newWork;
-
-    toggleEditBio();
-}
-
-function updateAvatar(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const imageUrl = e.target.result;
-            document.getElementById('topAvatarImg').src = imageUrl;
-            document.getElementById('sidebarAvatarImg').src = imageUrl;
-            document.getElementById('feedBoxAvatarImg').src = imageUrl;
-            document.getElementById('profileAvatarImg').src = imageUrl;
-            document.getElementById('profileBoxAvatarImg').src = imageUrl;
-        }
-        reader.readAsDataURL(file);
-    }
-}
-
-// دالة تحديث صورة الغلاف، تخزينها في collection: cover -> document: profile -> field: pic_cover ونشرها كمنشور
+// دالة تحديث صورة الغلاف والتخزين المباشر في cover/profile -> pic_cover
 async function updateCover(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -213,26 +119,29 @@ async function updateCover(event) {
     reader.onload = async function(e) {
         const coverUrl = e.target.result;
         
-        // 1. تحديث الصورة في الواجهة فوراً
+        // 1. تحديث الصورة في واجهة المستخدم فوراً
         const coverImgElement = document.getElementById('coverImg');
         if (coverImgElement) {
             coverImgElement.src = coverUrl;
         }
 
-        // 2. تخزين الرابط في قاعدة البيانات (cover -> profile -> pic_cover)
+        // 2. التخزين المباشر في الداتابيز (cover -> profile -> pic_cover)
         if (window.db && window.setDoc && window.doc) {
             try {
                 await window.setDoc(window.doc(window.db, "cover", "profile"), {
                     pic_cover: coverUrl,
                     updatedAt: Date.now()
                 }, { merge: true });
-                console.log("تم تخزين رابط الغلاف في مجموعة cover / مستند profile بنجاح");
+                console.log("تم تخزين رابط الغلاف بنجاح في الداتابيز تحت cover/profile -> pic_cover");
             } catch (error) {
-                console.error("خطأ أثناء حفظ رابط الغلاف في الداتابيز: ", error);
+                console.error("خطأ في تخزين الغلاف (تأكد من تفعيل قواعد الحفظ في Firebase):", error);
+                alert("فشل تخزين الغلاف في قاعدة البيانات. راجع الـ Console لمعرفة الخطأ.");
             }
+        } else {
+            console.error("أداة قاعدة البيانات غير متصلة!");
         }
 
-        // 3. نشر صورة الغلاف كمنشور جديد في الخلاصة
+        // 3. نشر صورة الغلاف كمنشور في الخلاصة
         const currentAvatar = document.getElementById('topAvatarImg')?.src || '';
         const currentName = document.getElementById('dispName')?.innerText || 'مستخدم';
         
@@ -248,6 +157,7 @@ async function updateCover(event) {
     };
     reader.readAsDataURL(file);
 }
+window.updateCover = updateCover;
 
 function toggleLike(button) {
     button.classList.toggle('text-blue-500');
@@ -262,88 +172,6 @@ function toggleLike(button) {
     }
 }
 
-function createPost() {
-    const text = document.getElementById('postText').value;
-    const imageInput = document.getElementById('postImage').value;
-    const videoInput = document.getElementById('postVideo').value;
-    const currentAvatar = document.getElementById('topAvatarImg').src;
-    const currentName = document.getElementById('dispName').innerText;
-
-    const finalImage = activeUploadedImage || imageInput;
-    const finalVideo = activeUploadedVideo || videoInput;
-
-    if (!text.trim() && !finalImage && !finalVideo) {
-        alert('الرجاء كتابة نص أو إضافة صورة/فيديو للنشر!');
-        return;
-    }
-
-    if (containsPhoneNumber(text)) {
-        alert('عذراً، يُمنع كتابة أرقام التليفونات في المنشورات!');
-        return;
-    }
-
-    const postData = {
-        name: currentName,
-        avatar: currentAvatar,
-        text: text,
-        image: finalImage,
-        video: finalVideo,
-        timestamp: Date.now(),
-        time: 'الآن'
-    };
-
-    savePostToDatabase(postData);
-
-    document.getElementById('postText').value = '';
-    document.getElementById('postImage').value = '';
-    document.getElementById('postVideo').value = '';
-    document.getElementById('postPreviewContainer').innerHTML = '';
-    document.getElementById('postPreviewContainer').classList.add('hidden');
-    activeUploadedImage = '';
-    activeUploadedVideo = '';
-}
-
-function createProfilePost() {
-    const text = document.getElementById('profilePostText').value;
-    const imageInput = document.getElementById('profilePostImage').value;
-    const videoInput = document.getElementById('profilePostVideo').value;
-    const currentAvatar = document.getElementById('topAvatarImg').src;
-    const currentName = document.getElementById('dispName').innerText;
-
-    const finalImage = activeUploadedImage || imageInput;
-    const finalVideo = activeUploadedVideo || videoInput;
-
-    if (!text.trim() && !finalImage && !finalVideo) {
-        alert('الرجاء كتابة شيء أو إضافة صورة/فيديو للنشر!');
-        return;
-    }
-
-    if (containsPhoneNumber(text)) {
-        alert('عذراً، يُمنع كتابة أرقام التليفونات في المنشورات!');
-        return;
-    }
-
-    const postData = {
-        name: currentName,
-        avatar: currentAvatar,
-        text: text,
-        image: finalImage,
-        video: finalVideo,
-        timestamp: Date.now(),
-        time: 'الآن'
-    };
-
-    savePostToDatabase(postData);
-
-    document.getElementById('profilePostText').value = '';
-    document.getElementById('profilePostImage').value = '';
-    document.getElementById('profilePostVideo').value = '';
-    document.getElementById('profilePreviewContainer').innerHTML = '';
-    document.getElementById('profilePreviewContainer').classList.add('hidden');
-    activeUploadedImage = '';
-    activeUploadedVideo = '';
-}
-
 async function savePostToDatabase(postData) {
     if (!window.db) {
         alert("قاعدة البيانات غير متصلة بعد!");
@@ -351,11 +179,10 @@ async function savePostToDatabase(postData) {
     }
     try {
         await window.addDoc(window.collection(window.db, "posts"), postData);
-        console.log("تم حفظ المنشور في الداتابيز بنجاح[cite: 4]");
+        console.log("تم حفظ المنشور بنجاح[cite: 4]");
         loadPostsFromDatabase();
     } catch (error) {
-        console.error("حدث خطأ أثناء حفظ المنشور: ", error);
-        alert("فشل الحفظ في قاعدة البيانات.");
+        console.error("خطأ في حفظ المنشور:", error);
     }
 }
 
@@ -372,7 +199,6 @@ async function loadPostsFromDatabase() {
         let postsHTML = '';
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            
             let mediaContent = '';
             if (data.image) {
                 mediaContent = `<div class="w-full bg-black mb-2"><img src="${data.image}" class="w-full max-h-96 object-cover"></div>`;
@@ -406,11 +232,11 @@ async function loadPostsFromDatabase() {
         if (profileFeedContainer) profileFeedContainer.innerHTML = postsHTML;
 
     } catch (error) {
-        console.error("خطأ في جلب المنشورات: ", error);
+        console.error("خطأ في جلب المنشورات:", error);
     }
 }
 
-// دالة لجلب واستعراض صورة الغلاف المحفوظة من الداتابيز عند فتح الصفحة
+// دالة جلب صورة الغلاف المحفوظة من الداتابيز عند فتح الصفحة
 async function loadCoverFromDatabase() {
     if (!window.db || !window.getDoc || !window.doc) return;
     try {
@@ -427,16 +253,18 @@ async function loadCoverFromDatabase() {
             }
         }
     } catch (error) {
-        console.error("خطأ في جلب صورة الغلاف:", error);
+        console.error("خطأ في جلب الغلاف:", error);
     }
 }
 
-// تحميل المنشورات وصورة الغلاف تلقائياً عند فتح الصفحة
+// التشغيل التلقائي عند تحميل الصفحة
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         if (window.db) {
             loadCoverFromDatabase();
             loadPostsFromDatabase();
+        } else {
+            console.warn("جاري انتظار اتصال Firebase...");
         }
-    }, 1000);
+    }, 1500);
 });
