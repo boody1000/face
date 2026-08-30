@@ -1071,7 +1071,6 @@
             reader.readAsDataURL(file);
         }
 
-        // جلب الـ username من مجموعة users بناءً على التطابق مع statsus وشرط status == online
         async function checkStatusAndLoadUser() {
             try {
                 console.log("--- فحص مجموعتي statsus و users ---");
@@ -1080,7 +1079,6 @@
 
                 statsusSnap.forEach((docSnap) => {
                     const statusData = docSnap.data();
-                    // التحقق من أن حقل status يساوي online
                     if (statusData.statsus === "online" && statusData.username) {
                         onlineUsernames.push(statusData.username.trim());
                     }
@@ -1092,7 +1090,6 @@
                         const userData = docSnap.data();
                         if (userData.username) {
                             const userUName = userData.username.trim();
-                            // جلب الـ username والاسم إذا وُجد تطابق
                             if (onlineUsernames.includes(userUName)) {
                                 currentAuthenticatedUser = userData.name || userData.username;
                                 const matchedUserField = userData.username;
