@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي مع قسم حول وقاعدة البيانات</title>
+    <title>فيسبوك - الصفحة الشخصية وقسم حول بناءً على تسجيل الدخول</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -819,7 +819,7 @@
             <div class="side-menu">
                 <a href="#" class="menu-item">
                     <img id="sideUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="User">
-                    <span>محمد خالد</span>
+                    <span id="sideUserName">محمد خالد</span>
                 </a>
                 <div class="menu-item"><i class="fa-solid fa-user-group"></i> الأصدقاء</div>
                 <div class="menu-item"><i class="fa-solid fa-store"></i> السوق (Marketplace)</div>
@@ -833,7 +833,7 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" onclick="openModal()">بما تفكر يا محمد؟</div>
+                            <div class="modern-input-fake" id="feedPlaceholderText" onclick="openModal()">بما تفكر يا محمد؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
@@ -917,7 +917,7 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedBoxAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" onclick="openModal()">بما تفكر يا محمد؟</div>
+                            <div class="modern-input-fake" id="profilePlaceholderText" onclick="openModal()">بما تفكر يا محمد؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
@@ -990,7 +990,7 @@
             <div class="modal-body">
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
                     <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                    <h4 style="font-size: 0.95rem;">محمد خالد</h4>
+                    <h4 id="modalAuthorName" style="font-size: 0.95rem;">محمد خالد</h4>
                 </div>
                 
                 <textarea id="postTextContent" placeholder="بما تفكر يا محمد؟"></textarea>
@@ -1027,7 +1027,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -1042,6 +1042,9 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
+
+        // متغير لتخزين اسم المستخدم الذي قام بتسجيل الدخول (يمكن تعديله لتجربة أي اسم مسجل في collection users)
+        const currentLoginUsername = "محمد خالد"; 
 
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
         let uploadedMediaData = { type: "", url: "" };
@@ -1103,7 +1106,7 @@
 
             try {
                 await addDoc(collection(db, "posts"), {
-                    author: "محمد خالد",
+                    author: currentLoginUsername,
                     avatar: currentAvatarUrl,
                     content: text,
                     mediaType: uploadedMediaData.type,
@@ -1166,45 +1169,60 @@
             reader.readAsDataURL(file);
         }
 
-        // جلب بيانات البروفايل وقسم "حول" من مجموعة users في قاعدة البيانات
+        // جلب بيانات المستخدم من collection users بناءً على مطابقة الاسم مع اسم تسجيل الدخول (currentLoginUsername)
         async function loadProfileData() {
             try {
-                // جلب بيانات مجموعة المستخدمين (users) لمعلومات قسم حول
-                const userDocRef = doc(db, "users", "profile_info");
-                const userSnap = await getDoc(userDocRef);
-                
-                if (userSnap.exists()) {
-                    const userData = userSnap.data();
-                    
-                    // تحديث النصوص في الشريط الجانبي وقسم حول
-                    if(userData.work) {
-                        document.getElementById('sidebarWork').innerText = userData.work;
-                        document.getElementById('aboutWork').innerText = userData.work;
-                    }
-                    if(userData.education) {
-                        document.getElementById('sidebarEducation').innerText = userData.education;
-                        document.getElementById('aboutEducation').innerText = userData.education;
-                    }
-                    if(userData.liveIn) {
-                        document.getElementById('sidebarLive').innerText = userData.liveIn;
-                        document.getElementById('aboutLive').innerText = userData.liveIn;
-                    }
-                    if(userData.from) {
-                        document.getElementById('sidebarFrom').innerText = userData.from;
-                        document.getElementById('aboutFrom').innerText = userData.from;
-                    }
-                    if(userData.name) {
-                        document.getElementById('profileNameHeader').innerHTML = `${userData.name} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
-                    }
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("name", "==", currentLoginUsername));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    // تم العثور على المستخدم المطابق لاسم تسجيل الدخول
+                    querySnapshot.forEach((docSnap) => {
+                        const userData = docSnap.data();
+
+                        if(userData.work) {
+                            document.getElementById('sidebarWork').innerText = userData.work;
+                            document.getElementById('aboutWork').innerText = userData.work;
+                        }
+                        if(userData.education) {
+                            document.getElementById('sidebarEducation').innerText = userData.education;
+                            document.getElementById('aboutEducation').innerText = userData.education;
+                        }
+                        if(userData.liveIn) {
+                            document.getElementById('sidebarLive').innerText = userData.liveIn;
+                            document.getElementById('aboutLive').innerText = userData.liveIn;
+                        }
+                        if(userData.from) {
+                            document.getElementById('sidebarFrom').innerText = userData.from;
+                            document.getElementById('aboutFrom').innerText = userData.from;
+                        }
+                        if(userData.name) {
+                            document.getElementById('profileNameHeader').innerHTML = `${userData.name} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
+                            document.getElementById('sideUserName').innerText = userData.name;
+                            document.getElementById('modalAuthorName').innerText = userData.name;
+                            document.getElementById('feedPlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
+                            document.getElementById('profilePlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
+                        }
+                    });
                 } else {
-                    // قيم افتراضية في حال عدم وجود وثيقة مسبقة في collection users
-                    await setDoc(userDocRef, {
-                        name: "محمد خالد",
+                    // في حال عدم وجود المستخدم مسبقاً، نقوم بإنشائه افتراضياً في collection users
+                    await addDoc(usersRef, {
+                        name: currentLoginUsername,
                         work: "يعمل لدى شركة برمجيات كبرى",
                         education: "درس هندسة الحاسب",
                         liveIn: "يقيم في الرياض",
                         from: "من الإسكندرية"
                     });
+                    
+                    document.getElementById('sidebarWork').innerText = "يعمل لدى شركة برمجيات كبرى";
+                    document.getElementById('aboutWork').innerText = "يعمل لدى شركة برمجيات كبرى";
+                    document.getElementById('sidebarEducation').innerText = "درس هندسة الحاسب";
+                    document.getElementById('aboutEducation').innerText = "درس هندسة الحاسب";
+                    document.getElementById('sidebarLive').innerText = "يقيم في الرياض";
+                    document.getElementById('aboutLive').innerText = "يقيم في الرياض";
+                    document.getElementById('sidebarFrom').innerText = "من الإسكندرية";
+                    document.getElementById('aboutFrom').innerText = "من الإسكندرية";
                 }
 
                 const coverRef = doc(db, "cover", "profile");
@@ -1224,7 +1242,7 @@
                     document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
             } catch (e) {
-                console.error("خطأ في جلب بيانات البروفايل: ", e);
+                console.error("خطأ في جلب بيانات البروفايل من collection users: ", e);
             }
         }
 
