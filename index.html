@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي</title>
+    <title>فيسبوك - الصفحة الرئيسية، الملف الشخصي وصفحة الفيديوهات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -177,6 +177,169 @@
             color: var(--fb-blue);
             border-radius: 50%;
             object-fit: cover;
+        }
+
+        /* تصميم صفحة الفيديوهات الجديدة (Videos Page View) مطابقة للفيسبوك تماماً */
+        .videos-page-container {
+            max-width: 680px;
+            margin: 20px auto;
+            padding: 0 16px;
+        }
+
+        .videos-page-header {
+            background-color: var(--fb-card-bg);
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .videos-page-header i {
+            font-size: 1.8rem;
+            color: var(--fb-blue);
+        }
+
+        .videos-page-header h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .all-stored-videos-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .stored-video-card {
+            background-color: var(--fb-card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid var(--fb-border);
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stored-video-card video {
+            width: 100%;
+            max-height: 450px;
+            object-fit: cover;
+            background: #000;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .stored-video-footer {
+            padding: 8px 0;
+            font-size: 1rem;
+            color: var(--fb-text);
+            line-height: 1.5;
+        }
+
+        /* تصميم قسم الريلز (Reels Section) تحت مربع المنشور */
+        .reels-container-card {
+            background-color: var(--fb-card-bg);
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
+        }
+
+        .reels-header-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--fb-secondary-text);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--fb-border);
+        }
+
+        .reels-header-row i {
+            color: #f02849;
+            font-size: 1.3rem;
+        }
+
+        .reels-scroll-wrapper {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+        }
+
+        .reels-scroll-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .reels-scroll-wrapper::-webkit-scrollbar-thumb {
+            background: #ccd0d5;
+            border-radius: 10px;
+        }
+
+        .reel-item-card {
+            flex: 0 0 125px;
+            height: 220px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            scroll-snap-align: start;
+            background-color: #000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .reel-item-card:hover {
+            transform: scale(1.02);
+        }
+
+        .reel-item-card video, .reel-item-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reel-overlay-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .reel-user-mini {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .reel-user-mini img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid white;
+        }
+
+        .reel-user-mini span {
+            font-size: 0.75rem;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* تصميم البروفايل */
@@ -391,12 +554,38 @@
             font-size: 0.95rem;
         }
 
-        .about-section-container {
+        .profile-section-container {
             display: none;
+            max-width: 940px;
+            margin: 16px auto;
+            padding: 0 16px;
         }
 
-        .about-section-container.active {
+        .profile-section-container.active {
             display: block;
+        }
+
+        .videos-grid, .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .video-grid-item, .photo-grid-item {
+            background-color: var(--fb-card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--fb-border);
+            padding: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .video-grid-item video, .photo-grid-item img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 6px;
         }
 
         .about-box-wrapper {
@@ -537,7 +726,91 @@
             background-color: var(--fb-hover);
         }
 
-        /* نافذة كتابة المنشور */
+        .post-stats-row {
+            display: flex;
+            justify-content: space-between;
+            color: var(--fb-secondary-text);
+            font-size: 0.85rem;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--fb-border);
+            margin-bottom: 4px;
+        }
+
+        .post-actions-buttons {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--fb-border);
+            padding: 4px 0;
+            margin-bottom: 8px;
+        }
+
+        .post-action-item {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 6px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-weight: 600;
+            color: var(--fb-secondary-text);
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .post-action-item:hover {
+            background-color: var(--fb-hover);
+        }
+
+        .post-action-item.liked {
+            color: var(--fb-blue);
+        }
+
+        .comments-section {
+            margin-top: 8px;
+        }
+
+        .comment-input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .comment-input-row input {
+            flex: 1;
+            background-color: var(--fb-bg);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .comment-item {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            align-items: flex-start;
+        }
+
+        .comment-bubble {
+            background-color: var(--fb-bg);
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            max-width: 85%;
+        }
+
+        .comment-bubble b {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--fb-text);
+        }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -581,13 +854,13 @@
 
         .modal-body {
             padding: 16px 0;
-            max-height: 60vh;
+            max-height: 70vh;
             overflow-y: auto;
         }
 
         .modal-body textarea {
             width: 100%;
-            height: 90px;
+            height: 80px;
             border: none;
             outline: none;
             font-size: 1.1rem;
@@ -595,18 +868,38 @@
             background: transparent;
         }
 
-        .file-input-container {
-            margin: 10px 0;
-            border: 2px dashed var(--fb-border);
-            padding: 12px;
+        #mediaPreviewContainer {
+            margin-top: 10px;
+            position: relative;
+            max-height: 250px;
+            overflow: hidden;
             border-radius: 8px;
-            text-align: center;
-            background-color: var(--fb-bg);
-            cursor: pointer;
+            border: 1px solid var(--fb-border);
+            display: none;
         }
 
-        .file-input-container input {
-            display: none;
+        #mediaPreviewContainer img, #mediaPreviewContainer video {
+            width: 100%;
+            max-height: 230px;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .remove-preview-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 1024px) {
@@ -659,8 +952,9 @@
             </div>
         </div>
         <div class="nav-center">
-            <div class="nav-tab" onclick="switchAppView('home', this)" title="الصفحة الرئيسية"><i class="fa-solid fa-house"></i></div>
-            <div class="nav-tab active" onclick="switchAppView('profile', this)" title="الصفحة الشخصية"><i class="fa-solid fa-user"></i></div>
+            <div class="nav-tab active" onclick="switchAppView('home', this)" title="الصفحة الرئيسية"><i class="fa-solid fa-house"></i></div>
+            <div class="nav-tab" onclick="switchAppView('videos', this)" title="الفيديوهات"><i class="fa-solid fa-tv"></i></div>
+            <div class="nav-tab" onclick="switchAppView('profile', this)" title="الصفحة الشخصية"><i class="fa-solid fa-user"></i></div>
         </div>
         <div class="nav-right">
             <button class="nav-icon-btn"><i class="fa-solid fa-bars"></i></button>
@@ -668,7 +962,8 @@
         </div>
     </header>
 
-    <div id="home-view" class="app-view">
+    <!-- الصفحة الرئيسية -->
+    <div id="home-view" class="app-view active">
         <div class="home-layout">
             <div class="side-menu">
                 <a href="#" class="menu-item">
@@ -677,12 +972,16 @@
                 </a>
                 <div class="menu-item"><i class="fa-solid fa-user-group"></i> الأصدقاء</div>
                 <div class="menu-item"><i class="fa-solid fa-store"></i> السوق (Marketplace)</div>
-                <div class="menu-item"><i class="fa-solid fa-tv"></i> الفيديوهات</div>
+                <!-- زر الفيديوهات الموجه إلى صفحة الفيديوهات الجديدة -->
+                <div class="menu-item" onclick="switchAppView('videos', document.querySelector('.nav-tab:nth-child(2)'))">
+                    <i class="fa-solid fa-tv"></i> الفيديوهات
+                </div>
                 <div class="menu-item"><i class="fa-solid fa-clock-rotate-left"></i> الذكريات</div>
                 <div class="menu-item"><i class="fa-solid fa-bookmark"></i> العناصر المحفوظة</div>
             </div>
 
             <div class="main-feed" style="max-width: 680px; width: 100%;">
+                <!-- مربع إنشاء المنشور -->
                 <div class="fb-card">
                     <div class="modern-create-box">
                         <div class="modern-top-row">
@@ -691,12 +990,29 @@
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="openModalForMedia()">
-                                <i class="fa-solid fa-photo-film" style="color: #45bd62; font-size: 1.2rem;"></i> رفع صورة أو فيديو من الجهاز
+                            <button class="modern-action-btn" onclick="openModalAndTrigger('image')">
+                                <i class="fa-solid fa-image" style="color: #45bd62; font-size: 1.2rem;"></i> صورة من الجهاز
+                            </button>
+                            <button class="modern-action-btn" onclick="openModalAndTrigger('video')">
+                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو من الجهاز
                             </button>
                         </div>
                     </div>
                 </div>
+
+                <!-- قسم الريلز (Reels) المضاف تحت مربع المنشور -->
+                <div class="reels-container-card">
+                    <div class="reels-header-row">
+                        <i class="fa-solid fa-clapperboard"></i>
+                        <span>الريلز (Reels) القصص القصيرة</span>
+                    </div>
+                    <div id="homeReelsScroll" class="reels-scroll-wrapper">
+                        <!-- يتم جلب وعرض فيديوهات الريلز والقصص هنا تلقائياً -->
+                    </div>
+                </div>
+
+                <!-- حاوية عرض المنشورات في الصفحة الرئيسية -->
+                <div id="homePostsContainer"></div>
             </div>
 
             <div class="side-menu">
@@ -707,7 +1023,22 @@
         </div>
     </div>
 
-    <div id="profile-view" class="app-view active">
+    <!-- صفحة الفيديوهات المستقلة الجديدة مطابقة لفيسبوك تماماً -->
+    <div id="videos-view" class="app-view">
+        <div class="videos-page-container">
+            <div class="videos-page-header">
+                <i class="fa-solid fa-tv"></i>
+                <h2>الفيديوهات</h2>
+            </div>
+            <!-- حاوية عرض جميع الفيديوهات المخزنة بنظام الفيسبوك المتسلسل -->
+            <div id="allStoredVideosGrid" class="all-stored-videos-grid">
+                <!-- يتم تعبئة الفيديوهات هنا برمجياً مع التفاعل الكامل -->
+            </div>
+        </div>
+    </div>
+
+    <!-- صفحة البروفايل -->
+    <div id="profile-view" class="app-view">
         <div class="profile-container">
             <div class="cover-photo">
                 <img id="profileCoverImage" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
@@ -736,7 +1067,10 @@
                         </div>
                     </div>
                     <div class="profile-actions">
-                        <button class="fb-btn fb-btn-blue"><i class="fa-solid fa-plus"></i> إضافة إلى القصة</button>
+                        <!-- زر إضافة إلى القصة الذي يفتح اختيار فيديو من الجهاز مع فحص المدة -->
+                        <button class="fb-btn fb-btn-blue" onclick="triggerStoryVideoInput()"><i class="fa-solid fa-plus"></i> إضافة إلى القصة</button>
+                        <input type="file" id="storyVideoInput" style="display: none;" accept="video/*" onchange="handleStoryVideoSelection(this)">
+                        
                         <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-pen"></i> تعديل الملف الشخصي</button>
                     </div>
                 </div>
@@ -749,6 +1083,7 @@
             </div>
         </div>
 
+        <!-- تبويب المنشورات -->
         <div id="tab-content-posts" class="profile-main-layout">
             <div class="left-sidebar">
                 <div class="fb-card">
@@ -770,65 +1105,82 @@
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="openModalForMedia()">
-                                <i class="fa-solid fa-photo-film" style="color: #45bd62; font-size: 1.2rem;"></i> صورة/فيديو (من الجهاز)
+                            <button class="modern-action-btn" onclick="openModalAndTrigger('image')">
+                                <i class="fa-solid fa-image" style="color: #45bd62; font-size: 1.2rem;"></i> صورة من الجهاز
+                            </button>
+                            <button class="modern-action-btn" onclick="openModalAndTrigger('video')">
+                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو من الجهاز
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- حاوية عرض المنشورات والصور والفيديوهات -->
                 <div id="postsContainer"></div>
             </div>
         </div>
 
-        <div id="tab-content-about" class="about-section-container">
-            <div style="max-width: 940px; margin: 16px auto; padding: 0 16px;">
-                <div class="about-box-wrapper">
-                    <div class="about-sidebar-tabs">
-                        <div class="about-tab-item active">نظرة عامة</div>
+        <!-- تبويب حول (About) -->
+        <div id="tab-content-about" class="profile-section-container">
+            <div class="about-box-wrapper">
+                <div class="about-sidebar-tabs">
+                    <div class="about-tab-item active">نظرة عامة</div>
+                </div>
+                <div class="about-content-area">
+                    <h3>نظرة عامة</h3>
+                    <div class="about-info-row">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <div class="about-info-text">
+                            <h4 id="aboutJob">جاري التحميل...</h4>
+                            <p>العمل (job)</p>
+                        </div>
                     </div>
-                    <div class="about-content-area">
-                        <h3>نظرة عامة</h3>
-                        <div class="about-info-row">
-                            <i class="fa-solid fa-briefcase"></i>
-                            <div class="about-info-text">
-                                <h4 id="aboutJob">جاري التحميل...</h4>
-                                <p>العمل (job)</p>
-                            </div>
+                    <div class="about-info-row">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div class="about-info-text">
+                            <h4 id="aboutCity">جاري التحميل...</h4>
+                            <p>المدينة (city)</p>
                         </div>
-                        <div class="about-info-row">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <div class="about-info-text">
-                                <h4 id="aboutCity">جاري التحميل...</h4>
-                                <p>المدينة (city)</p>
-                            </div>
+                    </div>
+                    <div class="about-info-row">
+                        <i class="fa-solid fa-venus-mars"></i>
+                        <div class="about-info-text">
+                            <h4 id="aboutGender">جاري التحميل...</h4>
+                            <p>الجنس (gender)</p>
                         </div>
-                        <div class="about-info-row">
-                            <i class="fa-solid fa-venus-mars"></i>
-                            <div class="about-info-text">
-                                <h4 id="aboutGender">جاري التحميل...</h4>
-                                <p>الجنس (gender)</p>
-                            </div>
-                        </div>
-                        <div class="about-info-row">
-                            <i class="fa-solid fa-heart"></i>
-                            <div class="about-info-text">
-                                <h4 id="aboutSocialStatus">جاري التحميل...</h4>
-                                <p>الحالة الاجتماعية (socialStatus)</p>
-                            </div>
+                    </div>
+                    <div class="about-info-row">
+                        <i class="fa-solid fa-heart"></i>
+                        <div class="about-info-text">
+                            <h4 id="aboutSocialStatus">جاري التحميل...</h4>
+                            <p>الحالة الاجتماعية (socialStatus)</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- تبويب الأصدقاء (Friends) لعرض الفيديوهات -->
+        <div id="tab-content-friends" class="profile-section-container">
+            <div class="fb-card">
+                <h3>فيديوهات المنشورات والقصص (قسم الأصدقاء)</h3>
+                <div id="profileVideosGrid" class="videos-grid"></div>
+            </div>
+        </div>
+
+        <!-- تبويب الصور (Photos) -->
+        <div id="tab-content-photos" class="profile-section-container">
+            <div class="fb-card">
+                <h3>الصور</h3>
+                <div id="profilePhotosGrid" class="photos-grid"></div>
+            </div>
+        </div>
     </div>
 
-    <!-- نافذة كتابة المنشور / رفع الصورة أو الفيديو -->
+    <!-- نافذة كتابة المنشور -->
     <div id="postModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <span>إنشاء منشور (صورة أو فيديو)</span>
+                <span>إنشاء منشور</span>
                 <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
@@ -837,16 +1189,28 @@
                     <h4 id="modalUserName" style="font-size: 0.95rem;">محمد خالد</h4>
                 </div>
                 
-                <textarea id="postTextContent" placeholder="اكتب شيئاً مع الوسائط..."></textarea>
+                <textarea id="postTextContent" placeholder="اكتب شيئاً..."></textarea>
                 
-                <!-- رفع صورة أو فيديو من الجهاز وحفظه كرابط نصي في الداتابيز -->
-                <div class="file-input-container" onclick="document.getElementById('postMediaFile').click()">
-                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem; color: var(--fb-blue); margin-bottom: 5px;"></i>
-                    <p id="fileNameDisplay" style="font-size: 0.9rem; color: var(--fb-secondary-text);">اضغط لاختيار صورة أو فيديو من جهازك</p>
-                    <input type="file" id="postMediaFile" accept="image/*,video/*" onchange="previewSelectedMedia(this)">
+                <input type="file" id="postImageFile" accept="image/*" style="display: none;" onchange="previewSelectedMedia(this, 'image')">
+                <input type="file" id="postVideoFile" accept="video/*" style="display: none;" onchange="previewSelectedMedia(this, 'video')">
+
+                <div style="display: flex; gap: 10px; margin: 10px 0;">
+                    <button type="button" class="fb-btn fb-btn-gray" style="flex: 1; justify-content: center;" onclick="document.getElementById('postImageFile').click()">
+                        <i class="fa-solid fa-image" style="color: #45bd62;"></i> اختر صورة
+                    </button>
+                    <button type="button" class="fb-btn fb-btn-gray" style="flex: 1; justify-content: center;" onclick="document.getElementById('postVideoFile').click()">
+                        <i class="fa-solid fa-video" style="color: #f02849;"></i> اختر فيديو
+                    </button>
+                </div>
+                
+                <p id="fileNameDisplay" style="font-size: 0.85rem; color: var(--fb-secondary-text); text-align: center; margin-bottom: 5px;"></p>
+
+                <div id="mediaPreviewContainer">
+                    <button class="remove-preview-btn" onclick="clearSelectedMedia()" title="حذف الملف المختار"><i class="fa-solid fa-xmark"></i></button>
+                    <div id="previewContentArea"></div>
                 </div>
 
-                <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 1rem; border-radius: 8px;" onclick="addNewPost()">
+                <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 1rem; border-radius: 8px; margin-top: 12px;" onclick="addNewPost()">
                     <i class="fa-solid fa-paper-plane"></i> نشر المنشور
                 </button>
             </div>
@@ -856,7 +1220,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -874,92 +1238,340 @@
 
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
         let currentAuthenticatedUser = "محمد خالد";
-        let selectedMediaBase64 = "";
-        let selectedMediaType = ""; // "image" أو "video"
+        let localBlobUrl = "";     
+        let selectedMediaType = ""; 
+
+        // تفعيل زر اختيار الفيديو للقصة من البروفايل
+        window.triggerStoryVideoInput = function() {
+            document.getElementById('storyVideoInput').click();
+        }
+
+        // فحص مدة الفيديو عند اختياره للقصة (أقل أو أكثر من دقيقة)
+        window.handleStoryVideoSelection = function(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const videoElement = document.createElement('video');
+                videoElement.preload = 'metadata';
+                
+                videoElement.onloadedmetadata = async function() {
+                    window.URL.revokeObjectURL(videoElement.src);
+                    const durationInSeconds = videoElement.duration;
+
+                    if (durationInSeconds > 60) {
+                        alert(`عذراً، مدة الفيديو الذي اخترته (${Math.round(durationInSeconds)} ثانية) تزيد عن الحد الأقصى المسموح للقصص والريلز (60 ثانية).\nيرجى قص الفيديو أو تقليل حجمه ومدته لتصبح أقل من دقيقة قبل إضافته.`);
+                        input.value = "";
+                        return;
+                    }
+
+                    const storyBlobUrl = URL.createObjectURL(file);
+                    const now = new Date();
+                    const dateStr = now.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+                    const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+                    const formattedDateTime = `${dateStr} في ${timeStr}`;
+
+                    try {
+                        await addDoc(collection(db, "posts"), {
+                            author: currentAuthenticatedUser,
+                            avatar: currentAvatarUrl,
+                            content: "🎥 فيديو قصة جديدة (Reel/Story)",
+                            mediaType: "video",
+                            mediaUrl: storyBlobUrl, 
+                            time: formattedDateTime,
+                            likes: 0,
+                            comments: []
+                        });
+
+                        alert("تم إضافة الفيديو بنجاح إلى قصتك وحفظه كـ Reel في الصفحة الرئيسية ومكتبة الفيديوهات!");
+                        loadPostsAndMedia();
+                    } catch (e) {
+                        console.error("خطأ في حفظ فيديو القصة: ", e);
+                        alert("حدث خطأ أثناء حفظ القصة في قاعدة البيانات.");
+                    }
+                }
+
+                videoElement.src = URL.createObjectURL(file);
+            }
+        }
 
         window.openModalForMedia = function() {
             document.getElementById('postModal').style.display = 'flex';
         }
 
+        window.openModalAndTrigger = function(type) {
+            document.getElementById('postModal').style.display = 'flex';
+            if(type === 'image') {
+                document.getElementById('postImageFile').click();
+            } else if(type === 'video') {
+                document.getElementById('postVideoFile').click();
+            }
+        }
+
         window.closeModal = function() {
             document.getElementById('postModal').style.display = 'none';
             document.getElementById('postTextContent').value = '';
-            document.getElementById('postMediaFile').value = '';
-            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار صورة أو فيديو من جهازك";
-            selectedMediaBase64 = "";
+            clearSelectedMedia();
+        }
+
+        window.clearSelectedMedia = function() {
+            document.getElementById('postImageFile').value = '';
+            document.getElementById('postVideoFile').value = '';
+            document.getElementById('fileNameDisplay').innerText = "";
+            document.getElementById('mediaPreviewContainer').style.display = 'none';
+            document.getElementById('previewContentArea').innerHTML = '';
+            localBlobUrl = "";
             selectedMediaType = "";
         }
 
-        // تحويل الملف المختار (صورة أو فيديو) إلى نص (Base64) وحفظه كرابط نصي
-        window.previewSelectedMedia = function(input) {
+        window.previewSelectedMedia = function(input, type) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 document.getElementById('fileNameDisplay').innerText = "تم اختيار الملف: " + file.name;
+                const previewContainer = document.getElementById('mediaPreviewContainer');
+                const previewArea = document.getElementById('previewContentArea');
 
-                if (file.type.startsWith('image/')) {
-                    selectedMediaType = "image";
-                } else if (file.type.startsWith('video/')) {
-                    selectedMediaType = "video";
+                localBlobUrl = URL.createObjectURL(file);
+                selectedMediaType = type;
+
+                if (type === 'image') {
+                    previewArea.innerHTML = `<img src="${localBlobUrl}" alt="Preview">`;
+                    previewContainer.style.display = 'block';
+                } else if (type === 'video') {
+                    previewArea.innerHTML = `<video src="${localBlobUrl}" controls></video>`;
+                    previewContainer.style.display = 'block';
                 }
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    selectedMediaBase64 = e.target.result; // الرابط النصي المخزن في الداتابيز
-                };
-                reader.readAsDataURL(file);
             }
         }
 
-        // حفظ المنشور مع رابط الوسائط المخزن في الداتابيز
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value.trim();
 
-            if(!selectedMediaBase64) {
-                alert("الرجاء اختيار صورة أو فيديو من جهازك أولاً");
+            if(!localBlobUrl && !text) {
+                alert("الرجاء كتابة نص أو اختيار صورة/فيديو أولاً");
                 return;
             }
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
+            const timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+            const formattedDateTime = `${dateStr} في ${timeStr}`;
 
             try {
                 await addDoc(collection(db, "posts"), {
                     author: currentAuthenticatedUser,
                     avatar: currentAvatarUrl,
                     content: text,
-                    mediaType: selectedMediaType,
-                    mediaUrl: selectedMediaBase64,
-                    time: "الآن",
-                    likes: 0
+                    mediaType: selectedMediaType || "",
+                    mediaUrl: localBlobUrl || "", 
+                    time: formattedDateTime,
+                    likes: 0,
+                    comments: []
                 });
 
                 closeModal();
-                loadPosts(); 
+                loadPostsAndMedia(); 
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
-                alert("حدث خطأ أثناء حفظ الملف في قاعدة البيانات.");
+                alert("حدث خطأ أثناء حفظ المنشور في قاعدة البيانات.");
             }
         }
 
-        // جلب وعرض المنشورات (صور أو فيديوهات) من قاعدة البيانات
-        async function loadPosts() {
+        window.toggleLike = async function(postId, btnElement) {
             try {
-                const postsContainer = document.getElementById('postsContainer');
-                if(!postsContainer) return;
+                const postRef = doc(db, "posts", postId);
+                const isLiked = btnElement.classList.contains('liked');
+                const countSpan = document.getElementById(`like-count-${postId}`);
+                let currentLikes = parseInt(countSpan.innerText) || 0;
+
+                if(isLiked) {
+                    btnElement.classList.remove('liked');
+                    currentLikes = Math.max(0, currentLikes - 1);
+                    await updateDoc(postRef, { likes: increment(-1) });
+                } else {
+                    btnElement.classList.add('liked');
+                    currentLikes += 1;
+                    await updateDoc(postRef, { likes: increment(1) });
+                }
+                countSpan.innerText = currentLikes > 0 ? currentLikes : "";
+            } catch(e) {
+                console.error("خطأ في تحديث الإعجاب:", e);
+            }
+        }
+
+        window.addComment = async function(event, postId) {
+            if(event.key === 'Enter') {
+                const inputEl = event.target;
+                const commentText = inputEl.value.trim();
+                if(!commentText) return;
+
+                const newComment = {
+                    author: currentAuthenticatedUser,
+                    avatar: currentAvatarUrl,
+                    text: commentText
+                };
+
+                try {
+                    const postRef = doc(db, "posts", postId);
+                    await updateDoc(postRef, {
+                        comments: arrayUnion(newComment)
+                    });
+                    inputEl.value = "";
+                    loadPostsAndMedia();
+                } catch(e) {
+                    console.error("خطأ في إضافة التعليق:", e);
+                }
+            }
+        }
+
+        window.sharePost = function(postId) {
+            if(navigator.clipboard) {
+                navigator.clipboard.writeText(window.location.href);
+                alert("تم نسخ رابط المنشور بنجاح للمشاركة!");
+            } else {
+                alert("تم مشاركة المنشور بنجاح!");
+            }
+        }
+
+        // جلب المنشورات وتعبئة قسم الريلز ومكتبة الفيديوهات بتصميم فيسبوك المتسلسل
+        async function loadPostsAndMedia() {
+            try {
+                const homePostsContainer = document.getElementById('homePostsContainer');
+                const profilePostsContainer = document.getElementById('postsContainer');
+                const photosGrid = document.getElementById('profilePhotosGrid');
+                const videosGrid = document.getElementById('profileVideosGrid');
+                const reelsScroll = document.getElementById('homeReelsScroll');
+                const allStoredVideosGrid = document.getElementById('allStoredVideosGrid');
                 
-                postsContainer.innerHTML = "";
+                if(homePostsContainer) homePostsContainer.innerHTML = "";
+                if(profilePostsContainer) profilePostsContainer.innerHTML = "";
+                if(photosGrid) photosGrid.innerHTML = "";
+                if(videosGrid) videosGrid.innerHTML = "";
+                if(reelsScroll) reelsScroll.innerHTML = "";
+                if(allStoredVideosGrid) allStoredVideosGrid.innerHTML = "";
+
+                if (currentAvatarUrl && photosGrid) {
+                    photosGrid.innerHTML += `<div class="photo-grid-item"><img src="${currentAvatarUrl}" alt="Avatar Photo"></div>`;
+                }
+
                 const querySnapshot = await getDocs(collection(db, "posts"));
                 
                 querySnapshot.forEach((docSnap) => {
                     const post = docSnap.data();
+                    const postId = docSnap.id;
                     
                     let mediaHTML = "";
                     if (post.mediaType === "image" && post.mediaUrl) {
                         mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 500px; object-fit: cover;"></div>`;
+                        
+                        if(photosGrid) {
+                            photosGrid.innerHTML += `<div class="photo-grid-item"><img src="${post.mediaUrl}" alt="Post Photo"></div>`;
+                        }
                     } else if (post.mediaType === "video" && post.mediaUrl) {
                         mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 450px; background: #000;"></video></div>`;
+                        
+                        if(videosGrid) {
+                            videosGrid.innerHTML += `
+                                <div class="video-grid-item">
+                                    <video src="${post.mediaUrl}" controls></video>
+                                </div>
+                            `;
+                        }
+
+                        // إضافة الفيديو إلى صفحة الفيديوهات بتصميم فيسبوك المتكامل (مع لايك وكومنت وشير)
+                        if(allStoredVideosGrid) {
+                            let commentsHTML = "";
+                            if(post.comments && post.comments.length > 0) {
+                                post.comments.forEach(comm => {
+                                    commentsHTML += `
+                                        <div class="comment-item">
+                                            <img src="${comm.avatar || currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                            <div class="comment-bubble">
+                                                <b>${comm.author}</b>
+                                                <span>${comm.text}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                });
+                            }
+
+                            allStoredVideosGrid.innerHTML += `
+                                <div class="stored-video-card">
+                                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                                        <img src="${post.avatar || currentAvatarUrl}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                        <div>
+                                            <h4 style="font-size: 0.95rem;">${post.author || "مستخدم"}</h4>
+                                            <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
+                                        </div>
+                                    </div>
+                                    <div class="stored-video-footer">
+                                        <p>${post.content || ""}</p>
+                                    </div>
+                                    <video src="${post.mediaUrl}" controls></video>
+
+                                    <div class="post-stats-row">
+                                        <div>
+                                            <i class="fa-solid fa-thumbs-up" style="color: var(--fb-blue);"></i> 
+                                            <span id="like-count-vid-${postId}">${post.likes > 0 ? post.likes : ""}</span>
+                                        </div>
+                                        <div><span>${post.comments ? post.comments.length : 0} تعليق</span></div>
+                                    </div>
+
+                                    <div class="post-actions-buttons">
+                                        <button class="post-action-item" onclick="toggleLike('${postId}', this)">
+                                            <i class="fa-regular fa-thumbs-up"></i> إعجاب
+                                        </button>
+                                        <button class="post-action-item" onclick="document.getElementById('comment-input-vid-${postId}').focus()">
+                                            <i class="fa-regular fa-comment"></i> تعليق
+                                        </button>
+                                        <button class="post-action-item" onclick="sharePost('${postId}')">
+                                            <i class="fa-solid fa-share"></i> مشاركة
+                                        </button>
+                                    </div>
+
+                                    <div class="comments-section">
+                                        <div id="comments-list-vid-${postId}">
+                                            ${commentsHTML}
+                                        </div>
+                                        <div class="comment-input-row">
+                                            <img src="${currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                            <input type="text" id="comment-input-vid-${postId}" placeholder="اكتب تعليقاً..." onkeypress="addComment(event, '${postId}')">
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        // إضافة الفيديو تلقائياً إلى شريط الريلز في الصفحة الرئيسية
+                        if(reelsScroll) {
+                            reelsScroll.innerHTML += `
+                                <div class="reel-item-card">
+                                    <video src="${post.mediaUrl}"></video>
+                                    <div class="reel-overlay-info">
+                                        <div class="reel-user-mini">
+                                            <img src="${post.avatar || currentAvatarUrl}" alt="User">
+                                            <span>${post.author || "مستخدم"}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
                     }
 
-                    const postElement = document.createElement('div');
-                    postElement.className = "fb-card";
-                    postElement.innerHTML = `
+                    let commentsHTML = "";
+                    if(post.comments && post.comments.length > 0) {
+                        post.comments.forEach(comm => {
+                            commentsHTML += `
+                                <div class="comment-item">
+                                    <img src="${comm.avatar || currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                    <div class="comment-bubble">
+                                        <b>${comm.author}</b>
+                                        <span>${comm.text}</span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+
+                    const postHTMLContent = `
                         <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
                             <img src="${post.avatar || currentAvatarUrl}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                             <div>
@@ -969,61 +1581,88 @@
                         </div>
                         <p style="font-size: 1rem; line-height: 1.5; white-space: pre-wrap; margin-bottom: 8px;">${post.content || ""}</p>
                         ${mediaHTML}
+
+                        <div class="post-stats-row">
+                            <div>
+                                <i class="fa-solid fa-thumbs-up" style="color: var(--fb-blue);"></i> 
+                                <span id="like-count-${postId}">${post.likes > 0 ? post.likes : ""}</span>
+                            </div>
+                            <div><span>${post.comments ? post.comments.length : 0} تعليق</span></div>
+                        </div>
+
+                        <div class="post-actions-buttons">
+                            <button class="post-action-item" onclick="toggleLike('${postId}', this)">
+                                <i class="fa-regular fa-thumbs-up"></i> إعجاب
+                            </button>
+                            <button class="post-action-item" onclick="document.getElementById('comment-input-${postId}').focus()">
+                                <i class="fa-regular fa-comment"></i> تعليق
+                            </button>
+                            <button class="post-action-item" onclick="sharePost('${postId}')">
+                                <i class="fa-solid fa-share"></i> مشاركة
+                            </button>
+                        </div>
+
+                        <div class="comments-section">
+                            <div id="comments-list-${postId}">
+                                ${commentsHTML}
+                            </div>
+                            <div class="comment-input-row">
+                                <img src="${currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                <input type="text" id="comment-input-${postId}" placeholder="اكتب تعليقاً..." onkeypress="addComment(event, '${postId}')">
+                            </div>
+                        </div>
                     `;
-                    postsContainer.appendChild(postElement);
+
+                    if(homePostsContainer) {
+                        const homePostEl = document.createElement('div');
+                        homePostEl.className = "fb-card";
+                        homePostEl.innerHTML = postHTMLContent;
+                        homePostsContainer.appendChild(homePostEl);
+                    }
+
+                    if(profilePostsContainer) {
+                        const profilePostEl = document.createElement('div');
+                        profilePostEl.className = "fb-card";
+                        profilePostEl.innerHTML = postHTMLContent;
+                        profilePostsContainer.appendChild(profilePostEl);
+                    }
                 });
             } catch (e) {
-                console.error("خطأ في جلب المنشورات:", e);
+                console.error("خطأ في جلب المنشورات والفيديوهات:", e);
             }
         }
 
-        // تفعيل اختيار صورة الغلاف من الجهاز
         window.triggerCoverFileInput = function() {
             document.getElementById('coverFileInput').click();
         }
 
         window.uploadCoverImage = function(input) {
             if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    const base64Url = e.target.result;
-                    try {
-                        const coverRef = doc(db, "cover", "profile");
-                        await setDoc(coverRef, { pic_voer: base64Url }, { merge: true });
-                        document.getElementById('profileCoverImage').src = base64Url;
-                    } catch (error) {
-                        console.error("خطأ أثناء حفظ الغلاف: ", error);
-                    }
-                };
-                reader.readAsDataURL(input.files[0]);
+                const blobCoverUrl = URL.createObjectURL(input.files[0]);
+                const coverRef = doc(db, "cover", "profile");
+                setDoc(coverRef, { pic_voer: blobCoverUrl }, { merge: true }).then(() => {
+                    document.getElementById('profileCoverImage').src = blobCoverUrl;
+                }).catch(err => console.error(err));
             }
         }
 
-        // تفعيل اختيار صورة البروفايل من الجهاز
         window.triggerAvatarFileInput = function() {
             document.getElementById('avatarFileInput').click();
         }
 
         window.uploadAvatarImage = function(input) {
             if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    const base64Url = e.target.result;
-                    try {
-                        const avatarRef = doc(db, "cover", "profile_avatar");
-                        await setDoc(avatarRef, { pic_avatar: base64Url }, { merge: true });
-
-                        currentAvatarUrl = base64Url;
-                        document.getElementById('profileAvatarImage').src = base64Url;
-                        document.getElementById('sideUserAvatar').src = base64Url;
-                        document.getElementById('feedUserAvatar').src = base64Url;
-                        document.getElementById('feedBoxAvatar').src = base64Url;
-                        document.getElementById('modalUserAvatar').src = base64Url;
-                    } catch (error) {
-                        console.error("خطأ أثناء حفظ البروفايل: ", error);
-                    }
-                };
-                reader.readAsDataURL(input.files[0]);
+                const blobAvatarUrl = URL.createObjectURL(input.files[0]);
+                const avatarRef = doc(db, "cover", "profile_avatar");
+                setDoc(avatarRef, { pic_avatar: blobAvatarUrl }, { merge: true }).then(() => {
+                    currentAvatarUrl = blobAvatarUrl;
+                    document.getElementById('profileAvatarImage').src = blobAvatarUrl;
+                    document.getElementById('sideUserAvatar').src = blobAvatarUrl;
+                    document.getElementById('feedUserAvatar').src = blobAvatarUrl;
+                    document.getElementById('feedBoxAvatar').src = blobAvatarUrl;
+                    document.getElementById('modalUserAvatar').src = blobAvatarUrl;
+                    loadPostsAndMedia();
+                }).catch(err => console.error(err));
             }
         }
 
@@ -1104,7 +1743,7 @@
                     document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
 
-                loadPosts();
+                loadPostsAndMedia();
             } catch (e) {
                 console.error("خطأ في جلب بيانات البروفايل: ", e);
             }
@@ -1120,10 +1759,12 @@
 
             if(viewName === 'home') {
                 document.getElementById('home-view').classList.add('active');
+            } else if(viewName === 'videos') {
+                document.getElementById('videos-view').classList.add('active');
             } else {
                 document.getElementById('profile-view').classList.add('active');
             }
-            tabElement.classList.add('active');
+            if(tabElement) tabElement.classList.add('active');
         }
 
         function switchProfileTab(tabName, tabElement) {
@@ -1132,12 +1773,21 @@
 
             const postsLayout = document.getElementById('tab-content-posts');
             const aboutSection = document.getElementById('tab-content-about');
+            const friendsSection = document.getElementById('tab-content-friends');
+            const photosSection = document.getElementById('tab-content-photos');
+
+            postsLayout.style.display = 'none';
+            aboutSection.classList.remove('active');
+            friendsSection.classList.remove('active');
+            photosSection.classList.remove('active');
 
             if(tabName === 'about') {
-                postsLayout.style.display = 'none';
                 aboutSection.classList.add('active');
+            } else if(tabName === 'friends') {
+                friendsSection.classList.add('active');
+            } else if(tabName === 'photos') {
+                photosSection.classList.add('active');
             } else {
-                aboutSection.classList.remove('active');
                 postsLayout.style.display = 'grid';
             }
         }
