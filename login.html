@@ -141,7 +141,7 @@
         </div>
     </div>
 
-    <!-- كود ربط Firebase والتحقق من اسم المستخدم -->
+    <!-- كود ربط Firebase والتحقق من اسم المستخدم والتوجيه إلى index.html -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
@@ -186,18 +186,22 @@
                 const querySnapshot = await getDocs(q);
 
                 if (!querySnapshot.empty) {
-                    // إذا وجدنا المستخدم
+                    // إذا وجدنا المستخدم مسجلاً مسبقاً
                     message.style.color = 'green';
-                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
+                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية... 🎉';
                     
-                    // حفظ اسم المستخدم في التخزين المحلي لتسهيل استخدامه في الصفحات التالية
+                    // حفظ اسم المستخدم في التخزين المحلي لاستخدامه لاحقاً
                     localStorage.setItem("loggedInUser", usernameInput);
 
-                    // يمكنك توجيهه للصفحة الرئيسية بعد ثانية (مثال: window.location.href = 'index.html';)
+                    // التوجيه التلقائي إلى صفحة index.html بعد ثانيتين
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+
                 } else {
-                    // إذا لم يتم العثور على اسم المستخدم
+                    // إذا لم يتم العثور على اسم المستخدم في قاعدة البيانات
                     message.style.color = 'red';
-                    message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو أنشئ حساباً جديداً.';
+                    message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو انشئ حساباً جديداً.';
                 }
 
             } catch (error) {
@@ -210,3 +214,4 @@
 
 </body>
 </html>
+```[cite: 4]
