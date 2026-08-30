@@ -202,7 +202,7 @@
                 if (!querySnapshot.empty) {
                     // إذا وجدنا المستخدم
                     message.style.color = 'green';
-                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك إلى الصفحة الرئيسية...';
+                    message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
                     
                     // حفظ اسم المستخدم في التخزين المحلي[cite: 2]
                     localStorage.setItem("loggedInUser", usernameInput);
@@ -210,7 +210,7 @@
                     // تحديث حالته إلى online في collection المسمى statsus
                     await updateUserStatus(usernameInput, "online");
 
-                    // التوجيه التلقائي إلى index.html بعد ثانية واحدة
+                    // التوجيه الفعلي لصفحة index.html بعد ثانية واحدة ليرى المستخدم رسالة النجاح
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1000);
