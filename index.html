@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الشخصية والمنشورات المودرن</title>
+    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي مع قاعدة البيانات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -31,6 +31,7 @@
             overflow-x: hidden;
         }
 
+        /* الشريط العلوي الثابت */
         header {
             background-color: var(--fb-header);
             height: 56px;
@@ -121,6 +122,7 @@
             font-size: 1rem;
         }
 
+        /* حاويات الصفحات الرئيسية */
         .app-view {
             display: none;
             margin-top: 56px;
@@ -131,7 +133,52 @@
             display: block;
         }
 
-        /* تصميم البروفايل */
+        /* تصميم الصفحة الرئيسية (Home / News Feed) */
+        .home-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            gap: 16px;
+            max-width: 1360px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        .side-menu {
+            position: sticky;
+            top: 72px;
+            height: calc(100vh - 90px);
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--fb-text);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: var(--fb-hover);
+        }
+
+        .menu-item img, .menu-item i {
+            width: 32px;
+            height: 32px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fb-blue);
+            border-radius: 50%;
+        }
+
+        /* تصميم البروفايل (Profile View) */
         .profile-container {
             background-color: var(--fb-card-bg);
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
@@ -175,6 +222,11 @@
             gap: 6px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
             font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .edit-cover-btn:hover {
+            background-color: #f2f2f2;
         }
 
         .profile-details-flex {
@@ -226,7 +278,12 @@
             justify-content: center;
             font-size: 1rem;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            transition: 0.2s;
             z-index: 5;
+        }
+
+        .edit-avatar-btn:hover {
+            background-color: #d8dadf;
         }
 
         .profile-text-info h1 {
@@ -304,13 +361,33 @@
             padding: 0 16px;
         }
 
-        /* تصميم كرت المنشورات والمربع المودرن */
+        /* تصميم كرت إنشاء المنشور المودرن */
         .fb-card {
             background-color: var(--fb-card-bg);
             border-radius: 12px;
             padding: 16px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             margin-bottom: 16px;
+        }
+
+        .fb-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+
+        .intro-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            color: var(--fb-secondary-text);
+        }
+
+        .intro-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
         }
 
         .modern-create-box {
@@ -439,7 +516,7 @@
             background: transparent;
         }
 
-        /* صندوق المعاينة للصور والفيديوهات */
+        /* صندوق معاينة الصورة داخل المودال */
         .modal-media-preview {
             position: relative;
             margin-top: 10px;
@@ -594,6 +671,15 @@
             color: var(--fb-blue);
         }
 
+        @media (max-width: 1024px) {
+            .home-layout {
+                grid-template-columns: 1fr;
+            }
+            .side-menu {
+                display: none;
+            }
+        }
+
         @media (max-width: 768px) {
             .profile-main-layout {
                 grid-template-columns: 1fr;
@@ -637,9 +723,50 @@
     </header>
 
     <div id="home-view" class="app-view">
-        <div style="max-width: 600px; margin: 20px auto; padding: 0 16px;">
-            <h2 style="margin-bottom: 15px;">الخلاصة الرئيسية</h2>
-            <div id="posts-container-home"></div>
+        <div class="home-layout">
+            <div class="side-menu">
+                <a href="#" class="menu-item">
+                    <img id="sideUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="User">
+                    <span>محمد خالد</span>
+                </a>
+                <div class="menu-item"><i class="fa-solid fa-user-group"></i> الأصدقاء</div>
+                <div class="menu-item"><i class="fa-solid fa-store"></i> السوق (Marketplace)</div>
+                <div class="menu-item"><i class="fa-solid fa-tv"></i> الفيديوهات</div>
+                <div class="menu-item"><i class="fa-solid fa-clock-rotate-left"></i> الذكريات</div>
+                <div class="menu-item"><i class="fa-solid fa-bookmark"></i> العناصر المحفوظة</div>
+            </div>
+
+            <div class="main-feed" style="max-width: 680px; width: 100%;">
+                <div class="fb-card">
+                    <div class="modern-create-box">
+                        <div class="modern-top-row">
+                            <img id="feedUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
+                            <div class="modern-input-fake" onclick="openModal()">بما تفكر يا محمد؟</div>
+                        </div>
+                        <div class="modern-divider"></div>
+                        <div class="modern-actions-row">
+                            <button class="modern-action-btn" onclick="openModalWithAction('video')">
+                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو
+                            </button>
+                            <button class="modern-action-btn" onclick="openModalWithAction('photo')">
+                                <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> صورة
+                            </button>
+                            <button class="modern-action-btn" onclick="openModal()">
+                                <i class="fa-solid fa-face-smile" style="color: #f7b125; font-size: 1.2rem;"></i> شعور/نشاط
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="posts-container-home"></div>
+            </div>
+
+            <div class="side-menu">
+                <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال</h4>
+                <div class="menu-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="C"> عمر أحمد</div>
+                <div class="menu-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="C"> سارة علي</div>
+                <div class="menu-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="C"> كريم محمود</div>
+            </div>
         </div>
     </div>
 
@@ -685,8 +812,9 @@
             <div class="left-sidebar">
                 <div class="fb-card">
                     <h3>التفاصيل</h3>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 10px; color: var(--fb-secondary-text);">
-                        <li><i class="fa-solid fa-briefcase"></i> يعمل لدى شركة برمجيات</li>
+                    <ul class="intro-list">
+                        <li><i class="fa-solid fa-briefcase"></i> يعمل لدى شركة برمجيات كبرى</li>
+                        <li><i class="fa-solid fa-graduation-cap"></i> درس هندسة الحاسب</li>
                         <li><i class="fa-solid fa-house"></i> يقيم في الرياض</li>
                         <li><i class="fa-solid fa-location-dot"></i> من الإسكندرية</li>
                     </ul>
@@ -802,7 +930,7 @@
             clearMediaPreview();
         }
 
-        // اختيار صورة أو فيديو ومعاينته داخل المربع
+        // اختيار وعرض معاينة الصورة أو الفيديو داخل النافذة
         window.handleModalMediaUpload = function(event, type) {
             const file = event.target.files[0];
             if (!file) return;
@@ -825,6 +953,7 @@
             reader.readAsDataURL(file);
         }
 
+        // مسح المعاينة
         window.clearMediaPreview = function() {
             uploadedMediaData = { type: "", url: "" };
             document.getElementById('previewContainer').innerHTML = '';
@@ -833,7 +962,7 @@
             document.getElementById('modalVideoInput').value = '';
         }
 
-        // زر النشر: حفظ البيانات في الداتابيز وإضافتها للصفحة
+        // زر نشر: حفظ المنشور (النص والصورة أو الفيديو) في قاعدة البيانات (Firestore) وعرضه
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value;
             if(!text.trim() && !uploadedMediaData.url) return;
@@ -852,9 +981,9 @@
                 document.getElementById('postTextContent').value = '';
                 clearMediaPreview();
                 closeModal();
-                fetchPosts();
+                fetchPosts(); // تحديث القائمة فوراً
             } catch (e) {
-                console.error("خطأ في حفظ المنشور: ", e);
+                console.error("خطأ في إضافة المنشور: ", e);
             }
         }
 
@@ -872,7 +1001,7 @@
 
                     document.getElementById('profileCoverImage').src = base64Image;
                 } catch (error) {
-                    console.error("خطأ في تحديث الغلاف: ", error);
+                    console.error("خطأ أثناء حفظ وتحديث الغلاف: ", error);
                 }
             };
             reader.readAsDataURL(file);
@@ -892,15 +1021,18 @@
 
                     currentAvatarUrl = base64Image;
                     document.getElementById('profileAvatarImage').src = base64Image;
+                    document.getElementById('sideUserAvatar').src = base64Image;
+                    document.getElementById('feedUserAvatar').src = base64Image;
                     document.getElementById('feedBoxAvatar').src = base64Image;
                     document.getElementById('modalUserAvatar').src = base64Image;
                 } catch (error) {
-                    console.error("خطأ في تحديث البروفايل: ", error);
+                    console.error("خطأ أثناء حفظ وتحديث البروفايل: ", error);
                 }
             };
             reader.readAsDataURL(file);
         }
 
+        // جلب بيانات البروفايل عند التحميل
         async function loadProfileData() {
             try {
                 const coverRef = doc(db, "cover", "profile");
@@ -914,6 +1046,8 @@
                 if (avatarSnap.exists() && avatarSnap.data().pic_avatar) {
                     currentAvatarUrl = avatarSnap.data().pic_avatar;
                     document.getElementById('profileAvatarImage').src = currentAvatarUrl;
+                    document.getElementById('sideUserAvatar').src = currentAvatarUrl;
+                    document.getElementById('feedUserAvatar').src = currentAvatarUrl;
                     document.getElementById('feedBoxAvatar').src = currentAvatarUrl;
                     document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
@@ -922,13 +1056,13 @@
             }
         }
 
-        // جلب وعرض المنشورات من قاعدة البيانات
+        // جلب المنشورات وعرضها
         async function fetchPosts() {
             const homeContainer = document.getElementById('posts-container-home');
             const profileContainer = document.getElementById('posts-container-profile');
             
-            if(homeContainer) homeContainer.innerHTML = '<p style="text-align:center; color:var(--fb-secondary-text);">جاري التحميل...</p>';
-            if(profileContainer) profileContainer.innerHTML = '<p style="text-align:center; color:var(--fb-secondary-text);">جاري التحميل...</p>';
+            if(homeContainer) homeContainer.innerHTML = '<p style="text-align:center; color:var(--fb-secondary-text);">جاري تحميل المنشورات...</p>';
+            if(profileContainer) profileContainer.innerHTML = '<p style="text-align:center; color:var(--fb-secondary-text);">جاري تحميل المنشورات...</p>';
 
             try {
                 const querySnapshot = await getDocs(collection(db, "posts"));
