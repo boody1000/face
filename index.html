@@ -180,7 +180,7 @@
             object-fit: cover;
         }
 
-        /* تصميم صفحة الفيديوهات الجديدة (Videos Page View) مطابقة للفيسبوك تماماً */
+        /* تصميم صفحة الفيديوهات الجديدة */
         .videos-page-container {
             max-width: 680px;
             margin: 20px auto;
@@ -242,7 +242,7 @@
             line-height: 1.5;
         }
 
-        /* تصميم قسم الريلز (Reels Section) تحت مربع المنشور */
+        /* تصميم قسم الريلز */
         .reels-container-card {
             background-color: var(--fb-card-bg);
             border-radius: 12px;
@@ -457,12 +457,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-        }
-
-        .profile-text-info p {
-            color: var(--fb-secondary-text);
-            font-weight: 600;
-            margin-top: 4px;
         }
 
         .profile-actions {
@@ -969,9 +963,8 @@
             <div class="side-menu">
                 <a href="#" class="menu-item">
                     <img id="sideUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" alt="User">
-                    <span id="sideUserName"> </span>
+                    <span id="sideUserName">جاري التحميل...</span>
                 </a>
-                <!-- زر الفيديوهات الموجه إلى صفحة الفيديوهات الجديدة -->
                 <div class="menu-item" onclick="switchAppView('videos', document.querySelector('.nav-tab:nth-child(2)'))">
                     <i class="fa-solid fa-tv"></i> الفيديوهات
                 </div>
@@ -980,12 +973,11 @@
             </div>
 
             <div class="main-feed" style="max-width: 680px; width: 100%;">
-                <!-- مربع إنشاء المنشور -->
                 <div class="fb-card">
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" id="feedInputText" onclick="openModalForMedia()">بما تفكر يا محمد؟</div>
+                            <div class="modern-input-fake" id="feedInputText" onclick="openModalForMedia()">بما تفكر؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
@@ -999,35 +991,28 @@
                     </div>
                 </div>
 
-                <!-- قسم الريلز (Reels) المضاف تحت مربع المنشور -->
                 <div class="reels-container-card">
                     <div class="reels-header-row">
                         <i class="fa-solid fa-clapperboard"></i>
                         <span>الريلز (Reels) القصص القصيرة</span>
                     </div>
-                    <div id="homeReelsScroll" class="reels-scroll-wrapper">
-                        <!-- يتم جلب وعرض فيديوهات الريلز والقصص هنا تلقائياً -->
-                    </div>
+                    <div id="homeReelsScroll" class="reels-scroll-wrapper"></div>
                 </div>
 
-                <!-- حاوية عرض المنشورات في الصفحة الرئيسية -->
                 <div id="homePostsContainer"></div>
             </div>
-
-           
+            <div></div>
+        </div>
     </div>
 
-    <!-- صفحة الفيديوهات المستقلة الجديدة مطابقة لفيسبوك تماماً -->
+    <!-- صفحة الفيديوهات -->
     <div id="videos-view" class="app-view">
         <div class="videos-page-container">
             <div class="videos-page-header">
                 <i class="fa-solid fa-tv"></i>
                 <h2>الفيديوهات</h2>
             </div>
-            <!-- حاوية عرض جميع الفيديوهات المخزنة بنظام الفيسبوك المتسلسل -->
-            <div id="allStoredVideosGrid" class="all-stored-videos-grid">
-                <!-- يتم تعبئة الفيديوهات هنا برمجياً مع التفاعل الكامل -->
-            </div>
+            <div id="allStoredVideosGrid" class="all-stored-videos-grid"></div>
         </div>
     </div>
 
@@ -1046,32 +1031,28 @@
                     <div class="profile-avatar-area">
                         <div class="avatar-wrapper">
                             <img id="profileAvatarImage" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200" alt="Avatar">
-                            <button class="edit-avatar-btn" onclick="triggerAvatarFileInput()" title="تعديل صورة البروفايل (من الجهاز)">
+                            <button class="edit-avatar-btn" onclick="triggerAvatarFileInput()" title="تعديل صورة البروفايل">
                                 <i class="fa-solid fa-camera"></i>
                             </button>
                             <input type="file" id="avatarFileInput" style="display: none;" accept="image/*" onchange="uploadAvatarImage(this)">
                         </div>
                         <div class="profile-text-info">
                             <h1 id="profileNameHeader">
-                                <span id="profileUsernameDisplay"> </span>
-                                <span id="profileUserFromUsers" style="margin-right: 8px; font-size: 1.5rem; font-weight: bold; color: var(--fb-text);"></span>
+                                <span id="profileUsernameDisplay">جاري التحميل...</span>
                                 <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>
                             </h1>
-                           
                         </div>
                     </div>
                     <div class="profile-actions">
-                        <!-- زر إضافة إلى القصة الذي يفتح اختيار فيديو من الجهاز مع فحص المدة -->
                         <button class="fb-btn fb-btn-blue" onclick="triggerStoryVideoInput()"><i class="fa-solid fa-plus"></i> إضافة إلى القصة</button>
                         <input type="file" id="storyVideoInput" style="display: none;" accept="video/*" onchange="handleStoryVideoSelection(this)">
-                        
                         <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-pen"></i> تعديل الملف الشخصي</button>
                     </div>
                 </div>
                 <div class="profile-nav-tabs">
                     <div class="p-tab active" onclick="switchProfileTab('posts', this)">المنشورات</div>
                     <div class="p-tab" onclick="switchProfileTab('about', this)">حول</div>
-                    <div class="p-tab" onclick="switchProfileTab('friends', this)">الفيديوا</div>
+                    <div class="p-tab" onclick="switchProfileTab('friends', this)">الفيديوهات</div>
                     <div class="p-tab" onclick="switchProfileTab('photos', this)">الصور</div>
                 </div>
             </div>
@@ -1095,7 +1076,7 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedBoxAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" id="profileInputText" onclick="openModalForMedia()">بما تفكر يا </div>
+                            <div class="modern-input-fake" id="profileInputText" onclick="openModalForMedia()">بما تفكر؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
@@ -1113,7 +1094,7 @@
             </div>
         </div>
 
-        <!-- تبويب حول (About) -->
+        <!-- تبويب حول -->
         <div id="tab-content-about" class="profile-section-container">
             <div class="about-box-wrapper">
                 <div class="about-sidebar-tabs">
@@ -1125,46 +1106,46 @@
                         <i class="fa-solid fa-briefcase"></i>
                         <div class="about-info-text">
                             <h4 id="aboutJob">جاري التحميل...</h4>
-                            <p>العمل (job)</p>
+                            <p>العمل</p>
                         </div>
                     </div>
                     <div class="about-info-row">
                         <i class="fa-solid fa-location-dot"></i>
                         <div class="about-info-text">
                             <h4 id="aboutCity">جاري التحميل...</h4>
-                            <p>المدينة (city)</p>
+                            <p>المدينة</p>
                         </div>
                     </div>
                     <div class="about-info-row">
                         <i class="fa-solid fa-venus-mars"></i>
                         <div class="about-info-text">
                             <h4 id="aboutGender">جاري التحميل...</h4>
-                            <p>الجنس (gender)</p>
+                            <p>الجنس</p>
                         </div>
                     </div>
                     <div class="about-info-row">
                         <i class="fa-solid fa-heart"></i>
                         <div class="about-info-text">
                             <h4 id="aboutSocialStatus">جاري التحميل...</h4>
-                            <p>الحالة الاجتماعية (socialStatus)</p>
+                            <p>الحالة الاجتماعية</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- تبويب الأصدقاء (Friends) لعرض الفيديوهات -->
+        <!-- تبويب الفيديوهات -->
         <div id="tab-content-friends" class="profile-section-container">
             <div class="fb-card">
-                <h3>فيديوهات المنشورات والقصص (قسم الأصدقاء)</h3>
+                <h3>فيديوهات المنشورات والقصص الخاصة بك</h3>
                 <div id="profileVideosGrid" class="videos-grid"></div>
             </div>
         </div>
 
-        <!-- تبويب الصور (Photos) -->
+        <!-- تبويب الصور -->
         <div id="tab-content-photos" class="profile-section-container">
             <div class="fb-card">
-                <h3>الصور</h3>
+                <h3>الصور الخاصة بك</h3>
                 <div id="profilePhotosGrid" class="photos-grid"></div>
             </div>
         </div>
@@ -1180,7 +1161,7 @@
             <div class="modal-body">
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
                     <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                    <h4 id="modalUserName" style="font-size: 0.95rem;"> </h4>
+                    <h4 id="modalUserName" style="font-size: 0.95rem;">مستخدم</h4>
                 </div>
                 
                 <textarea id="postTextContent" placeholder="اكتب شيئاً..."></textarea>
@@ -1200,7 +1181,7 @@
                 <p id="fileNameDisplay" style="font-size: 0.85rem; color: var(--fb-secondary-text); text-align: center; margin-bottom: 5px;"></p>
 
                 <div id="mediaPreviewContainer">
-                    <button class="remove-preview-btn" onclick="clearSelectedMedia()" title="حذف الملف المختار"><i class="fa-solid fa-xmark"></i></button>
+                    <button class="remove-preview-btn" onclick="clearSelectedMedia()" title="حذف الملف"><i class="fa-solid fa-xmark"></i></button>
                     <div id="previewContentArea"></div>
                 </div>
 
@@ -1211,10 +1192,11 @@
         </div>
     </div>
 
+    <!-- السكريبت والربط بـ Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, increment, arrayUnion, query, where } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -1231,16 +1213,14 @@
         const db = getFirestore(app);
 
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
-        let currentAuthenticatedUser = "محمد خالد";
+        let currentAuthenticatedUser = "مستخدم";
         let localBlobUrl = "";     
         let selectedMediaType = ""; 
 
-        // تفعيل زر اختيار الفيديو للقصة من البروفايل
         window.triggerStoryVideoInput = function() {
             document.getElementById('storyVideoInput').click();
         }
 
-        // فحص مدة الفيديو عند اختياره للقصة (أقل أو أكثر من دقيقة)
         window.handleStoryVideoSelection = function(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
@@ -1252,7 +1232,7 @@
                     const durationInSeconds = videoElement.duration;
 
                     if (durationInSeconds > 60) {
-                        alert(`عذراً، مدة الفيديو الذي اخترته (${Math.round(durationInSeconds)} ثانية) تزيد عن الحد الأقصى المسموح للقصص والريلز (60 ثانية).\nيرجى قص الفيديو أو تقليل حجمه ومدته لتصبح أقل من دقيقة قبل إضافته.`);
+                        alert(`عذراً، مدة الفيديو تزيد عن الحد الأقصى المسموح (60 ثانية).`);
                         input.value = "";
                         return;
                     }
@@ -1275,14 +1255,12 @@
                             comments: []
                         });
 
-                        alert("تم إضافة الفيديو بنجاح إلى قصتك وحفظه كـ Reel في الصفحة الرئيسية ومكتبة الفيديوهات!");
+                        alert("تم إضافة الفيديو بنجاح إلى قصتك!");
                         loadPostsAndMedia();
                     } catch (e) {
                         console.error("خطأ في حفظ فيديو القصة: ", e);
-                        alert("حدث خطأ أثناء حفظ القصة في قاعدة البيانات.");
                     }
                 }
-
                 videoElement.src = URL.createObjectURL(file);
             }
         }
@@ -1365,7 +1343,6 @@
                 loadPostsAndMedia(); 
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
-                alert("حدث خطأ أثناء حفظ المنشور في قاعدة البيانات.");
             }
         }
 
@@ -1419,13 +1396,66 @@
         window.sharePost = function(postId) {
             if(navigator.clipboard) {
                 navigator.clipboard.writeText(window.location.href);
-                alert("تم نسخ رابط المنشور بنجاح للمشاركة!");
-            } else {
-                alert("تم مشاركة المنشور بنجاح!");
+                alert("تم نسخ رابط المنشور بنجاح!");
             }
         }
 
-        // جلب المنشورات وتعبئة قسم الريلز ومكتبة الفيديوهات بتصميم فيسبوك المتسلسل
+        // دالة إنشاء الهيكل HTML الخاص بالبوست والتعليقات والإعجابات
+        function generatePostHTML(postId, post) {
+            let mediaHTML = "";
+            if (post.mediaType === "image" && post.mediaUrl) {
+                mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 500px; object-fit: cover;"></div>`;
+            } else if (post.mediaType === "video" && post.mediaUrl) {
+                mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 450px; background: #000;"></video></div>`;
+            }
+
+            let commentsHTML = "";
+            if(post.comments && post.comments.length > 0) {
+                post.comments.forEach(comm => {
+                    commentsHTML += `
+                        <div class="comment-item">
+                            <img src="${comm.avatar || currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                            <div class="comment-bubble">
+                                <b>${comm.author}</b>
+                                <span>${comm.text}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            return `
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                    <img src="${post.avatar || currentAvatarUrl}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                    <div>
+                        <h4 style="font-size: 0.95rem;">${post.author || "مستخدم"}</h4>
+                        <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
+                    </div>
+                </div>
+                <p style="font-size: 1rem; line-height: 1.5; white-space: pre-wrap; margin-bottom: 8px;">${post.content || ""}</p>
+                ${mediaHTML}
+
+                <div class="post-stats-row">
+                    <div><i class="fa-solid fa-thumbs-up" style="color: var(--fb-blue);"></i> <span id="like-count-${postId}">${post.likes > 0 ? post.likes : ""}</span></div>
+                    <div><span>${post.comments ? post.comments.length : 0} تعليق</span></div>
+                </div>
+
+                <div class="post-actions-buttons">
+                    <button class="post-action-item" onclick="toggleLike('${postId}', this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
+                    <button class="post-action-item" onclick="document.getElementById('comment-input-${postId}').focus()"><i class="fa-regular fa-comment"></i> تعليق</button>
+                    <button class="post-action-item" onclick="sharePost('${postId}')"><i class="fa-solid fa-share"></i> مشاركة</button>
+                </div>
+
+                <div class="comments-section">
+                    <div id="comments-list-${postId}">${commentsHTML}</div>
+                    <div class="comment-input-row">
+                        <img src="${currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                        <input type="text" id="comment-input-${postId}" placeholder="اكتب تعليقاً..." onkeypress="addComment(event, '${postId}')">
+                    </div>
+                </div>
+            `;
+        }
+
         async function loadPostsAndMedia() {
             try {
                 const homePostsContainer = document.getElementById('homePostsContainer');
@@ -1443,7 +1473,7 @@
                 if(allStoredVideosGrid) allStoredVideosGrid.innerHTML = "";
 
                 if (currentAvatarUrl && photosGrid) {
-                    photosGrid.innerHTML += `<div class="photo-grid-item"><img src="${currentAvatarUrl}" alt="Avatar Photo"></div>`;
+                    photosGrid.innerHTML += `<div class="photo-grid-item"><img src="${currentAvatarUrl}" alt="Avatar"></div>`;
                 }
 
                 const querySnapshot = await getDocs(collection(db, "posts"));
@@ -1451,42 +1481,12 @@
                 querySnapshot.forEach((docSnap) => {
                     const post = docSnap.data();
                     const postId = docSnap.id;
-                    
-                    let mediaHTML = "";
-                    if (post.mediaType === "image" && post.mediaUrl) {
-                        mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 500px; object-fit: cover;"></div>`;
-                        
-                        if(photosGrid) {
-                            photosGrid.innerHTML += `<div class="photo-grid-item"><img src="${post.mediaUrl}" alt="Post Photo"></div>`;
-                        }
-                    } else if (post.mediaType === "video" && post.mediaUrl) {
-                        mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 450px; background: #000;"></video></div>`;
-                        
-                        if(videosGrid) {
-                            videosGrid.innerHTML += `
-                                <div class="video-grid-item">
-                                    <video src="${post.mediaUrl}" controls></video>
-                                </div>
-                            `;
-                        }
+                    const authorName = post.author ? post.author.trim() : "";
+                    const activeUser = currentAuthenticatedUser ? currentAuthenticatedUser.trim() : "";
 
-                        // إضافة الفيديو إلى صفحة الفيديوهات بتصميم فيسبوك المتكامل (مع لايك وكومنت وشير)
+                    // 1. معالجة الفيديوهات والريلز العامة (تعرض في صفحة الفيديوهات والريلز للجميع)
+                    if (post.mediaType === "video" && post.mediaUrl) {
                         if(allStoredVideosGrid) {
-                            let commentsHTML = "";
-                            if(post.comments && post.comments.length > 0) {
-                                post.comments.forEach(comm => {
-                                    commentsHTML += `
-                                        <div class="comment-item">
-                                            <img src="${comm.avatar || currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <div class="comment-bubble">
-                                                <b>${comm.author}</b>
-                                                <span>${comm.text}</span>
-                                            </div>
-                                        </div>
-                                    `;
-                                });
-                            }
-
                             allStoredVideosGrid.innerHTML += `
                                 <div class="stored-video-card">
                                     <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
@@ -1496,45 +1496,12 @@
                                             <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
                                         </div>
                                     </div>
-                                    <div class="stored-video-footer">
-                                        <p>${post.content || ""}</p>
-                                    </div>
+                                    <div class="stored-video-footer"><p>${post.content || ""}</p></div>
                                     <video src="${post.mediaUrl}" controls></video>
-
-                                    <div class="post-stats-row">
-                                        <div>
-                                            <i class="fa-solid fa-thumbs-up" style="color: var(--fb-blue);"></i> 
-                                            <span id="like-count-vid-${postId}">${post.likes > 0 ? post.likes : ""}</span>
-                                        </div>
-                                        <div><span>${post.comments ? post.comments.length : 0} تعليق</span></div>
-                                    </div>
-
-                                    <div class="post-actions-buttons">
-                                        <button class="post-action-item" onclick="toggleLike('${postId}', this)">
-                                            <i class="fa-regular fa-thumbs-up"></i> إعجاب
-                                        </button>
-                                        <button class="post-action-item" onclick="document.getElementById('comment-input-vid-${postId}').focus()">
-                                            <i class="fa-regular fa-comment"></i> تعليق
-                                        </button>
-                                        <button class="post-action-item" onclick="sharePost('${postId}')">
-                                            <i class="fa-solid fa-share"></i> مشاركة
-                                        </button>
-                                    </div>
-
-                                    <div class="comments-section">
-                                        <div id="comments-list-vid-${postId}">
-                                            ${commentsHTML}
-                                        </div>
-                                        <div class="comment-input-row">
-                                            <img src="${currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                            <input type="text" id="comment-input-vid-${postId}" placeholder="اكتب تعليقاً..." onkeypress="addComment(event, '${postId}')">
-                                        </div>
-                                    </div>
                                 </div>
                             `;
                         }
 
-                        // إضافة الفيديو تلقائياً إلى شريط الريلز في الصفحة الرئيسية
                         if(reelsScroll) {
                             reelsScroll.innerHTML += `
                                 <div class="reel-item-card">
@@ -1550,79 +1517,32 @@
                         }
                     }
 
-                    let commentsHTML = "";
-                    if(post.comments && post.comments.length > 0) {
-                        post.comments.forEach(comm => {
-                            commentsHTML += `
-                                <div class="comment-item">
-                                    <img src="${comm.avatar || currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                    <div class="comment-bubble">
-                                        <b>${comm.author}</b>
-                                        <span>${comm.text}</span>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                    }
-
-                    const postHTMLContent = `
-                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-                            <img src="${post.avatar || currentAvatarUrl}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                            <div>
-                                <h4 style="font-size: 0.95rem;">${post.author || "مستخدم"}</h4>
-                                <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
-                            </div>
-                        </div>
-                        <p style="font-size: 1rem; line-height: 1.5; white-space: pre-wrap; margin-bottom: 8px;">${post.content || ""}</p>
-                        ${mediaHTML}
-
-                        <div class="post-stats-row">
-                            <div>
-                                <i class="fa-solid fa-thumbs-up" style="color: var(--fb-blue);"></i> 
-                                <span id="like-count-${postId}">${post.likes > 0 ? post.likes : ""}</span>
-                            </div>
-                            <div><span>${post.comments ? post.comments.length : 0} تعليق</span></div>
-                        </div>
-
-                        <div class="post-actions-buttons">
-                            <button class="post-action-item" onclick="toggleLike('${postId}', this)">
-                                <i class="fa-regular fa-thumbs-up"></i> إعجاب
-                            </button>
-                            <button class="post-action-item" onclick="document.getElementById('comment-input-${postId}').focus()">
-                                <i class="fa-regular fa-comment"></i> تعليق
-                            </button>
-                            <button class="post-action-item" onclick="sharePost('${postId}')">
-                                <i class="fa-solid fa-share"></i> مشاركة
-                            </button>
-                        </div>
-
-                        <div class="comments-section">
-                            <div id="comments-list-${postId}">
-                                ${commentsHTML}
-                            </div>
-                            <div class="comment-input-row">
-                                <img src="${currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
-                                <input type="text" id="comment-input-${postId}" placeholder="اكتب تعليقاً..." onkeypress="addComment(event, '${postId}')">
-                            </div>
-                        </div>
-                    `;
-
+                    // 2. تعبئة الصفحة الرئيسية (تعرض بوستات الجميع)
                     if(homePostsContainer) {
                         const homePostEl = document.createElement('div');
                         homePostEl.className = "fb-card";
-                        homePostEl.innerHTML = postHTMLContent;
+                        homePostEl.innerHTML = generatePostHTML(postId, post);
                         homePostsContainer.appendChild(homePostEl);
                     }
 
-                    if(profilePostsContainer) {
-                        const profilePostEl = document.createElement('div');
-                        profilePostEl.className = "fb-card";
-                        profilePostEl.innerHTML = postHTMLContent;
-                        profilePostsContainer.appendChild(profilePostEl);
+                    // 3. تعبئة الصفحة الشخصية (تعرض بوستات المستخدم الحالي فقط)
+                    if (authorName === activeUser) {
+                        if (post.mediaType === "image" && post.mediaUrl && photosGrid) {
+                            photosGrid.innerHTML += `<div class="photo-grid-item"><img src="${post.mediaUrl}" alt="Post"></div>`;
+                        } else if (post.mediaType === "video" && post.mediaUrl && videosGrid) {
+                            videosGrid.innerHTML += `<div class="video-grid-item"><video src="${post.mediaUrl}" controls></video></div>`;
+                        }
+
+                        if(profilePostsContainer) {
+                            const profilePostEl = document.createElement('div');
+                            profilePostEl.className = "fb-card";
+                            profilePostEl.innerHTML = generatePostHTML(postId, post);
+                            profilePostsContainer.appendChild(profilePostEl);
+                        }
                     }
                 });
             } catch (e) {
-                console.error("خطأ في جلب المنشورات والفيديوهات:", e);
+                console.error("خطأ في جلب المنشورات:", e);
             }
         }
 
@@ -1636,7 +1556,7 @@
                 const coverRef = doc(db, "cover", "profile");
                 setDoc(coverRef, { pic_voer: blobCoverUrl }, { merge: true }).then(() => {
                     document.getElementById('profileCoverImage').src = blobCoverUrl;
-                }).catch(err => console.error(err));
+                });
             }
         }
 
@@ -1656,54 +1576,66 @@
                     document.getElementById('feedBoxAvatar').src = blobAvatarUrl;
                     document.getElementById('modalUserAvatar').src = blobAvatarUrl;
                     loadPostsAndMedia();
-                }).catch(err => console.error(err));
+                });
             }
         }
 
         async function checkStatusAndLoadUser() {
             try {
-                const statsusSnap = await getDocs(collection(db, "statsus"));
-                let onlineUsernames = [];
+                let activeUsername = localStorage.getItem("loggedInUser");
 
-                statsusSnap.forEach((docSnap) => {
-                    const statusData = docSnap.data();
-                    if (statusData.statsus === "online" && statusData.username) {
-                        onlineUsernames.push(statusData.username.trim());
-                    }
-                });
-
-                if (onlineUsernames.length > 0) {
-                    const usersSnap = await getDocs(collection(db, "users"));
-
-                    usersSnap.forEach((docSnap) => {
-                        const userData = docSnap.data();
-                        if (userData.username) {
-                            const userUName = userData.username.trim();
-                            if (onlineUsernames.includes(userUName)) {
-                                currentAuthenticatedUser = userData.name || userData.username;
-                                
-                                const userDisplayElement = document.getElementById('profileUserFromUsers');
-                                if(userDisplayElement) userDisplayElement.innerText = userData.username;
-
-                                if (userData.job) {
-                                    document.getElementById('sidebarJob').innerText = userData.job;
-                                    document.getElementById('aboutJob').innerText = userData.job;
-                                }
-                                if (userData.city) {
-                                    document.getElementById('sidebarCity').innerText = userData.city;
-                                    document.getElementById('aboutCity').innerText = userData.city;
-                                }
-                                if (userData.gender) {
-                                    document.getElementById('sidebarGender').innerText = userData.gender;
-                                    document.getElementById('aboutGender').innerText = userData.gender;
-                                }
-                                if (userData.socialStatus) {
-                                    document.getElementById('sidebarSocialStatus').innerText = userData.socialStatus;
-                                    document.getElementById('aboutSocialStatus').innerText = userData.socialStatus;
-                                }
-                            }
+                if (!activeUsername) {
+                    const statsusSnap = await getDocs(collection(db, "statsus"));
+                    statsusSnap.forEach((docSnap) => {
+                        const statusData = docSnap.data();
+                        if (statusData.statsus === "online" && statusData.username) {
+                            activeUsername = statusData.username.trim();
                         }
                     });
+                }
+
+                if (activeUsername) {
+                    const usersRef = collection(db, "users");
+                    const qUser = query(usersRef, where("username", "==", activeUsername));
+                    const usersSnap = await getDocs(qUser);
+
+                    if (!usersSnap.empty) {
+                        usersSnap.forEach((docSnap) => {
+                            const userData = docSnap.data();
+                            currentAuthenticatedUser = userData.name || userData.username;
+                            
+                            document.getElementById('profileUsernameDisplay').innerText = currentAuthenticatedUser;
+                            document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
+                            document.getElementById('feedInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
+                            document.getElementById('profileInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
+                            document.getElementById('modalUserName').innerText = currentAuthenticatedUser;
+
+                            if (userData.avatarUrl) {
+                                currentAvatarUrl = userData.avatarUrl;
+                            }
+
+                            if (userData.job) {
+                                document.getElementById('sidebarJob').innerText = userData.job;
+                                document.getElementById('aboutJob').innerText = userData.job;
+                            }
+                            if (userData.city) {
+                                document.getElementById('sidebarCity').innerText = userData.city;
+                                document.getElementById('aboutCity').innerText = userData.city;
+                            }
+                            if (userData.gender) {
+                                document.getElementById('sidebarGender').innerText = userData.gender;
+                                document.getElementById('aboutGender').innerText = userData.gender;
+                            }
+                            if (userData.socialStatus) {
+                                document.getElementById('sidebarSocialStatus').innerText = userData.socialStatus;
+                                document.getElementById('aboutSocialStatus').innerText = userData.socialStatus;
+                            }
+                        });
+                    } else {
+                        currentAuthenticatedUser = activeUsername;
+                        document.getElementById('profileUsernameDisplay').innerText = activeUsername;
+                        document.getElementById('sideUserName').innerText = activeUsername;
+                    }
                 }
             } catch (e) {
                 console.error("خطأ أثناء جلب وتحقق البيانات: ", e);
@@ -1713,12 +1645,6 @@
         async function loadProfileData() {
             try {
                 await checkStatusAndLoadUser();
-
-                document.getElementById('profileUsernameDisplay').innerText = currentAuthenticatedUser;
-                document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
-                document.getElementById('feedInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
-                document.getElementById('profileInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
-                document.getElementById('modalUserName').innerText = currentAuthenticatedUser;
 
                 const coverRef = doc(db, "cover", "profile");
                 const coverSnap = await getDoc(coverRef);
