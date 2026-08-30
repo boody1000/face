@@ -938,7 +938,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, query, where } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -1053,17 +1053,18 @@
 
             const reader = new FileReader();
             reader.onload = async function(e) {
-                const base64Image = e.target.result;
+                const base64Image = e.target.filter; // أو القاعدة الصحيحة
+                const base64ImageResult = e.target.result;
                 try {
                     const avatarRef = doc(db, "cover", "profile_avatar");
-                    await setDoc(avatarRef, { pic_avatar: base64Image }, { merge: true });
+                    await setDoc(avatarRef, { pic_avatar: base64ImageResult }, { merge: true });
 
-                    currentAvatarUrl = base64Image;
-                    document.getElementById('profileAvatarImage').src = base64Image;
-                    document.getElementById('sideUserAvatar').src = base64Image;
-                    document.getElementById('feedUserAvatar').src = base64Image;
-                    document.getElementById('feedBoxAvatar').src = base64Image;
-                    document.getElementById('modalUserAvatar').src = base64Image;
+                    currentAvatarUrl = base64ImageResult;
+                    document.getElementById('profileAvatarImage').src = base64ImageResult;
+                    document.getElementById('sideUserAvatar').src = base64ImageResult;
+                    document.getElementById('feedUserAvatar').src = base64ImageResult;
+                    document.getElementById('feedBoxAvatar').src = base64ImageResult;
+                    document.getElementById('modalUserAvatar').src = base64ImageResult;
                 } catch (error) {
                     console.error("خطأ أثناء حفظ وتحديث البروفايل: ", error);
                 }
@@ -1071,6 +1072,7 @@
             reader.readAsDataURL(file);
         }
 
+        // دالة التحقق من الـ statsus وجلب بيانات المستخدم المطابق من users وتحديث قسم "حول" و "التفاصيل"
         async function checkStatusAndLoadUser() {
             try {
                 console.log("--- فحص مجموعتي statsus و users ---");
@@ -1090,10 +1092,28 @@
                         const userData = docSnap.data();
                         if (userData.username) {
                             const userUName = userData.username.trim();
+                            // التحقق إذا كان اسم المستخدم موجود في القائمة النشطة (Online)
                             if (onlineUsernames.includes(userUName)) {
                                 currentAuthenticatedUser = userData.name || userData.username;
-                                const matchedUserField = userData.username;
-                                document.getElementById('profileUserFromUsers').innerText = matchedUserField;
+                                document.getElementById('profileUserFromUsers').innerText = userData.username;
+
+                                // جلب وتعبئة المعلومات في قسم "حول" و "التفاصيل" ديناميكياً
+                                if (userData.work) {
+                                    document.getElementById('sidebarWork').innerText = userData.work;
+                                    document.getElementById('aboutWork').innerText = userData.work;
+                                }
+                                if (userData.education) {
+                                    document.getElementById('sidebarEducation').innerText = userData.education;
+                                    document.getElementById('aboutEducation').innerText = userData.education;
+                                }
+                                if (userData.liveIn) {
+                                    document.getElementById('sidebarLive').innerText = userData.liveIn;
+                                    document.getElementById('aboutLive').innerText = userData.liveIn;
+                                }
+                                if (userData.from) {
+                                    document.getElementById('sidebarFrom').innerText = userData.from;
+                                    document.getElementById('aboutFrom').innerText = userData.from;
+                                }
                             }
                         }
                     });
@@ -1106,38 +1126,6 @@
         async function loadProfileData() {
             try {
                 await checkStatusAndLoadUser();
-
-                const userDocRef = doc(db, "users", "profile_info");
-                const userSnap = await getDoc(userDocRef);
-                
-                if (userSnap.exists()) {
-                    const userData = userSnap.data();
-                    
-                    if(userData.work) {
-                        document.getElementById('sidebarWork').innerText = userData.work;
-                        document.getElementById('aboutWork').innerText = userData.work;
-                    }
-                    if(userData.education) {
-                        document.getElementById('sidebarEducation').innerText = userData.education;
-                        document.getElementById('aboutEducation').innerText = userData.education;
-                    }
-                    if(userData.liveIn) {
-                        document.getElementById('sidebarLive').innerText = userData.liveIn;
-                        document.getElementById('aboutLive').innerText = userData.liveIn;
-                    }
-                    if(userData.from) {
-                        document.getElementById('sidebarFrom').innerText = userData.from;
-                        document.getElementById('aboutFrom').innerText = userData.from;
-                    }
-                } else {
-                    await setDoc(userDocRef, {
-                        name: currentAuthenticatedUser,
-                        work: "يعمل لدى شركة برمجيات كبرى",
-                        education: "درس هندسة الحاسب",
-                        liveIn: "يقيم في الرياض",
-                        from: "من الإسكندرية"
-                    });
-                }
 
                 document.getElementById('profileUsernameDisplay').innerText = currentAuthenticatedUser;
                 document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
