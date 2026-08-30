@@ -3,217 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاكاة فيسبوك مع Firebase</title>
-    <!-- تضمين Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>تسجيل الدخول إلى فيسبوك</title>
+    <!-- ربط ملف الـ CSS الخارجي -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans">
-    <!-- 1. شريط التنقل العلوي (Navbar) -->
-    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 px-4 py-2 flex items-center justify-between shadow-md">
-        <!-- الشعار وحقل البحث -->
-        <div class="flex items-center gap-3">
-            <div class="text-blue-500 text-3xl font-bold flex items-center gap-1 cursor-pointer" onclick="switchTab('home')">
-                <i class="fa-brands fa-facebook"></i>
-            </div>
-            <div class="relative hidden md:block">
-                <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
-                    <i class="fa-solid fa-search"></i>
-                </span>
-                <input type="text" placeholder="بحث فيسبوك" class="bg-slate-700 text-slate-200 pr-10 pl-4 py-2 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-60">
-            </div>
+<body>
+
+    <div class="facebook-container">
+        <!-- القسم الأيمن: الترحيب والشعار -->
+        <div class="fb-info">
+            <h1 class="fb-logo">facebook</h1>
+            <p>يساعدك فيسبوك على التواصل والمشاركة مع الأشخاص الذين تعرفهم.</p>
         </div>
-        <!-- الأيقونات الوسطى للتنقل -->
-        <nav class="hidden md:flex items-center gap-2">
-            <button id="navHomeBtn" onclick="switchTab('home')" class="px-12 py-2 text-blue-500 border-b-4 border-blue-500 text-xl transition"><i class="fa-solid fa-house"></i></button>
-            <button id="navVideosBtn" onclick="switchTab('videos')" class="px-12 py-2 text-slate-400 hover:text-slate-200 hover:bg-slate-700 rounded-lg text-xl transition"><i class="fa-solid fa-tv"></i></button>
-        </nav>
-        <!-- الحساب الشخصي -->
-        <div class="flex items-center gap-2">
-            <div class="relative cursor-pointer" onclick="switchTab('profile')">
-                <img id="topAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" alt="صورة المستخدم" class="w-10 h-10 rounded-full object-cover border border-slate-600">
-                <span class="absolute bottom-0 left-0 w-3 h-3 bg-green-500 border-2 border-slate-800 rounded-full"></span>
-            </div>
-        </div>
-    </header>
 
-    <!-- 2. محتوى الصفحة الرئيسية (Home Feed) -->
-    <div id="homeView" class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-6 p-4">
-        <aside class="hidden lg:block space-y-2">
-            <a href="#" onclick="switchTab('profile')" class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg transition font-medium">
-                <img id="sidebarAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-8 h-8 rounded-full object-cover">
-                <span id="sidebarUserName">اسم المستخدم</span>
-            </a>
-            <a href="#" onclick="switchTab('videos')" class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg transition text-blue-400 font-medium">
-                <i class="fa-solid fa-tv w-6 text-center text-xl"></i>
-                <span>الفيديوهات (Watch)</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg transition text-sky-400 font-medium">
-                <i class="fa-solid fa-store w-6 text-center text-xl"></i>
-                <span>Marketplace</span>
-            </a>
-        </aside>
-        
-        <main class="col-span-1 lg:col-span-2 space-y-6">
-            <div class="bg-slate-800 p-4 rounded-xl shadow-md border border-slate-700 space-y-3">
-                <div class="flex items-center gap-3 pb-3 border-b border-slate-700">
-                    <img id="feedBoxAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover">
-                    <input type="text" id="postText" placeholder="بما تفكر يا صديق؟" class="bg-slate-700 text-slate-200 px-4 py-2.5 rounded-full w-full focus:outline-none">
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <input type="text" id="postImage" placeholder="رابط الصورة" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600">
-                    <input type="text" id="postVideo" placeholder="رابط الفيديو" class="bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-lg focus:outline-none border border-slate-600">
-                </div>
-                <div id="postPreviewContainer" class="hidden relative w-full bg-black rounded-lg overflow-hidden max-h-60 p-2 border border-slate-700"></div>
-                <div class="flex justify-between items-center pt-2">
-                    <div class="flex gap-2">
-                        <label class="flex items-center gap-1 text-slate-300 text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg cursor-pointer transition">
-                            <i class="fa-solid fa-images text-green-500"></i> صورة
-                            <input type="file" accept="image/*" class="hidden" onchange="handleFileSelect(event, 'postImage', 'postPreviewContainer', 'image')">
-                        </label>
-                        <label class="flex items-center gap-1 text-slate-300 text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1.5 rounded-lg cursor-pointer transition">
-                            <i class="fa-solid fa-video text-red-500"></i> فيديو
-                            <input type="file" accept="video/*" class="hidden" onchange="handleFileSelect(event, 'postVideo', 'postPreviewContainer', 'video')">
-                        </label>
-                    </div>
-                    <button onclick="createPost()" class="bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-2 rounded-lg text-sm transition shadow-md">نشر</button>
-                </div>
-            </div>
-            <div id="postsFeed" class="space-y-6"></div>
-        </main>
-
-        <aside class="hidden lg:block space-y-3">
-            <h3 class="text-slate-400 font-semibold text-sm px-2">جهات الاتصال</h3>
-            <div class="flex items-center gap-3 p-2 hover:bg-slate-800 rounded-lg cursor-pointer transition relative">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100" class="w-8 h-8 rounded-full object-cover">
-                <span class="text-sm font-medium text-slate-200">محمد علي</span>
-            </div>
-        </aside>
-    </div>
-
-    <!-- 3. صفحة عرض الفيديوهات -->
-    <div id="videosView" class="hidden container mx-auto max-w-3xl p-4 space-y-6">
-        <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-md flex items-center justify-between">
-            <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
-                <i class="fa-solid fa-tv text-blue-500"></i> الفيديوهات المقترحة (Watch)
-            </h1>
-        </div>
-    </div>
-
-    <!-- 4. محتوى الصفحة الشخصية -->
-    <div id="profileView" class="hidden container mx-auto max-w-5xl p-0 md:p-4">
-        <div class="bg-slate-800 rounded-b-xl shadow-md overflow-hidden border border-slate-700">
-            <!-- الغلاف وصورة الغلاف مع زر التعديل -->
-            <div class="h-64 w-full bg-gradient-to-r from-blue-800 to-indigo-900 relative group">
-                <img id="coverImg" src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=1200" class="w-full h-full object-cover opacity-80">
-                <button onclick="document.getElementById('coverInput').click()" class="absolute bottom-4 left-4 bg-slate-900/90 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-medium flex items-center gap-2 transition shadow-lg border border-slate-600">
-                    <i class="fa-solid fa-camera"></i> تغيير صورة الغلاف
-                </button>
-                <input type="file" id="coverInput" accept="image/*" class="hidden" onchange="updateCover(event)">
-            </div>
-
-            <!-- البروفايل وصورة البروفايل مع زر التعديل -->
-            <div class="px-6 pb-4 relative flex flex-col md:flex-row items-center md:items-end justify-between -mt-20 md:-mt-10 gap-4">
-                <div class="flex flex-col md:flex-row items-center gap-4 text-center md:text-right">
-                    <div class="relative group">
-                        <img id="profileAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300" class="w-36 h-36 rounded-full object-cover border-4 border-slate-800 shadow-xl">
-                        <button onclick="document.getElementById('avatarInput').click()" class="absolute bottom-2 right-2 bg-blue-600 hover:bg-blue-500 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg border-2 border-slate-800 transition">
-                            <i class="fa-solid fa-camera text-sm"></i>
-                        </button>
-                        <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="updateAvatar(event)">
-                    </div>
-                    <div class="mt-2 md:mt-12">
-                        <h1 id="profileUserName" class="text-2xl font-bold text-slate-100">اسم المستخدم</h1>
-                        <p id="profileUserWorkHeader" class="text-slate-400 text-sm">مطور برمجيات</p>
-                    </div>
+        <!-- القسم الأيسر: نموذج تسجيل الدخول -->
+        <div class="fb-form-wrapper">
+            <div class="fb-card">
+                <form id="loginForm">
+                    <input type="text" id="email" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+                    <input type="password" id="password" placeholder="كلمة السر" required>
+                    <button type="submit" class="login-btn">تسجيل الدخول</button>
+                </form>
+                
+                <a href="#" class="forgot-pass">هل نسيت كلمة السر؟</a>
+                
+                <hr class="divider">
+                
+                <div class="create-account-container">
+                    <button type="button" class="create-btn">إنشاء حساب جديد</button>
                 </div>
             </div>
             
-            <div class="flex border-t border-slate-700 px-6 gap-2 overflow-x-auto">
-                <button onclick="switchProfileSection('posts')" id="btnProfilePosts" class="py-3 px-4 text-blue-500 border-b-2 border-blue-500 font-semibold text-sm transition">المحتوى</button>
-                <button onclick="switchProfileSection('about')" id="btnProfileAbout" class="py-3 px-4 text-slate-400 hover:text-slate-200 font-semibold text-sm transition">حول</button>
-            </div>
-        </div>
-
-        <div class="mt-4">
-            <div id="sectionPosts" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="space-y-4">
-                    <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-md space-y-4">
-                        <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                            <h2 class="font-bold text-lg text-slate-100">نبذة تعريفية</h2>
-                        </div>
-                        <div id="bioDisplayMode" class="space-y-3 text-sm text-slate-300">
-                            <p class="text-center italic text-slate-200 bg-slate-700/50 p-2 rounded-lg" id="dispBio">أهلاً بك في ملفي الشخصي.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="fb-page-footer">
+                <p><b>إنشاء صفحة</b> لشخصية مشهورة أو علامة تجارية أو شركة.</p>
             </div>
         </div>
     </div>
 
-    <!-- كود الجافاسكريبت والتحكم في الصور والأزرار -->
+    <!-- كود الـ JavaScript (يمكن وضعه هنا أو في ملف منفصل script.js) -->
     <script>
-        // دالة تغيير صورة الغلاف
-        function updateCover(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('coverImg').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // منع إعادة تحميل الصفحة
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if(email && password) {
+                alert('تم النقر على تسجيل الدخول بنجاح! (هذه صفحة تجريبية)');
             }
-        }
-
-        // دالة تغيير صورة البروفايل وتحديثها في كل مكان بالموقع تلقائياً
-        function updateAvatar(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imageUrl = e.target.result;
-                    document.getElementById('profileAvatarImg').src = imageUrl;
-                    document.getElementById('topAvatarImg').src = imageUrl;
-                    document.getElementById('sidebarAvatarImg').src = imageUrl;
-                    document.getElementById('feedBoxAvatarImg').src = imageUrl;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function switchTab(tab) {
-            document.getElementById('homeView').classList.add('hidden');
-            document.getElementById('videosView').classList.add('hidden');
-            document.getElementById('profileView').classList.add('hidden');
-
-            if (tab === 'home') document.getElementById('homeView').classList.remove('hidden');
-            if (tab === 'videos') document.getElementById('videosView').classList.remove('hidden');
-            if (tab === 'profile') document.getElementById('profileView').classList.remove('hidden');
-        }
-
-        function switchProfileSection(section) {
-            // إدارة الأقسام
-        }
-
-        function handleFileSelect(event, inputId, containerId, type) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById(inputId).value = file.name;
-                    const container = document.getElementById(containerId);
-                    container.classList.remove('hidden');
-                    if (type === 'image') {
-                        container.innerHTML = `<img src="${e.target.result}" class="w-full max-h-56 object-contain rounded-lg">`;
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function createPost() {
-            alert('تم النشر بنجاح!');
-        }
+        });
     </script>
 </body>
 </html>
