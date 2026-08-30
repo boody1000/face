@@ -792,7 +792,11 @@
                             </button>
                         </div>
                         <div class="profile-text-info">
-                            <h1 id="profileNameHeader">محمد خالد <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i></h1>
+                            <h1 id="profileNameHeader">
+                                <span id="profileUsernameDisplay">محمد خالد</span>
+                                <span id="profileUserFromUsers" style="margin-right: 8px; font-size: 1.5rem; font-weight: bold; color: var(--fb-text);"></span>
+                                <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>
+                            </h1>
                             <p>500 صديق</p>
                         </div>
                     </div>
@@ -1077,8 +1081,8 @@
                 statsusSnap.forEach((docSnap) => {
                     const statusData = docSnap.data();
                     // التحقق من أن حقل status يساوي online
-                    if (statusData.statsus === "online" && statsusData.username) {
-                        onlineUsernames.push(statsusData.username.trim());
+                    if (statusData.statsus === "online" && statusData.username) {
+                        onlineUsernames.push(statusData.username.trim());
                     }
                 });
 
@@ -1091,6 +1095,8 @@
                             // جلب الـ username والاسم إذا وُجد تطابق
                             if (onlineUsernames.includes(userUName)) {
                                 currentAuthenticatedUser = userData.name || userData.username;
+                                const matchedUserField = userData.username;
+                                document.getElementById('profileUserFromUsers').innerText = matchedUserField;
                             }
                         }
                     });
@@ -1136,7 +1142,7 @@
                     });
                 }
 
-                document.getElementById('profileNameHeader').innerHTML = `${currentAuthenticatedUser} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
+                document.getElementById('profileUsernameDisplay').innerText = currentAuthenticatedUser;
                 document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
                 document.getElementById('feedInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
                 document.getElementById('profileInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
