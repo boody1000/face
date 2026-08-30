@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الشخصية وقسم حول بناءً على حالة تسجيل الدخول (Online/Offline)</title>
+    <title>فيسبوك - الصفحة الشخصية وقسم حول للمستخدم الحالي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -871,7 +871,6 @@
                 <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال</h4>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="C"> عمر أحمد</div>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="C"> سارة علي</div>
-                <div class="menu-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="C"> كريم محمود</div>
             </div>
         </div>
     </div>
@@ -919,7 +918,7 @@
             </div>
         </div>
 
-        <!-- تبويب المنشورات (الافتراضي) -->
+        <!-- تبويب المنشورات -->
         <div id="tab-content-posts" class="profile-main-layout">
             <div class="left-sidebar">
                 <div class="fb-card">
@@ -933,7 +932,6 @@
                 </div>
             </div>
             <div class="feed-section">
-                <!-- مربع إنشاء المنشور المودرن في الصفحة الشخصية مع الأزرار -->
                 <div class="fb-card">
                     <div class="modern-create-box">
                         <div class="modern-top-row">
@@ -959,7 +957,7 @@
             </div>
         </div>
 
-        <!-- تبويب قسم حول (About Section) الذي يعرض معلومات users من الداتابيز -->
+        <!-- تبويب قسم حول (About Section) -->
         <div id="tab-content-about" class="about-section-container">
             <div style="max-width: 940px; margin: 16px auto; padding: 0 16px;">
                 <div class="about-box-wrapper">
@@ -1047,11 +1045,11 @@
         </div>
     </div>
 
-    <!-- كود إعداد قاعدة البيانات والعمليات البرمجية (Firebase SDK) -->
+    <!-- كود جلب المستخدم الحالي بدقة وعدم التداخل مع البقية -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, setDoc, getDoc, updateDoc, query, where, limit } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
@@ -1067,8 +1065,10 @@
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        // اسم المستخدم الذي يتم محاكاة تسجيل دخوله حالياً
-        const currentLoginUsername = "محمد خالد"; 
+        // 1. تحديد بريد أو معرف المستخدم الحالي الذي قام بتسجيل الدخول (يمكن ربطه بجلسة حقيقية لاحقاً)
+        // هذا المتغير يضمن جلب مستخدم واحد فريد تماماً وعدم حدوث أي تداخل مع حسابات أشخاص آخرين
+        const currentUserEmail = "mohamed.khaled@example.com"; 
+        const currentFallbackName = "محمد خالد";
 
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
         let uploadedMediaData = { type: "", url: "" };
@@ -1126,8 +1126,9 @@
             if(!text.trim() && !uploadedMediaData.url) return;
 
             try {
+                const activeName = document.getElementById('profileNameText').innerText;
                 await addDoc(collection(db, "posts"), {
-                    author: currentLoginUsername,
+                    author: activeName,
                     avatar: currentAvatarUrl,
                     content: text,
                     mediaType: uploadedMediaData.type,
@@ -1187,52 +1188,57 @@
             reader.readAsDataURL(file);
         }
 
-        // دالة جلب بيانات المستخدم وعرضها بناءً على تسجيل الدخول وحالة الـ online
+        // استعلام دقيق للمستخدم الحالي فقط مع قصر النتيجة على عنصر واحد لمنع أي تداخل
         async function loadProfileData() {
             try {
                 const usersRef = collection(db, "users");
-                const q = query(usersRef, where("name", "==", currentLoginUsername));
+                // البحث بالبريد الفريد أو المعرف لضمان جلب مستخدم واحد فقط بدقة
+                const q = query(usersRef, where("email", "==", currentUserEmail), limit(1));
                 const querySnapshot = await getDocs(q);
 
                 if (!querySnapshot.empty) {
-                    // إذا وجد المستخدم، نقوم بتحديث حالته في قاعدة البيانات إلى online
-                    querySnapshot.forEach(async (docSnap) => {
-                        const userDocRef = doc(db, "users", docSnap.id);
-                        await updateDoc(userDocRef, { status: "online" });
+                    // إذا وُجد المستخدم، قم بتحديث حالته إلى online وجلب بياناته الفردية
+                    const docSnap = querySnapshot.docs[0];
+                    const userDocRef = doc(db, "users", docSnap.id);
+                    
+                    await updateDoc(userDocRef, { status: "online" });
 
-                        const userData = docSnap.data();
+                    const userData = docSnap.data();
 
-                        // عرض المعلومات في قسم التفاصيل (Sidebar) وقسم حول (About)
-                        if(userData.work) {
-                            document.getElementById('sidebarWork').innerText = userData.work;
-                            document.getElementById('aboutWork').innerText = userData.work;
-                        }
-                        if(userData.education) {
-                            document.getElementById('sidebarEducation').innerText = userData.education;
-                            document.getElementById('aboutEducation').innerText = userData.education;
-                        }
-                        if(userData.liveIn) {
-                            document.getElementById('sidebarLive').innerText = userData.liveIn;
-                            document.getElementById('aboutLive').innerText = userData.liveIn;
-                        }
-                        if(userData.from) {
-                            document.getElementById('sidebarFrom').innerText = userData.from;
-                            document.getElementById('aboutFrom').innerText = userData.from;
-                        }
-                        if(userData.name && userData.status === "online") {
-                            // جلب اسم المستخدم وعرضه بجوار صورة البروفايل والشريط الجانبي وحالة الـ online
-                            document.getElementById('profileNameText').innerText = userData.name;
+                    // عرض معلومات الداتابيز في قسم التفاصيل وقسم حول
+                    if(userData.work) {
+                        document.getElementById('sidebarWork').innerText = userData.work;
+                        document.getElementById('aboutWork').innerText = userData.work;
+                    }
+                    if(userData.education) {
+                        document.getElementById('sidebarEducation').innerText = userData.education;
+                        document.getElementById('aboutEducation').innerText = userData.education;
+                    }
+                    if(userData.liveIn) {
+                        document.getElementById('sidebarLive').innerText = userData.liveIn;
+                        document.getElementById('aboutLive').innerText = userData.liveIn;
+                    }
+                    if(userData.from) {
+                        document.getElementById('sidebarFrom').innerText = userData.from;
+                        document.getElementById('aboutFrom').innerText = userData.from;
+                    }
+                    
+                    if(userData.name) {
+                        document.getElementById('profileNameText').innerText = userData.name;
+                        document.getElementById('sideUserName').innerText = userData.name;
+                        document.getElementById('modalAuthorName').innerText = userData.name;
+                        document.getElementById('feedPlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
+                        document.getElementById('profilePlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
+
+                        if(userData.status === "online") {
                             document.getElementById('onlineIndicator').style.display = 'inline-block';
-                            document.getElementById('sideUserName').innerText = userData.name;
-                            document.getElementById('modalAuthorName').innerText = userData.name;
-                            document.getElementById('feedPlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
-                            document.getElementById('profilePlaceholderText').innerText = `بما تفكر يا ${userData.name.split(' ')[0]}؟`;
                         }
-                    });
+                    }
                 } else {
-                    // إذا لم يكن المستخدم موجوداً في الـ collection، يتم إنشاؤه افتراضياً بحالة online
+                    // إذا لم يكن مسجلاً مسبقاً، يتم إنشاؤه افتراضياً ببياناته الخاصة وحالة online
                     await addDoc(usersRef, {
-                        name: currentLoginUsername,
+                        email: currentUserEmail,
+                        name: currentFallbackName,
                         status: "online",
                         work: "يعمل لدى شركة برمجيات كبرى",
                         education: "درس هندسة الحاسب",
@@ -1240,10 +1246,10 @@
                         from: "من الإسكندرية"
                     });
                     
-                    document.getElementById('profileNameText').innerText = currentLoginUsername;
+                    document.getElementById('profileNameText').innerText = currentFallbackName;
                     document.getElementById('onlineIndicator').style.display = 'inline-block';
-                    document.getElementById('sideUserName').innerText = currentLoginUsername;
-                    document.getElementById('modalAuthorName').innerText = currentLoginUsername;
+                    document.getElementById('sideUserName').innerText = currentFallbackName;
+                    document.getElementById('modalAuthorName').innerText = currentFallbackName;
                     
                     document.getElementById('sidebarWork').innerText = "يعمل لدى شركة برمجيات كبرى";
                     document.getElementById('aboutWork').innerText = "يعمل لدى شركة برمجيات كبرى";
@@ -1272,7 +1278,7 @@
                     document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
             } catch (e) {
-                console.error("خطأ في جلب بيانات البروفايل من collection users: ", e);
+                console.error("خطأ في جلب بيانات البروفايل للمستخدم الحالي: ", e);
             }
         }
 
