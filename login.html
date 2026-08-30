@@ -141,11 +141,11 @@
         </div>
     </div>
 
-    <!-- كود ربط Firebase والتحقق من اسم المستخدم والتوجيه إلى index.html -->
+    <!-- كود ربط Firebase والتحقق من الاسم، تحديث الحالة إلى online، والتوجيه إلى index.html -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
         // إعدادات الـ Firebase الخاصة بك
         const firebaseConfig = {
@@ -178,7 +178,7 @@
             }
 
             message.style.color = '#555';
-            message.textContent = 'جاري التحقق من الحساب...';
+            message.textContent = 'جاري التحقق من الحساب وتحديث الحالة...';
 
             try {
                 // البحث في قاعدة البيانات داخل جدول users عن اسم المستخدم المدخل
@@ -186,7 +186,16 @@
                 const querySnapshot = await getDocs(q);
 
                 if (!querySnapshot.empty) {
-                    // إذا وجدنا المستخدم مسجلاً مسبقاً
+                    // جلب الـ ID الخاص بالمستند (Document) للمستخدم المطابق
+                    const userDocSnap = querySnapshot.docs[0];
+                    const userDocRef = doc(db, "users", userDocSnap.id);
+
+                    // تحديث حقل status في قاعدة البيانات ليصبح "online"
+                    await updateDoc(userDocRef, {
+                        status: "online"
+                    });
+
+                    // إذا وجدنا المستخدم وتتم العملية بنجاح
                     message.style.color = 'green';
                     message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك للرئيسية... 🎉';
                     
@@ -214,4 +223,3 @@
 
 </body>
 </html>
-```[cite: 4]
