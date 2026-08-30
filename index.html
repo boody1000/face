@@ -819,10 +819,10 @@
                 <div class="fb-card">
                     <h3>التفاصيل</h3>
                     <ul class="intro-list" id="sidebarIntroList">
-                        <li><i class="fa-solid fa-briefcase"></i> <span id="sidebarWork">جاري التحميل...</span></li>
-                        <li><i class="fa-solid fa-graduation-cap"></i> <span id="sidebarEducation">جاري التحميل...</span></li>
-                        <li><i class="fa-solid fa-house"></i> <span id="sidebarLive">جاري التحميل...</span></li>
-                        <li><i class="fa-solid fa-location-dot"></i> <span id="sidebarFrom">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-briefcase"></i> <span id="sidebarJob">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-location-dot"></i> <span id="sidebarCity">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-venus-mars"></i> <span id="sidebarGender">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-heart"></i> <span id="sidebarSocialStatus">جاري التحميل...</span></li>
                     </ul>
                 </div>
             </div>
@@ -861,29 +861,29 @@
                         <div class="about-info-row">
                             <i class="fa-solid fa-briefcase"></i>
                             <div class="about-info-text">
-                                <h4 id="aboutWork">جاري التحميل...</h4>
-                                <p>العمل</p>
-                            </div>
-                        </div>
-                        <div class="about-info-row">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                            <div class="about-info-text">
-                                <h4 id="aboutEducation">جاري التحميل...</h4>
-                                <p>التعليم</p>
-                            </div>
-                        </div>
-                        <div class="about-info-row">
-                            <i class="fa-solid fa-house"></i>
-                            <div class="about-info-text">
-                                <h4 id="aboutLive">جاري التحميل...</h4>
-                                <p>مكان الإقامة الحالي</p>
+                                <h4 id="aboutJob">جاري التحميل...</h4>
+                                <p>العمل (job)</p>
                             </div>
                         </div>
                         <div class="about-info-row">
                             <i class="fa-solid fa-location-dot"></i>
                             <div class="about-info-text">
-                                <h4 id="aboutFrom">جاري التحميل...</h4>
-                                <p>المدينة الأصلية</p>
+                                <h4 id="aboutCity">جاري التحميل...</h4>
+                                <p>المدينة (city)</p>
+                            </div>
+                        </div>
+                        <div class="about-info-row">
+                            <i class="fa-solid fa-venus-mars"></i>
+                            <div class="about-info-text">
+                                <h4 id="aboutGender">جاري التحميل...</h4>
+                                <p>الجنس (gender)</p>
+                            </div>
+                        </div>
+                        <div class="about-info-row">
+                            <i class="fa-solid fa-heart"></i>
+                            <div class="about-info-text">
+                                <h4 id="aboutSocialStatus">جاري التحميل...</h4>
+                                <p>الحالة الاجتماعية (socialStatus)</p>
                             </div>
                         </div>
                     </div>
@@ -1071,7 +1071,7 @@
             reader.readAsDataURL(file);
         }
 
-        // دالة جلب بيانات المستخدم وتحديث الواجهة بالحقول الصحيحة (مثل job بدلاً من work)
+        // دالة جلب البيانات باستخدام أسماء الحقول الجديدة الدقيقة (city, gender, job, socialStatus, username)
         async function checkStatusAndLoadUser() {
             try {
                 console.log("--- بدء فحص مجموعتي statsus و users ---");
@@ -1100,41 +1100,37 @@
                                 const userDisplayElement = document.getElementById('profileUserFromUsers');
                                 if(userDisplayElement) userDisplayElement.innerText = userData.username;
 
-                                // استخدام حقل job أو work حسب المتوفر في الوثيقة
-                                const workVal = userData.job || userData.work;
-                                if (workVal) {
-                                    document.getElementById('sidebarWork').innerText = workVal;
-                                    document.getElementById('aboutWork').innerText = workVal;
+                                // تعبئة البيانات بناءً على الحقول الصحيحة
+                                if (userData.job) {
+                                    document.getElementById('sidebarJob').innerText = userData.job;
+                                    document.getElementById('aboutJob').innerText = userData.job;
                                 } else {
-                                    document.getElementById('sidebarWork').innerText = "لا يوجد عمل مضاف";
-                                    document.getElementById('aboutWork').innerText = "لا يوجد عمل مضاف";
+                                    document.getElementById('sidebarJob').innerText = "غير محدد";
+                                    document.getElementById('aboutJob').innerText = "غير محدد";
                                 }
 
-                                const eduVal = userData.education;
-                                if (eduVal) {
-                                    document.getElementById('sidebarEducation').innerText = eduVal;
-                                    document.getElementById('aboutEducation').innerText = eduVal;
+                                if (userData.city) {
+                                    document.getElementById('sidebarCity').innerText = userData.city;
+                                    document.getElementById('aboutCity').innerText = userData.city;
                                 } else {
-                                    document.getElementById('sidebarEducation').innerText = "غير محدد";
-                                    document.getElementById('aboutEducation').innerText = "غير محدد";
+                                    document.getElementById('sidebarCity').innerText = "غير محدد";
+                                    document.getElementById('aboutCity').innerText = "غير محدد";
                                 }
 
-                                const liveVal = userData.liveIn || userData.address;
-                                if (liveVal) {
-                                    document.getElementById('sidebarLive').innerText = liveVal;
-                                    document.getElementById('aboutLive').innerText = liveVal;
+                                if (userData.gender) {
+                                    document.getElementById('sidebarGender').innerText = userData.gender;
+                                    document.getElementById('aboutGender').innerText = userData.gender;
                                 } else {
-                                    document.getElementById('sidebarLive').innerText = "غير محدد";
-                                    document.getElementById('aboutLive').innerText = "غير محدد";
+                                    document.getElementById('sidebarGender').innerText = "غير محدد";
+                                    document.getElementById('aboutGender').innerText = "غير محدد";
                                 }
 
-                                const fromVal = userData.from || userData.city;
-                                if (fromVal) {
-                                    document.getElementById('sidebarFrom').innerText = fromVal;
-                                    document.getElementById('aboutFrom').innerText = fromVal;
+                                if (userData.socialStatus) {
+                                    document.getElementById('sidebarSocialStatus').innerText = userData.socialStatus;
+                                    document.getElementById('aboutSocialStatus').innerText = userData.socialStatus;
                                 } else {
-                                    document.getElementById('sidebarFrom').innerText = "غير محدد";
-                                    document.getElementById('aboutFrom').innerText = "غير محدد";
+                                    document.getElementById('sidebarSocialStatus').innerText = "غير محدد";
+                                    document.getElementById('aboutSocialStatus').innerText = "غير محدد";
                                 }
                             }
                         }
