@@ -206,7 +206,6 @@
             border-bottom-right-radius: 8px;
         }
 
-        /* زر تعديل الغلاف على صورة الغلاف مباشرة */
         .edit-cover-btn {
             position: absolute;
             bottom: 16px;
@@ -263,7 +262,6 @@
             object-fit: cover;
         }
 
-        /* زر صغير لتعديل صورة البروفايل يظهر أسفل الدائرة الشخصية */
         .edit-avatar-btn {
             position: absolute;
             bottom: 5px;
@@ -323,6 +321,11 @@
         .fb-btn-blue {
             background-color: var(--fb-blue);
             color: white;
+            transition: 0.2s;
+        }
+
+        .fb-btn-blue:hover {
+            background-color: var(--fb-blue-hover);
         }
 
         .fb-btn-gray {
@@ -358,12 +361,12 @@
             padding: 0 16px;
         }
 
-        /* المكونات العامة للمنشورات والكرت */
+        /* تصميم كرت إنشاء المنشور المودرن */
         .fb-card {
             background-color: var(--fb-card-bg);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 16px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             margin-bottom: 16px;
         }
 
@@ -387,46 +390,91 @@
             font-size: 0.95rem;
         }
 
-        .create-post-box {
+        .modern-create-box {
             display: flex;
-            gap: 10px;
-            align-items: center;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--fb-border);
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .create-post-box img {
-            width: 40px;
-            height: 40px;
+        .modern-top-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .modern-top-row img {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
+            border: 1px solid var(--fb-border);
         }
 
-        .create-post-input {
+        .modern-input-fake {
             background-color: var(--fb-bg);
-            border-radius: 50px;
-            padding: 10px 16px;
+            border-radius: 30px;
+            padding: 12px 18px;
             width: 100%;
             color: var(--fb-secondary-text);
             cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
         }
 
-        /* نافذة كتابة المنشور (Modal) */
+        .modern-input-fake:hover {
+            background-color: #e4e6eb;
+        }
+
+        .modern-divider {
+            height: 1px;
+            background-color: var(--fb-border);
+            width: 100%;
+        }
+
+        .modern-actions-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .modern-action-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 8px 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--fb-secondary-text);
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .modern-action-btn:hover {
+            background-color: var(--fb-hover);
+        }
+
+        /* نافذة كتابة المنشور المودرن (Modal) */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.6);
             z-index: 2000;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(4px);
         }
 
         .modal-box {
             background-color: white;
-            width: 500px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 520px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             padding: 16px;
         }
 
@@ -437,30 +485,110 @@
             border-bottom: 1px solid var(--fb-border);
             padding-bottom: 12px;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
         }
 
         .modal-close {
             background: #e4e6eb;
             border: none;
             border-radius: 50%;
-            width: 32px; height: 32px;
+            width: 36px; height: 36px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-body {
             padding: 16px 0;
+            max-height: 60vh;
+            overflow-y: auto;
         }
 
         .modal-body textarea {
             width: 100%;
-            height: 120px;
+            height: 100px;
             border: none;
             outline: none;
             font-size: 1.1rem;
             resize: none;
+            background: transparent;
         }
+
+        /* صندوق معاينة الصورة داخل المودال */
+        .modal-media-preview {
+            position: relative;
+            margin-top: 10px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--fb-border);
+            background: #f7f8fa;
+            max-height: 250px;
+            display: none;
+            text-align: center;
+        }
+
+        .modal-media-preview img {
+            width: 100%;
+            max-height: 240px;
+            object-fit: contain;
+        }
+
+        .remove-preview-btn {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px; height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-add-attachments {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--fb-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 16px;
+            background-color: #f7f8fa;
+        }
+
+        .modal-add-attachments span {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .attachment-icons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .att-icon-btn {
+            background: none;
+            border: none;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .att-icon-btn:hover {
+            background-color: #e4e6eb;
+        }
+
+        .att-photo { color: #45bd62; }
+        .att-video { color: #f02849; }
 
         .post-header-fb {
             display: flex;
@@ -568,6 +696,9 @@
             .nav-center {
                 display: none;
             }
+            .modal-box {
+                width: 90%;
+            }
         }
     </style>
 </head>
@@ -607,14 +738,27 @@
 
             <div class="main-feed" style="max-width: 680px; width: 100%;">
                 <div class="fb-card">
-                    <div class="create-post-box" onclick="openModal()">
-                        <img id="feedUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                        <div class="create-post-input">بما تفكر يا محمد؟</div>
+                    <div class="modern-create-box">
+                        <div class="modern-top-row">
+                            <img id="feedUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
+                            <div class="modern-input-fake" onclick="openModal()">بما تفكر يا محمد؟</div>
+                        </div>
+                        <div class="modern-divider"></div>
+                        <div class="modern-actions-row">
+                            <button class="modern-action-btn" onclick="openModal()">
+                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو مباشر
+                            </button>
+                            <button class="modern-action-btn" onclick="openModalWithPhoto()">
+                                <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> صورة/فيديو
+                            </button>
+                            <button class="modern-action-btn" onclick="openModal()">
+                                <i class="fa-solid fa-face-smile" style="color: #f7b125; font-size: 1.2rem;"></i> شعور/نشاط
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div id="posts-container-home">
-                    </div>
+                <div id="posts-container-home"></div>
             </div>
 
             <div class="side-menu">
@@ -678,13 +822,14 @@
             </div>
             <div class="feed-section">
                 <div class="fb-card">
-                    <div class="create-post-box" onclick="openModal()">
-                        <img id="feedBoxAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                        <div class="create-post-input">بما تفكر يا محمد؟</div>
+                    <div class="modern-create-box">
+                        <div class="modern-top-row">
+                            <img id="feedBoxAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
+                            <div class="modern-input-fake" onclick="openModal()">بما تفكر يا محمد؟</div>
+                        </div>
                     </div>
                 </div>
-                <div id="posts-container-profile">
-                    </div>
+                <div id="posts-container-profile"></div>
             </div>
         </div>
     </div>
@@ -696,13 +841,33 @@
                 <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
-                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 12px;">
-                    <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%;">
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
+                    <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
                     <h4 style="font-size: 0.95rem;">محمد خالد</h4>
                 </div>
+                
                 <textarea id="postTextContent" placeholder="بما تفكر يا محمد؟"></textarea>
+
+                <div id="modalMediaPreview" class="modal-media-preview">
+                    <button class="remove-preview-btn" onclick="clearMediaPreview()"><i class="fa-solid fa-xmark"></i></button>
+                    <img id="previewImageTag" src="" alt="Preview">
+                </div>
+
+                <div class="modal-add-attachments">
+                    <span>إضافة إلى منشورك</span>
+                    <div class="attachment-icons">
+                        <input type="file" id="modalPhotoInput" accept="image/*" style="display: none;" onchange="handlePostPhotoUpload(event)">
+                        <button class="att-icon-btn att-photo" onclick="document.getElementById('modalPhotoInput').click()" title="إضافة صورة">
+                            <i class="fa-solid fa-images"></i>
+                        </button>
+                        <button class="att-icon-btn" style="color: #f7b125;" title="شعور / نشاط"><i class="fa-solid fa-face-smile"></i></button>
+                    </div>
+                </div>
+
+                <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 1rem; border-radius: 8px;" onclick="addNewPost()">
+                    <i class="fa-solid fa-paper-plane"></i> نشر
+                </button>
             </div>
-            <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center;" onclick="addNewPost()">نشر</button>
         </div>
     </div>
 
@@ -725,40 +890,71 @@
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        // متغير عام يحفظ رابط صورة البروفايل الحالية لاستخدامه في المنشورات
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
+        let currentPostImageUrl = ""; // لتخزين مسار الصورة المؤقتة للمنشور
 
-        // فتح وإغلاق نافذة المنشورات
+        // فتح وإغلاق النافذة
         window.openModal = function() {
             document.getElementById('postModal').style.display = 'flex';
         }
-        window.closeModal = function() {
-            document.getElementById('postModal').style.display = 'none';
+
+        window.openModalWithPhoto = function() {
+            openModal();
+            document.getElementById('modalPhotoInput').click();
         }
 
-        // دالة حفظ منشور جديد في قاعدة البيانات (Firestore)
+        window.closeModal = function() {
+            document.getElementById('postModal').style.display = 'none';
+            clearMediaPreview();
+        }
+
+        // اختيار وعرض معاينة الصورة داخل مربع النشر
+        window.handlePostPhotoUpload = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentPostImageUrl = e.target.result;
+                document.getElementById('previewImageTag').src = currentPostImageUrl;
+                document.getElementById('modalMediaPreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // مسح الصورة المعاينة
+        window.clearMediaPreview = function() {
+            currentPostImageUrl = "";
+            document.getElementById('previewImageTag').src = "";
+            document.getElementById('modalMediaPreview').style.display = 'none';
+            document.getElementById('modalPhotoInput').value = "";
+        }
+
+        // زر نشر: حفظ المنشور (النص والصورة) في قاعدة البيانات (Firestore) وعرضه
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value;
-            if(!text.trim()) return;
+            if(!text.trim() && !currentPostImageUrl) return;
 
             try {
                 await addDoc(collection(db, "posts"), {
                     author: "محمد خالد",
                     avatar: currentAvatarUrl,
                     content: text,
-                    image: "",
+                    image: currentPostImageUrl,
                     time: "الآن",
                     likes: 0
                 });
+
                 document.getElementById('postTextContent').value = '';
+                clearMediaPreview();
                 closeModal();
-                fetchPosts();
+                fetchPosts(); // تحديث القائمة فوراً لإظهار المنشور الجديد
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
             }
         }
 
-        // دالة معالجة وتحديث صورة الغلاف
+        // تحديث صورة الغلاف
         window.handleCoverUpload = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -766,12 +962,9 @@
             const reader = new FileReader();
             reader.onload = async function(e) {
                 const base64Image = e.target.result;
-
                 try {
                     const coverRef = doc(db, "cover", "profile");
-                    await setDoc(coverRef, {
-                        pic_voer: base64Image
-                    }, { merge: true });
+                    await setDoc(coverRef, { pic_voer: base64Image }, { merge: true });
 
                     await addDoc(collection(db, "posts"), {
                         author: "محمد خالد",
@@ -791,7 +984,7 @@
             reader.readAsDataURL(file);
         }
 
-        // دالة معالجة وتحديث صورة البروفايل الشخصي وتخزينها ونشرها كبوست
+        // تحديث صورة البروفايل
         window.handleAvatarUpload = async function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -799,15 +992,10 @@
             const reader = new FileReader();
             reader.onload = async function(e) {
                 const base64Image = e.target.result;
-
                 try {
-                    // 1. التخزين في الداتابيز (مجموعة cover أو profile للحفاظ على الهيكلية المطلوبة)
                     const avatarRef = doc(db, "cover", "profile_avatar");
-                    await setDoc(avatarRef, {
-                        pic_avatar: base64Image
-                    }, { merge: true });
+                    await setDoc(avatarRef, { pic_avatar: base64Image }, { merge: true });
 
-                    // 2. نشر تحديث الصورة الشخصية كبوست في الـ Feed
                     await addDoc(collection(db, "posts"), {
                         author: "محمد خالد",
                         avatar: base64Image,
@@ -817,7 +1005,6 @@
                         likes: 0
                     });
 
-                    // 3. تحديث واجهة التطبيق وصور الحساب بالكامل فورياً
                     currentAvatarUrl = base64Image;
                     document.getElementById('profileAvatarImage').src = base64Image;
                     document.getElementById('sideUserAvatar').src = base64Image;
@@ -833,17 +1020,15 @@
             reader.readAsDataURL(file);
         }
 
-        // جلب الصور المحفوظة مسبقاً من الداتابيز عند تحميل الصفحة
+        // جلب بيانات البروفايل عند التحميل
         async function loadProfileData() {
             try {
-                // جلب الغلاف
                 const coverRef = doc(db, "cover", "profile");
                 const coverSnap = await getDoc(coverRef);
                 if (coverSnap.exists() && coverSnap.data().pic_voer) {
                     document.getElementById('profileCoverImage').src = coverSnap.data().pic_voer;
                 }
 
-                // جلب صورة البروفايل
                 const avatarRef = doc(db, "cover", "profile_avatar");
                 const avatarSnap = await getDoc(avatarRef);
                 if (avatarSnap.exists() && avatarSnap.data().pic_avatar) {
@@ -859,7 +1044,7 @@
             }
         }
 
-        // دالة جلب المنشورات من قاعدة البيانات وعرضها في الواجهة
+        // جلب المنشورات وعرضها
         async function fetchPosts() {
             const homeContainer = document.getElementById('posts-container-home');
             const profileContainer = document.getElementById('posts-container-profile');
@@ -911,13 +1096,11 @@
             }
         }
 
-        // تشغيل التحميل الأولي للبيانات والمنشورات
         loadProfileData();
         fetchPosts();
     </script>
 
     <script>
-        // دالة التنقل بين الصفحة الرئيسية والشخصية
         function switchAppView(viewName, tabElement) {
             document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
@@ -930,7 +1113,6 @@
             tabElement.classList.add('active');
         }
 
-        // دالة الإعجاب التفاعلية المحلية
         function toggleLike(btn) {
             btn.classList.toggle('liked');
             const icon = btn.querySelector('i');
