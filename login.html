@@ -141,13 +141,12 @@
         </div>
     </div>
 
-    <!-- كود ربط Firebase والتحقق من اسم المستخدم وحفظ الحالة -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-        import { getFirestore, collection, query, where, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, updateDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        // إعدادات الـ Firebase الخاصة بك[cite: 2]
+        // إعدادات الـ Firebase الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyCtf2ltWCvw6uW8LqpC2BCXKMoc76KjXVU",
             authDomain: "faceb-bb002.firebaseapp.com",
@@ -158,27 +157,13 @@
             measurementId: "G-5Y46BEF6V1"
         };
 
-        // تهيئة Firebase[cite: 2]
+        // تهيئة Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
         const loginForm = document.getElementById('loginForm');
         const message = document.getElementById('message');
-
-        // دالة لتحديث الحالة في collection تسمى statsus
-        async function updateUserStatus(username, statusState) {
-            try {
-                const statusRef = doc(db, "statsus", username);
-                await setDoc(statusRef, {
-                    username: username,
-                    status: statusState,
-                    lastUpdated: new Date()
-                }, { merge: true });
-            } catch (error) {
-                console.error("خطأ في تحديث الحالة: ", error);
-            }
-        }
 
         loginForm.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -195,28 +180,43 @@
             message.textContent = 'جاري التحقق من الحساب...';
 
             try {
-                // البحث في قاعدة البيانات داخل جدول users عن اسم المستخدم المدخل[cite: 2]
-                const q = query(collection(db, "users"), where("username", "==", usernameInput));
+                // 1. البحث في قاعدة البيانات داخل جدول users عن اسم المستخدم المدخل
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("username", "==", usernameInput));
                 const querySnapshot = await getDocs(q);
 
                 if (!querySnapshot.empty) {
-                    // إذا وجدنا المستخدم
+                    // الحصول على معرف المستند (Document ID) الخاص بالمستخدم إذا احتجناه، أو استخدام اسم المستخدم كمعرف
+                    let userDoc = querySnapshot.docs[0];
+                    let userId = userDoc.id;
+
+                    // 2. تحديث الحالة في مجموعة status (أو statsus) إلى online
+                    // نفترض هنا أنك تخزن الحالة بحيث يكون معرف المستند في مجموعة status هو نفس معرف المستخدم (userId) أو اسم المستخدم
+                    const statusRef = doc(db, "status", userId);
+                    
+                    // استخدام setDoc مع { merge: true } لضمان تحديث الحقل أو إنشائه إذا لم يكن موجوداً مسبقاً
+                    await setDoc(statusRef, {
+                        username: usernameInput,
+                        status: "online",
+                        lastLogin: new Date()
+                    }, { merge: true });
+
+                    // إذا كنت ترغب في تحديث مستند يعتمد على البحث في جدول status بدلاً من الـ ID، يمكنك استخدام استعلام وتحديث منفصل. 
+                    // الطريقة بالأعلى (استخدام الـ ID) هي الأسرع والأكثر كفاءة في Firestore.
+
+                    // 3. رسالة النجاح والتخزين المحلي
                     message.style.color = 'green';
                     message.textContent = 'تم تسجيل الدخول بنجاح! جاري تحويلك...';
                     
-                    // حفظ اسم المستخدم في التخزين المحلي[cite: 2]
                     localStorage.setItem("loggedInUser", usernameInput);
 
-                    // تحديث حالته إلى online في collection المسمى statsus
-                    await updateUserStatus(usernameInput, "online");
-
-                    // التوجيه الفعلي لصفحة index.html بعد ثانية واحدة ليرى المستخدم رسالة النجاح
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 1000);
+                    // توجيه المستخدم لصفحة أخرى بعد ثانية (مثال)
+                    // setTimeout(() => {
+                    //     window.location.href = 'index.html';
+                    // }, 1000);
 
                 } else {
-                    // إذا لم يتم العثور على اسم المستخدم[cite: 2]
+                    // إذا لم يتم العثور على اسم المستخدم
                     message.style.color = 'red';
                     message.textContent = 'اسم المستخدم غير موجود، تأكد من كتابته بشكل صحيح أو أنشئ حساباً جديداً.';
                 }
@@ -225,14 +225,6 @@
                 console.error("خطأ في تسجيل الدخول: ", error);
                 message.style.color = 'red';
                 message.textContent = 'حدث خطأ في الاتصال بقاعدة البيانات، يرجى المحاولة لاحقاً.';
-            }
-        });
-
-        // رصد خروج المستخدم أو إغلاقه للصفحة لتحويل حالته إلى offline
-        window.addEventListener('beforeunload', function() {
-            const loggedUser = localStorage.getItem("loggedInUser");
-            if (loggedUser) {
-                updateUserStatus(loggedUser, "offline");
             }
         });
     </script>
