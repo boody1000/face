@@ -847,6 +847,9 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- حاوية عرض المنشورات التي يتم جلبها من الداتابيز -->
+                <div id="postsContainer"></div>
             </div>
         </div>
 
@@ -1006,9 +1009,13 @@
             document.getElementById('modalVideoInput').value = '';
         }
 
+        // دالة نشر المنشور وحفظه في مجموعة posts في الداتابيز
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value;
-            if(!text.trim() && !uploadedMediaData.url) return;
+            if(!text.trim() && !uploadedMediaData.url) {
+                alert("الرجاء كتابة نص أو إرفاق صورة/فيديو قبل النشر!");
+                return;
+            }
 
             try {
                 await addDoc(collection(db, "posts"), {
@@ -1024,8 +1031,50 @@
                 document.getElementById('postTextContent').value = '';
                 clearMediaPreview();
                 closeModal();
+                alert("تم نشر المنشور بنجاح وحفظه في الداتابيز!");
+                loadPosts(); // إعادة تحميل المنشورات لعرض الجديد
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
+                alert("حدث خطأ أثناء النشر، تأكد من اتصال الإنترنت أو حجم الملف.");
+            }
+        }
+
+        // دالة لجلب وعرض المنشورات من مجموعة posts في الصفحة
+        async function loadPosts() {
+            try {
+                const postsContainer = document.getElementById('postsContainer');
+                if(!postsContainer) return;
+                
+                postsContainer.innerHTML = "";
+                const querySnapshot = await getDocs(collection(db, "posts"));
+                
+                querySnapshot.forEach((docSnap) => {
+                    const post = docSnap.data();
+                    
+                    let mediaHTML = "";
+                    if (post.mediaType === "image" && post.mediaUrl) {
+                        mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 400px; object-fit: cover;"></div>`;
+                    } else if (post.mediaType === "video" && post.mediaUrl) {
+                        mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl} "controls style="width: 100%; border-radius: 8px; max-height: 400px;"></video></div>`;
+                    }
+
+                    const postElement = document.createElement('div');
+                    postElement.className = "fb-card";
+                    postElement.innerHTML = `
+                        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                            <img src="${post.avatar || currentAvatarUrl}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                            <div>
+                                <h4 style="font-size: 0.95rem;">${post.author || "مستخدم"}</h4>
+                                <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
+                            </div>
+                        </div>
+                        <p style="font-size: 1rem; line-height: 1.5; white-space: pre-wrap;">${post.content || ""}</p>
+                        ${mediaHTML}
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            } catch (e) {
+                console.error("خطأ في جلب المنشورات:", e);
             }
         }
 
@@ -1071,10 +1120,8 @@
             reader.readAsDataURL(file);
         }
 
-        // دالة جلب البيانات باستخدام أسماء الحقول الجديدة الدقيقة (city, gender, job, socialStatus, username)
         async function checkStatusAndLoadUser() {
             try {
-                console.log("--- بدء فحص مجموعتي statsus و users ---");
                 const statsusSnap = await getDocs(collection(db, "statsus"));
                 let onlineUsernames = [];
 
@@ -1090,47 +1137,29 @@
 
                     usersSnap.forEach((docSnap) => {
                         const userData = docSnap.data();
-                        console.log("فحص مستخدم من users:", userData);
                         if (userData.username) {
                             const userUName = userData.username.trim();
                             if (onlineUsernames.includes(userUName)) {
-                                console.log("تطابق ناجح مع المستخدم:", userUName);
                                 currentAuthenticatedUser = userData.name || userData.username;
                                 
                                 const userDisplayElement = document.getElementById('profileUserFromUsers');
                                 if(userDisplayElement) userDisplayElement.innerText = userData.username;
 
-                                // تعبئة البيانات بناءً على الحقول الصحيحة
                                 if (userData.job) {
                                     document.getElementById('sidebarJob').innerText = userData.job;
                                     document.getElementById('aboutJob').innerText = userData.job;
-                                } else {
-                                    document.getElementById('sidebarJob').innerText = "غير محدد";
-                                    document.getElementById('aboutJob').innerText = "غير محدد";
                                 }
-
                                 if (userData.city) {
                                     document.getElementById('sidebarCity').innerText = userData.city;
                                     document.getElementById('aboutCity').innerText = userData.city;
-                                } else {
-                                    document.getElementById('sidebarCity').innerText = "غير محدد";
-                                    document.getElementById('aboutCity').innerText = "غير محدد";
                                 }
-
                                 if (userData.gender) {
                                     document.getElementById('sidebarGender').innerText = userData.gender;
                                     document.getElementById('aboutGender').innerText = userData.gender;
-                                } else {
-                                    document.getElementById('sidebarGender').innerText = "غير محدد";
-                                    document.getElementById('aboutGender').innerText = "غير محدد";
                                 }
-
                                 if (userData.socialStatus) {
                                     document.getElementById('sidebarSocialStatus').innerText = userData.socialStatus;
                                     document.getElementById('aboutSocialStatus').innerText = userData.socialStatus;
-                                } else {
-                                    document.getElementById('sidebarSocialStatus').innerText = "غير محدد";
-                                    document.getElementById('aboutSocialStatus').innerText = "غير محدد";
                                 }
                             }
                         }
@@ -1167,6 +1196,9 @@
                     document.getElementById('feedBoxAvatar').src = currentAvatarUrl;
                     document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
+
+                // استدعاء دالة عرض المنشورات عند التحميل
+                loadPosts();
             } catch (e) {
                 console.error("خطأ في جلب بيانات البروفايل: ", e);
             }
