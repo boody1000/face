@@ -1,9 +1,8 @@
 let activeUploadedImage = '';
 let activeUploadedVideo = '';
 
-// دالة التنقل الصحيحة والشاملة بين الشاشات الرئيسية
+// دالة التنقل بين الشاشات الرئيسية
 function switchTab(tabId) {
-    // إخفاء كل الواجهات الأساسية
     const homeView = document.getElementById('homeView');
     const videosView = document.getElementById('videosView');
     const profileView = document.getElementById('profileView');
@@ -12,26 +11,23 @@ function switchTab(tabId) {
     if (videosView) videosView.classList.add('hidden');
     if (profileView) profileView.classList.add('hidden');
 
-    // تحديد الـ ID المناسب بناءً على الاسم المرسل من الأزرار
     let targetId = tabId;
     if (tabId === 'home') targetId = 'homeView';
     else if (tabId === 'videos') targetId = 'videosView';
     else if (tabId === 'profile') targetId = 'profileView';
 
-    // إظهار الواجهة المطلوبة
     const targetSection = document.getElementById(targetId);
     if (targetSection) {
         targetSection.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         console.log("تم الانتقال بنجاح إلى الشاشة: " + tabId);
     } else {
         console.error("القسم المطلوب غير موجود في الـ HTML: " + targetId);
     }
 }
-
-// ربط الدالة بالنطاق العام لتعمل مع HTML onclick
 window.switchTab = switchTab;
 
-// دالة التنقل بين أقسام الملف الشخصي (المحتوى، حول، الصور، الفيديو)
+// دالة التنقل بين أقسام الملف الشخصي
 function switchProfileSection(section) {
     const secPosts = document.getElementById('sectionPosts');
     const secAbout = document.getElementById('sectionAbout');
@@ -48,8 +44,7 @@ function switchProfileSection(section) {
     if (secPhotos) secPhotos.classList.add('hidden');
     if (secVideos) secVideos.classList.add('hidden');
 
-    const buttons = [btnPosts, btnAbout, btnPhotos, btnVideos];
-    buttons.forEach(btn => {
+    [btnPosts, btnAbout, btnPhotos, btnVideos].forEach(btn => {
         if (btn) {
             btn.classList.remove('text-blue-500', 'border-b-2', 'border-blue-500');
             btn.classList.add('text-slate-400');
@@ -82,7 +77,6 @@ function switchProfileSection(section) {
         }
     }
 }
-
 window.switchProfileSection = switchProfileSection;
 
 function handleFileSelect(event, targetInputId, previewContainerId, type) {
@@ -210,6 +204,7 @@ function updateAvatar(event) {
     }
 }
 
+// دالة تحديث صورة الغلاف وتثبيتها ونشرها تلقائياً
 function updateCover(event) {
     const file = event.target.files[0];
     if (file) {
@@ -248,7 +243,6 @@ function toggleLike(button) {
     }
 }
 
-// دالة النشر الرئيسية من الصفحة الرئيسية
 function createPost() {
     const text = document.getElementById('postText').value;
     const imageInput = document.getElementById('postImage').value;
@@ -290,7 +284,6 @@ function createPost() {
     activeUploadedVideo = '';
 }
 
-// دالة النشر من الملف الشخصي
 function createProfilePost() {
     const text = document.getElementById('profilePostText').value;
     const imageInput = document.getElementById('profilePostImage').value;
@@ -332,9 +325,6 @@ function createProfilePost() {
     activeUploadedVideo = '';
 }
 
-// --- ربط قاعدة بيانات Firebase Firestore ---
-
-// 1. حفظ المنشور في Firestore
 async function savePostToDatabase(postData) {
     if (!window.db) {
         alert("قاعدة البيانات غير متصلة بعد!");
@@ -343,14 +333,13 @@ async function savePostToDatabase(postData) {
     try {
         await window.addDoc(window.collection(window.db, "posts"), postData);
         console.log("تم حفظ المنشور في الداتابيز بنجاح");
-        loadPostsFromDatabase(); // إعادة تحميل المنشورات فوراً لعرض الجديد
+        loadPostsFromDatabase();
     } catch (error) {
         console.error("حدث خطأ أثناء حفظ المنشور: ", error);
         alert("فشل الحفظ في قاعدة البيانات.");
     }
 }
 
-// 2. جلب المنشورات من Firestore وعرضها
 async function loadPostsFromDatabase() {
     const feedContainer = document.getElementById('postsFeed');
     const profileFeedContainer = document.getElementById('profilePostsFeed');
@@ -402,7 +391,7 @@ async function loadPostsFromDatabase() {
     }
 }
 
-// تحميل المنشورات تلقائياً بمجرد فتح الصفحة (انتظار تحميل Firebase أولاً)
+// تحميل المنشورات تلقائياً عند فتح الصفحة
 window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         if (window.db) {
