@@ -1053,7 +1053,6 @@
 
             const reader = new FileReader();
             reader.onload = async function(e) {
-                const base64Image = e.target.filter; // أو القاعدة الصحيحة
                 const base64ImageResult = e.target.result;
                 try {
                     const avatarRef = doc(db, "cover", "profile_avatar");
@@ -1075,29 +1074,40 @@
         // دالة التحقق من الـ statsus وجلب بيانات المستخدم المطابق من users وتحديث قسم "حول" و "التفاصيل"
         async function checkStatusAndLoadUser() {
             try {
-                console.log("--- فحص مجموعتي statsus و users ---");
+                console.log("--- بدء فحص مجموعتي statsus و users ---");
                 const statsusSnap = await getDocs(collection(db, "statsus"));
                 let onlineUsernames = [];
 
+                if (statsusSnap.empty) {
+                    console.log("مجموعة statsus فارغة أو غير موجودة!");
+                }
+
                 statsusSnap.forEach((docSnap) => {
                     const statusData = docSnap.data();
+                    console.log("بيانات الحالة المسترجعة:", statusData);
                     if (statusData.statsus === "online" && statusData.username) {
                         onlineUsernames.push(statusData.username.trim());
                     }
                 });
 
+                console.log("أسماء المستخدمين الـ online الذين تم العثور عليهم:", onlineUsernames);
+
                 if (onlineUsernames.length > 0) {
                     const usersSnap = await getDocs(collection(db, "users"));
+                    if (usersSnap.empty) {
+                        console.log("مجموعة users فارغة أو غير موجودة!");
+                    }
+
                     usersSnap.forEach((docSnap) => {
                         const userData = docSnap.data();
+                        console.log("فحص مستخدم من users:", userData);
                         if (userData.username) {
                             const userUName = userData.username.trim();
-                            // التحقق إذا كان اسم المستخدم موجود في القائمة النشطة (Online)
                             if (onlineUsernames.includes(userUName)) {
+                                console.log("تطابق ناجح مع المستخدم:", userUName);
                                 currentAuthenticatedUser = userData.name || userData.username;
                                 document.getElementById('profileUserFromUsers').innerText = userData.username;
 
-                                // جلب وتعبئة المعلومات في قسم "حول" و "التفاصيل" ديناميكياً
                                 if (userData.work) {
                                     document.getElementById('sidebarWork').innerText = userData.work;
                                     document.getElementById('aboutWork').innerText = userData.work;
@@ -1117,9 +1127,11 @@
                             }
                         }
                     });
+                } else {
+                    console.log("لم يتم العثور على أي مستخدم بحالة online وحقل username صالح.");
                 }
             } catch (e) {
-                console.error("خطأ أثناء جلب وتحقق البيانات:", e);
+                console.error("خطأ أثناء جلب وتحقق البيانات (تأكد من قواعد الأمان Security Rules):", e);
             }
         }
 
