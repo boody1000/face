@@ -512,7 +512,7 @@
 
         .modern-actions-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             gap: 6px;
         }
 
@@ -687,18 +687,12 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" id="feedInputText" onclick="openModal()">بما تفكر يا محمد؟</div>
+                            <div class="modern-input-fake" id="feedInputText" onclick="openModalForMedia()">بما تفكر يا محمد؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="openModalForVideo()">
-                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو
-                            </button>
-                            <button class="modern-action-btn" onclick="openModalForImage()">
-                                <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> صورة
-                            </button>
-                            <button class="modern-action-btn" onclick="openModal()">
-                                <i class="fa-solid fa-face-smile" style="color: #f7b125; font-size: 1.2rem;"></i> شعور/نشاط
+                            <button class="modern-action-btn" onclick="openModalForMedia()">
+                                <i class="fa-solid fa-photo-film" style="color: #45bd62; font-size: 1.2rem;"></i> رفع صورة أو فيديو من الجهاز
                             </button>
                         </div>
                     </div>
@@ -772,24 +766,18 @@
                     <div class="modern-create-box">
                         <div class="modern-top-row">
                             <img id="feedBoxAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User">
-                            <div class="modern-input-fake" id="profileInputText" onclick="openModal()">بما تفكر يا محمد؟</div>
+                            <div class="modern-input-fake" id="profileInputText" onclick="openModalForMedia()">بما تفكر يا محمد؟</div>
                         </div>
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
-                            <button class="modern-action-btn" onclick="openModalForVideo()">
-                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> زرار فيديو
-                            </button>
-                            <button class="modern-action-btn" onclick="openModalForImage()">
-                                <i class="fa-solid fa-images" style="color: #45bd62; font-size: 1.2rem;"></i> زرار صورة
-                            </button>
-                            <button class="modern-action-btn" onclick="openModal()">
-                                <i class="fa-solid fa-face-smile" style="color: #f7b125; font-size: 1.2rem;"></i> شعور/نشاط
+                            <button class="modern-action-btn" onclick="openModalForMedia()">
+                                <i class="fa-solid fa-photo-film" style="color: #45bd62; font-size: 1.2rem;"></i> صورة/فيديو (من الجهاز)
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- حاوية عرض المنشورات -->
+                <!-- حاوية عرض المنشورات والصور والفيديوهات -->
                 <div id="postsContainer"></div>
             </div>
         </div>
@@ -836,11 +824,11 @@
         </div>
     </div>
 
-    <!-- نافذة كتابة المنشور -->
+    <!-- نافذة كتابة المنشور / رفع الصورة أو الفيديو -->
     <div id="postModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
-                <span>إنشاء منشور</span>
+                <span>إنشاء منشور (صورة أو فيديو)</span>
                 <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="modal-body">
@@ -849,17 +837,17 @@
                     <h4 id="modalUserName" style="font-size: 0.95rem;">محمد خالد</h4>
                 </div>
                 
-                <textarea id="postTextContent" placeholder="بما تفكر؟"></textarea>
+                <textarea id="postTextContent" placeholder="اكتب شيئاً مع الوسائط..."></textarea>
                 
-                <!-- رفع صورة أو فيديو من الجهاز وحفظه كرابط نصي -->
+                <!-- رفع صورة أو فيديو من الجهاز وحفظه كرابط نصي في الداتابيز -->
                 <div class="file-input-container" onclick="document.getElementById('postMediaFile').click()">
                     <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem; color: var(--fb-blue); margin-bottom: 5px;"></i>
-                    <p id="fileNameDisplay" style="font-size: 0.9rem; color: var(--fb-secondary-text);">اضغط لاختيار ملف من جهازك (صورة أو فيديو)</p>
-                    <input type="file" id="postMediaFile" accept="image/*,video/*" onchange="previewSelectedFile(this)">
+                    <p id="fileNameDisplay" style="font-size: 0.9rem; color: var(--fb-secondary-text);">اضغط لاختيار صورة أو فيديو من جهازك</p>
+                    <input type="file" id="postMediaFile" accept="image/*,video/*" onchange="previewSelectedMedia(this)">
                 </div>
 
                 <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 1rem; border-radius: 8px;" onclick="addNewPost()">
-                    <i class="fa-solid fa-paper-plane"></i> نشر
+                    <i class="fa-solid fa-paper-plane"></i> نشر المنشور
                 </button>
             </div>
         </div>
@@ -886,62 +874,48 @@
 
         let currentAvatarUrl = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200";
         let currentAuthenticatedUser = "محمد خالد";
-        let selectedFileBase64 = "";
-        let selectedFileType = "";
+        let selectedMediaBase64 = "";
+        let selectedMediaType = ""; // "image" أو "video"
 
-        window.openModal = function() {
+        window.openModalForMedia = function() {
             document.getElementById('postModal').style.display = 'flex';
-        }
-
-        // زرار مخصص لفتح النافذة واختيار فيديو مباشرة
-        window.openModalForVideo = function() {
-            document.getElementById('postModal').style.display = 'flex';
-            document.getElementById('postMediaFile').accept = "video/*";
-            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار فيديو من جهازك";
-        }
-
-        // زرار مخصص لفتح النافذة واختيار صورة مباشرة
-        window.openModalForImage = function() {
-            document.getElementById('postModal').style.display = 'flex';
-            document.getElementById('postMediaFile').accept = "image/*";
-            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار صورة من جهازك";
         }
 
         window.closeModal = function() {
             document.getElementById('postModal').style.display = 'none';
             document.getElementById('postTextContent').value = '';
             document.getElementById('postMediaFile').value = '';
-            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار ملف من جهازك (صورة أو فيديو)";
-            selectedFileBase64 = "";
-            selectedFileType = "";
+            document.getElementById('fileNameDisplay').innerText = "اضغط لاختيار صورة أو فيديو من جهازك";
+            selectedMediaBase64 = "";
+            selectedMediaType = "";
         }
 
-        // تحويل الملف المختار من الجهاز إلى نص (Base64) ليتم تخزينه في الداتابيز
-        window.previewSelectedFile = function(input) {
+        // تحويل الملف المختار (صورة أو فيديو) إلى نص (Base64) وحفظه كرابط نصي
+        window.previewSelectedMedia = function(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 document.getElementById('fileNameDisplay').innerText = "تم اختيار الملف: " + file.name;
-                
-                if (file.type.startsWith("video/")) {
-                    selectedFileType = "video";
-                } else {
-                    selectedFileType = "image";
+
+                if (file.type.startsWith('image/')) {
+                    selectedMediaType = "image";
+                } else if (file.type.startsWith('video/')) {
+                    selectedMediaType = "video";
                 }
 
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    selectedFileBase64 = e.target.result; // الرابط النصي المخزن في الداتابيز
+                    selectedMediaBase64 = e.target.result; // الرابط النصي المخزن في الداتابيز
                 };
                 reader.readAsDataURL(file);
             }
         }
 
-        // حفظ المنشور مع رابط الملف المخزن في الداتابيز
+        // حفظ المنشور مع رابط الوسائط المخزن في الداتابيز
         window.addNewPost = async function() {
             const text = document.getElementById('postTextContent').value.trim();
 
-            if(!text && !selectedFileBase64) {
-                alert("الرجاء كتابة نص أو اختيار صورة/فيديو من جهازك");
+            if(!selectedMediaBase64) {
+                alert("الرجاء اختيار صورة أو فيديو من جهازك أولاً");
                 return;
             }
 
@@ -950,8 +924,8 @@
                     author: currentAuthenticatedUser,
                     avatar: currentAvatarUrl,
                     content: text,
-                    mediaType: selectedFileType,
-                    mediaUrl: selectedFileBase64,
+                    mediaType: selectedMediaType,
+                    mediaUrl: selectedMediaBase64,
                     time: "الآن",
                     likes: 0
                 });
@@ -960,11 +934,11 @@
                 loadPosts(); 
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
-                alert("حدث خطأ أثناء حفظ المنشور في قاعدة البيانات.");
+                alert("حدث خطأ أثناء حفظ الملف في قاعدة البيانات.");
             }
         }
 
-        // جلب وعرض المنشورات من قاعدة البيانات
+        // جلب وعرض المنشورات (صور أو فيديوهات) من قاعدة البيانات
         async function loadPosts() {
             try {
                 const postsContainer = document.getElementById('postsContainer');
@@ -978,9 +952,9 @@
                     
                     let mediaHTML = "";
                     if (post.mediaType === "image" && post.mediaUrl) {
-                        mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 400px; object-fit: cover;"></div>`;
+                        mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 500px; object-fit: cover;"></div>`;
                     } else if (post.mediaType === "video" && post.mediaUrl) {
-                        mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 400px;"></video></div>`;
+                        mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 450px; background: #000;"></video></div>`;
                     }
 
                     const postElement = document.createElement('div');
@@ -993,7 +967,7 @@
                                 <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
                             </div>
                         </div>
-                        <p style="font-size: 1rem; line-height: 1.5; white-space: pre-wrap;">${post.content || ""}</p>
+                        <p style="font-size: 1rem; line-height: 1.5; white-space: pre-wrap; margin-bottom: 8px;">${post.content || ""}</p>
                         ${mediaHTML}
                     `;
                     postsContainer.appendChild(postElement);
