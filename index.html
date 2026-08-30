@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي مع قسم حول وقاعدة البيانات</title>
+    <title>فيسبوك - الصفحة الرئيسية والملف الشخصي</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -133,7 +133,7 @@
             display: block;
         }
 
-        /* تصميم الصفحة الرئيسية (Home / News Feed) */
+        /* تصميم الصفحة الرئيسية */
         .home-layout {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
@@ -176,9 +176,10 @@
             justify-content: center;
             color: var(--fb-blue);
             border-radius: 50%;
+            object-fit: cover;
         }
 
-        /* تصميم البروفايل (Profile View) */
+        /* تصميم البروفايل */
         .profile-container {
             background-color: var(--fb-card-bg);
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
@@ -362,7 +363,6 @@
             padding: 0 16px;
         }
 
-        /* تصميم كرت إنشاء المنشور المودرن و قسم حول */
         .fb-card {
             background-color: var(--fb-card-bg);
             border-radius: 12px;
@@ -391,7 +391,6 @@
             font-size: 0.95rem;
         }
 
-        /* تصميم محتوى قسم حول الجديد (About Section) */
         .about-section-container {
             display: none;
         }
@@ -426,10 +425,6 @@
             border-radius: 8px;
             margin: 0 8px;
             transition: 0.2s;
-        }
-
-        .about-tab-item:hover {
-            background-color: var(--fb-hover);
         }
 
         .about-tab-item.active {
@@ -542,7 +537,7 @@
             background-color: var(--fb-hover);
         }
 
-        /* نافذة كتابة المنشور المودرن (Modal) */
+        /* نافذة كتابة المنشور */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -600,7 +595,6 @@
             background: transparent;
         }
 
-        /* صندوق معاينة الصورة داخل المودال */
         .modal-media-preview {
             position: relative;
             margin-top: 10px;
@@ -673,87 +667,6 @@
 
         .att-photo { color: #45bd62; }
         .att-video { color: #f02849; }
-
-        .post-header-fb {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .post-user-info {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .post-user-info img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .post-user-info h4 {
-            font-size: 0.95rem;
-        }
-
-        .post-user-info span {
-            font-size: 0.75rem;
-            color: var(--fb-secondary-text);
-        }
-
-        .post-body-text {
-            margin-bottom: 12px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .post-media img, .post-media video {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 6px;
-        }
-
-        .post-interactions {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--fb-border);
-            color: var(--fb-secondary-text);
-            font-size: 0.9rem;
-        }
-
-        .post-actions-buttons {
-            display: flex;
-            justify-content: space-around;
-            padding-top: 4px;
-        }
-
-        .action-btn-fb {
-            background: none;
-            border: none;
-            color: var(--fb-secondary-text);
-            font-weight: 600;
-            padding: 8px 0;
-            width: 32%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: 0.2s;
-        }
-
-        .action-btn-fb:hover {
-            background-color: var(--fb-hover);
-        }
-
-        .action-btn-fb.liked {
-            color: var(--fb-blue);
-        }
 
         @media (max-width: 1024px) {
             .home-layout {
@@ -849,15 +762,12 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="posts-container-home"></div>
             </div>
 
             <div class="side-menu">
                 <h4 style="color: var(--fb-secondary-text); margin-bottom: 10px; font-size: 1rem;">جهات الاتصال</h4>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61" alt="C"> عمر أحمد</div>
                 <div class="menu-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" alt="C"> سارة علي</div>
-                <div class="menu-item"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="C"> كريم محمود</div>
             </div>
         </div>
     </div>
@@ -933,8 +843,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="posts-container-profile"></div>
             </div>
         </div>
 
@@ -978,7 +886,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div id="postModal" class="modal-overlay">
@@ -1113,7 +1020,6 @@
                 document.getElementById('postTextContent').value = '';
                 clearMediaPreview();
                 closeModal();
-                fetchPosts();
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
             }
@@ -1129,7 +1035,6 @@
                 try {
                     const coverRef = doc(db, "cover", "profile");
                     await setDoc(coverRef, { pic_voer: base64Image }, { merge: true });
-
                     document.getElementById('profileCoverImage').src = base64Image;
                 } catch (error) {
                     console.error("خطأ أثناء حفظ وتحديث الغلاف: ", error);
@@ -1162,50 +1067,50 @@
             reader.readAsDataURL(file);
         }
 
-        // دالة الفحص لطباعة وفحص بيانات الـ status وجلب اسم المستخدم بدقة
+        // دالة التحقق من مجموعة statsus وجلب الاسم المطابق من users
         async function checkStatusAndLoadUser() {
             try {
-                console.log("--- جاري فحص مجموعة status ---");
-                const statusSnap = await getDocs(collection(db, "status"));
-                let onlineUserNames = [];
-
-                if (statusSnap.empty) {
-                    console.log("مجموعة status فارغة تماماً!");
-                }
+                console.log("--- جاري فحص مجموعة statsus للبحث عن online ---");
+                const statusSnap = await getDocs(collection(db, "statsus"));
+                let matchedNameOrId = null;
 
                 statusSnap.forEach((docSnap) => {
                     const data = docSnap.data();
-                    console.log("مستند في status:", docSnap.id, data);
+                    console.log("مستند statsus:", docSnap.id, data);
                     
-                    // التحقق المرن من الحالة والاسم
-                    if (data.status === "online" || data.state === "online" || data.active === true) {
-                        if (data.username) {
-                            onlineUserNames.push(data.username);
-                        } else if (data.name) {
-                            onlineUserNames.push(data.name);
-                        }
+                    // التحقق مما إذا كان الحالة تعني online
+                    const isOnline = (data.status === "online" || data.state === "online" || data.active === true || data.status === "متصل" || data.status === "متاحة");
+
+                    if (isOnline) {
+                        // التقاط اسم المستخدم أو المعرّف المخزن في مستند الـ statsus
+                        if (data.name) matchedNameOrId = data.name;
+                        else if (data.username) matchedNameOrId = data.username;
+                        else matchedNameOrId = docSnap.id; // استخدام معرف المستند كاحتياطي
                     }
                 });
 
-                console.log("الأسماء المتاحة في status بحالة اتصال:", onlineUserNames);
-
-                if (onlineUserNames.length > 0) {
+                if (matchedNameOrId) {
                     const usersSnap = await getDocs(collection(db, "users"));
                     usersSnap.forEach((docSnap) => {
                         const userData = docSnap.data();
-                        if (userData.name && onlineUserNames.includes(userData.name)) {
+                        console.log("مستند users:", docSnap.id, userData);
+
+                        // مطابقة الاسم من مجموعة users مع القيمة الموجودة في statsus
+                        if (userData.name && (userData.name.trim() === matchedNameOrId.trim() || docSnap.id === matchedNameOrId)) {
                             currentAuthenticatedUser = userData.name;
-                            console.لج("تم مطابقة اسم المستخدم بنجاح:", currentAuthenticatedUser);
                         }
                     });
                 }
+
+                console.log("اسم المستخدم المعتمد بعد الفحص:", currentAuthenticatedUser);
             } catch (e) {
-                console.error("خطأ في فحص الـ status:", e);
+                console.error("خطأ أثناء فحص statsus و users:", e);
             }
         }
 
         async function loadProfileData() {
             try {
+                // تنفيذ فحص مجموعة statsus أولاً
                 await checkStatusAndLoadUser();
 
                 const userDocRef = doc(db, "users", "profile_info");
@@ -1230,12 +1135,9 @@
                         document.getElementById('sidebarFrom').innerText = userData.from;
                         document.getElementById('aboutFrom').innerText = userData.from;
                     }
-                    if(userData.name && currentAuthenticatedUser === "محمد خالد") {
-                        currentAuthenticatedUser = userData.name;
-                    }
                 } else {
                     await setDoc(userDocRef, {
-                        name: "محمد خالد",
+                        name: currentAuthenticatedUser,
                         work: "يعمل لدى شركة برمجيات كبرى",
                         education: "درس هندسة الحاسب",
                         liveIn: "يقيم في الرياض",
@@ -1243,7 +1145,7 @@
                     });
                 }
 
-                // تحديث واجهة المستخدم بالاسم الذي تم جلبه
+                // تحديث جميع أماكن ظهور الاسم في الصفحة بجوار البروفايل
                 document.getElementById('profileNameHeader').innerHTML = `${currentAuthenticatedUser} <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>`;
                 document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
                 document.getElementById('feedInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
@@ -1271,65 +1173,7 @@
             }
         }
 
-        async function fetchPosts() {
-            const homeContainer = document.getElementById('posts-container-home');
-            const profileContainer = document.getElementById('posts-container-profile');
-            
-            if(homeContainer) homeContainer.innerHTML = '<p style="text-align:center; color:var(--fb-secondary-text);">جاري تحميل المنشورات...</p>';
-            if(profileContainer) profileContainer.innerHTML = '<p style="text-align:center; color:var(--fb-secondary-text);">جاري تحميل المنشورات...</p>';
-
-            try {
-                const querySnapshot = await getDocs(collection(db, "posts"));
-                
-                if(homeContainer) homeContainer.innerHTML = '';
-                if(profileContainer) profileContainer.innerHTML = '';
-
-                querySnapshot.forEach((docSnap) => {
-                    const post = docSnap.data();
-                    let mediaHTML = '';
-                    if (post.mediaUrl) {
-                        if (post.mediaType === 'video') {
-                            mediaHTML = `<div class="post-media" style="margin-top: 10px;"><video src="${post.mediaUrl}" controls></video></div>`;
-                        } else {
-                            mediaHTML = `<div class="post-media" style="margin-top: 10px;"><img src="${post.mediaUrl}" alt="Post Image"></div>`;
-                        }
-                    }
-                    
-                    const postHTML = `
-                        <div class="fb-card">
-                            <div class="post-header-fb">
-                                <div class="post-user-info">
-                                    <img src="${post.avatar}" alt="User">
-                                    <div>
-                                        <h4>${post.author}</h4>
-                                        <span>${post.time} · <i class="fa-solid fa-earth-americas"></i></span>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-ellipsis" style="color: var(--fb-secondary-text); cursor: pointer;"></i>
-                            </div>
-                            <div class="post-body-text">${post.content}</div>
-                            ${mediaHTML}
-                            <div class="post-interactions">
-                                <span>👍 ${post.likes}</span>
-                                <span>0 تعليق</span>
-                            </div>
-                            <div class="post-actions-buttons">
-                                <button class="action-btn-fb" onclick="toggleLike(this)"><i class="fa-regular fa-thumbs-up"></i> إعجاب</button>
-                                <button class="action-btn-fb"><i class="fa-regular fa-comment"></i> تعليق</button>
-                                <button class="action-btn-fb"><i class="fa-solid fa-share"></i> مشاركة</button>
-                            </div>
-                        </div>
-                    `;
-                    if(homeContainer) homeContainer.innerHTML += postHTML;
-                    if(profileContainer) profileContainer.innerHTML += postHTML;
-                });
-            } catch (e) {
-                console.error("خطأ في جلب المنشورات: ", e);
-            }
-        }
-
         loadProfileData();
-        fetchPosts();
     </script>
 
     <script>
@@ -1358,18 +1202,6 @@
             } else {
                 aboutSection.classList.remove('active');
                 postsLayout.style.display = 'grid';
-            }
-        }
-
-        function toggleLike(btn) {
-            btn.classList.toggle('liked');
-            const icon = btn.querySelector('i');
-            if(btn.classList.contains('liked')) {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid');
-            } else {
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular');
             }
         }
     </script>
