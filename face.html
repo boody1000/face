@@ -1316,6 +1316,7 @@
                 let userData = {
                     name: targetUsername,
                     avatarUrl: currentAvatarUrl,
+                    coverUrl: "",
                     job: "غير محدد",
                     city: "غير محدد",
                     gender: "غير محدد",
@@ -1328,6 +1329,7 @@
                     if (dbName === targetUsername.trim()) {
                         userData.name = dbName;
                         if(data.avatarUrl || data.pic_avatar) userData.avatarUrl = data.avatarUrl || data.pic_avatar;
+                        if(data.coverUrl) userData.coverUrl = data.coverUrl;
                         if(data.job) userData.job = data.job;
                         if(data.city) userData.city = data.city;
                         if(data.gender) userData.gender = data.gender;
@@ -1337,6 +1339,9 @@
 
                 document.getElementById('profileUsernameDisplay').innerText = userData.name;
                 document.getElementById('profileAvatarImage').src = userData.avatarUrl;
+                if(userData.coverUrl) {
+                    document.getElementById('profileCoverImage').src = userData.coverUrl;
+                }
                 document.getElementById('sidebarJob').innerText = userData.job;
                 document.getElementById('aboutJob').innerText = userData.job;
                 document.getElementById('sidebarCity').innerText = userData.city;
@@ -1530,7 +1535,7 @@
 
                 closeModal();
                 loadPostsAndMedia(); 
-                loadSpecificUserPostsAndMedia(currentAuthenticatedUser); // تحديث الصفحة الشخصية تلقائياً فور النشر
+                loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
             }
@@ -1817,11 +1822,19 @@
         window.uploadCoverImage = function(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
-                compressImage(file, 1200, 600, 0.6).then(compressedBase64 => {
-                    const coverRef = doc(db, "cover", "profile");
-                    setDoc(coverRef, { pic_voer: compressedBase64 }, { merge: true }).then(() => {
+                compressImage(file, 1200, 600, 0.6).then(async compressedBase64 => {
+                    try {
+                        const userCoverRef = doc(db, "users", currentAuthenticatedUser);
+                        await setDoc(userCoverRef, { 
+                            username: currentAuthenticatedUser,
+                            coverUrl: compressedBase64 
+                        }, { merge: true });
+
                         document.getElementById('profileCoverImage').src = compressedBase64;
-                    });
+                        alert("تم تحديث وتخزين صورة الغلاف بنجاح!");
+                    } catch (err) {
+                        console.error("خطأ في حفظ غلاف الملف الشخصي:", err);
+                    }
                 }).catch(err => {
                     console.error("خطأ في ضغط غلاف الملف الشخصي:", err);
                 });
@@ -1835,18 +1848,27 @@
         window.uploadAvatarImage = function(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
-                compressImage(file, 400, 400, 0.7).then(compressedBase64 => {
-                    const avatarRef = doc(db, "cover", "profile_avatar");
-                    setDoc(avatarRef, { pic_avatar: compressedBase64 }, { merge: true }).then(() => {
+                compressImage(file, 400, 400, 0.7).then(async compressedBase64 => {
+                    try {
+                        const userAvatarRef = doc(db, "users", currentAuthenticatedUser);
+                        await setDoc(userAvatarRef, { 
+                            username: currentAuthenticatedUser,
+                            avatarUrl: compressedBase64 
+                        }, { merge: true });
+
                         currentAvatarUrl = compressedBase64;
                         document.getElementById('profileAvatarImage').src = compressedBase64;
                         document.getElementById('sideUserAvatar').src = compressedBase64;
                         document.getElementById('feedUserAvatar').src = compressedBase64;
                         document.getElementById('feedBoxAvatar').src = compressedBase64;
                         document.getElementById('modalUserAvatar').src = compressedBase64;
+                        
                         loadPostsAndMedia();
                         loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
-                    });
+                        alert("تم تحديث وتخزين صورة البروفايل بنجاح!");
+                    } catch (err) {
+                        console.error("خطأ في حفظ صورة البروفايل:", err);
+                    }
                 }).catch(err => {
                     console.error("خطأ في ضغط صورة البروفايل:", err);
                 });
@@ -1887,6 +1909,9 @@
 
                             if (userData.avatarUrl || userData.pic_avatar) {
                                 currentAvatarUrl = userData.avatarUrl || userData.pic_avatar;
+                            }
+                            if (userData.coverUrl) {
+                                document.getElementById('profileCoverImage').src = userData.coverUrl;
                             }
                             if (userData.job) {
                                 document.getElementById('sidebarJob').innerText = userData.job;
@@ -1930,16 +1955,16 @@
             try {
                 await checkStatusAndLoadUser();
 
-                const coverRef = doc(db, "cover", "profile");
-                const coverSnap = await getDoc(coverRef);
-                if (coverSnap.exists() && coverSnap.data().pic_voer) {
-                    document.getElementById('profileCoverImage').src = coverSnap.data().pic_voer;
-                }
-
-                const avatarRef = doc(db, "cover", "profile_avatar");
-                const avatarSnap = await getDoc(avatarRef);
-                if (avatarSnap.exists() && avatarSnap.data().pic_avatar) {
-                    currentAvatarUrl = avatarSnap.data().pic_avatar;
+                const userDocRef = doc(db, "users", currentAuthenticatedUser);
+                const userDocSnap = await getDoc(userDocRef);
+                if (userDocSnap.exists()) {
+                    const uData = userDocSnap.data();
+                    if (uData.coverUrl) {
+                        document.getElementById('profileCoverImage').src = uData.coverUrl;
+                    }
+                    if (uData.avatarUrl || uData.pic_avatar) {
+                        currentAvatarUrl = uData.avatarUrl || uData.pic_avatar;
+                    }
                 }
 
                 document.getElementById('sideUserAvatar').src = currentAvatarUrl;
