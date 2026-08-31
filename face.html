@@ -1388,6 +1388,7 @@
 
                         alert("تم إضافة الفيديو بنجاح إلى قصتك!");
                         loadPostsAndMedia();
+                        loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
                     } catch (err) {
                         console.error("خطأ في حفظ فيديو القصة: ", err);
                     }
@@ -1529,6 +1530,7 @@
 
                 closeModal();
                 loadPostsAndMedia(); 
+                loadSpecificUserPostsAndMedia(currentAuthenticatedUser); // تحديث الصفحة الشخصية تلقائياً فور النشر
             } catch (e) {
                 console.error("خطأ في إضافة المنشور: ", e);
             }
@@ -1539,6 +1541,7 @@
                 try {
                     await deleteDoc(doc(db, "posts", postId));
                     loadPostsAndMedia();
+                    loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
                 } catch(e) {
                     console.error("خطأ في حذف المنشور:", e);
                 }
@@ -1569,6 +1572,7 @@
                 await updateDoc(postRef, { content: newText });
                 closeEditModal();
                 loadPostsAndMedia();
+                loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
             } catch(e) {
                 console.error("خطأ في تعديل المنشور:", e);
             }
@@ -1620,6 +1624,7 @@
                     });
                     inputEl.value = "";
                     loadPostsAndMedia();
+                    loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
                 } catch(e) {
                     console.error("خطأ في إضافة التعليق:", e);
                 }
@@ -1840,6 +1845,7 @@
                         document.getElementById('feedBoxAvatar').src = compressedBase64;
                         document.getElementById('modalUserAvatar').src = compressedBase64;
                         loadPostsAndMedia();
+                        loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
                     });
                 }).catch(err => {
                     console.error("خطأ في ضغط صورة البروفايل:", err);
@@ -1936,7 +1942,6 @@
                     currentAvatarUrl = avatarSnap.data().pic_avatar;
                 }
 
-                // تطبيق الصورة في كافة الأماكن
                 document.getElementById('sideUserAvatar').src = currentAvatarUrl;
                 document.getElementById('feedUserAvatar').src = currentAvatarUrl;
                 document.getElementById('feedBoxAvatar').src = currentAvatarUrl;
@@ -1944,6 +1949,7 @@
                 document.getElementById('profileAvatarImage').src = currentAvatarUrl;
 
                 loadPostsAndMedia();
+                loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
 
                 setInterval(() => {
                     loadPostsAndMedia();
