@@ -1976,11 +1976,6 @@
                 loadPostsAndMedia();
                 loadSpecificUserPostsAndMedia(currentAuthenticatedUser);
 
-                // --- الإضافة المطلوبة: التحديث التلقائي في الخلفية بصمت كل 5 ثوانٍ ---
-                setInterval(() => {
-                    loadPostsAndMedia();
-                }, 5000);
-
             } catch (e) {
                 console.error("خطأ في تهيئة التطبيق: ", e);
             }
