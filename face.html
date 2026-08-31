@@ -1137,10 +1137,10 @@
                 <div class="fb-card">
                     <h3>التفاصيل</h3>
                     <ul class="intro-list" id="sidebarIntroList">
-                        <li><i class="fa-solid fa-briefcase"></i> <span id="sidebarJob">جاري التحميل...</span></li>
-                        <li><i class="fa-solid fa-location-dot"></i> <span id="sidebarCity">جاري التحميل...</span></li>
-                        <li><i class="fa-solid fa-venus-mars"></i> <span id="sidebarGender">جاري التحميل...</span></li>
-                        <li><i class="fa-solid fa-heart"></i> <span id="sidebarSocialStatus">جاري التحميل...</span></li>
+                        <li><i class="fa-solid fa-briefcase"></i> <span id="sidebarJob">غير محدد</span></li>
+                        <li><i class="fa-solid fa-location-dot"></i> <span id="sidebarCity">غير محدد</span></li>
+                        <li><i class="fa-solid fa-venus-mars"></i> <span id="sidebarGender">غير محدد</span></li>
+                        <li><i class="fa-solid fa-heart"></i> <span id="sidebarSocialStatus">غير محدد</span></li>
                     </ul>
                 </div>
             </div>
@@ -1177,28 +1177,28 @@
                     <div class="about-info-row">
                         <i class="fa-solid fa-briefcase"></i>
                         <div class="about-info-text">
-                            <h4 id="aboutJob">جاري التحميل...</h4>
+                            <h4 id="aboutJob">غير محدد</h4>
                             <p>العمل</p>
                         </div>
                     </div>
                     <div class="about-info-row">
                         <i class="fa-solid fa-location-dot"></i>
                         <div class="about-info-text">
-                            <h4 id="aboutCity">جاري التحميل...</h4>
+                            <h4 id="aboutCity">غير محدد</h4>
                             <p>المدينة</p>
                         </div>
                     </div>
                     <div class="about-info-row">
                         <i class="fa-solid fa-venus-mars"></i>
                         <div class="about-info-text">
-                            <h4 id="aboutGender">جاري التحميل...</h4>
+                            <h4 id="aboutGender">غير محدد</h4>
                             <p>الجنس</p>
                         </div>
                     </div>
                     <div class="about-info-row">
                         <i class="fa-solid fa-heart"></i>
                         <div class="about-info-text">
-                            <h4 id="aboutSocialStatus">جاري التحميل...</h4>
+                            <h4 id="aboutSocialStatus">غير محدد</h4>
                             <p>الحالة الاجتماعية</p>
                         </div>
                     </div>
@@ -1311,29 +1311,29 @@
             
             try {
                 const usersRef = collection(db, "users");
-                const qUser = query(usersRef, where("username", "==", targetUsername.trim()));
-                const usersSnap = await getDocs(qUser);
+                const usersSnap = await getDocs(usersRef);
 
                 let userData = {
                     name: targetUsername,
-                    avatarUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200",
+                    avatarUrl: currentAvatarUrl,
                     job: "غير محدد",
                     city: "غير محدد",
                     gender: "غير محدد",
                     socialStatus: "غير محدد"
                 };
 
-                if (!usersSnap.empty) {
-                    usersSnap.forEach((docSnap) => {
-                        const data = docSnap.data();
-                        userData.name = data.name || data.username || targetUsername;
-                        if(data.avatarUrl) userData.avatarUrl = data.avatarUrl;
+                usersSnap.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const dbName = (data.name || data.username || "").trim();
+                    if (dbName === targetUsername.trim()) {
+                        userData.name = dbName;
+                        if(data.avatarUrl || data.pic_avatar) userData.avatarUrl = data.avatarUrl || data.pic_avatar;
                         if(data.job) userData.job = data.job;
                         if(data.city) userData.city = data.city;
                         if(data.gender) userData.gender = data.gender;
                         if(data.socialStatus) userData.socialStatus = data.socialStatus;
-                    });
-                }
+                    }
+                });
 
                 document.getElementById('profileUsernameDisplay').innerText = userData.name;
                 document.getElementById('profileAvatarImage').src = userData.avatarUrl;
@@ -1855,35 +1855,65 @@
                     const statsusSnap = await getDocs(collection(db, "statsus"));
                     statsusSnap.forEach((docSnap) => {
                         const statusData = docSnap.data();
-                        if (statusData.statsus === "online" && statusData.username) {
-                            activeUsername = statusData.username.trim();
+                        if (statusData.statsus === "online" && (statusData.username || statusData.name)) {
+                            activeUsername = (statusData.username || statusData.name).trim();
                         }
                     });
                 }
 
                 if (activeUsername) {
                     const usersRef = collection(db, "users");
-                    const qUser = query(usersRef, where("username", "==", activeUsername));
-                    const usersSnap = await getDocs(qUser);
+                    const usersSnap = await getDocs(usersRef);
+                    let found = false;
 
-                    if (!usersSnap.empty) {
-                        usersSnap.forEach((docSnap) => {
-                            const userData = docSnap.data();
-                            currentAuthenticatedUser = userData.name || userData.username;
+                    usersSnap.forEach((docSnap) => {
+                        const userData = docSnap.data();
+                        const dbName = (userData.name || userData.username || "").trim();
+                        if (dbName === activeUsername.trim()) {
+                            found = true;
+                            currentAuthenticatedUser = dbName;
                             
                             document.getElementById('sideUserName').innerText = currentAuthenticatedUser;
                             document.getElementById('feedInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
                             document.getElementById('profileInputText').innerText = `بما تفكر يا ${currentAuthenticatedUser}؟`;
                             document.getElementById('modalUserName').innerText = currentAuthenticatedUser;
+                            document.getElementById('profileUsernameDisplay').innerText = currentAuthenticatedUser;
 
-                            if (userData.avatarUrl) {
-                                currentAvatarUrl = userData.avatarUrl;
+                            if (userData.avatarUrl || userData.pic_avatar) {
+                                currentAvatarUrl = userData.avatarUrl || userData.pic_avatar;
                             }
-                        });
-                    } else {
+                            if (userData.job) {
+                                document.getElementById('sidebarJob').innerText = userData.job;
+                                document.getElementById('aboutJob').innerText = userData.job;
+                            }
+                            if (userData.city) {
+                                document.getElementById('sidebarCity').innerText = userData.city;
+                                document.getElementById('aboutCity').innerText = userData.city;
+                            }
+                            if (userData.gender) {
+                                document.getElementById('sidebarGender').innerText = userData.gender;
+                                document.getElementById('aboutGender').innerText = userData.gender;
+                            }
+                            if (userData.socialStatus) {
+                                document.getElementById('sidebarSocialStatus').innerText = userData.socialStatus;
+                                document.getElementById('aboutSocialStatus').innerText = userData.socialStatus;
+                            }
+                        }
+                    });
+
+                    if (!found) {
                         currentAuthenticatedUser = activeUsername;
                         document.getElementById('sideUserName').innerText = activeUsername;
+                        document.getElementById('modalUserName').innerText = activeUsername;
+                        document.getElementById('profileUsernameDisplay').innerText = activeUsername;
+                        document.getElementById('feedInputText').innerText = `بما تفكر يا ${activeUsername}؟`;
+                        document.getElementById('profileInputText').innerText = `بما تفكر يا ${activeUsername}؟`;
                     }
+                } else {
+                    currentAuthenticatedUser = "مستخدم";
+                    document.getElementById('sideUserName').innerText = "زائر";
+                    document.getElementById('modalUserName').innerText = "زائر";
+                    document.getElementById('profileUsernameDisplay').innerText = "زائر";
                 }
             } catch (e) {
                 console.error("خطأ أثناء جلب وتحقق البيانات: ", e);
@@ -1904,15 +1934,17 @@
                 const avatarSnap = await getDoc(avatarRef);
                 if (avatarSnap.exists() && avatarSnap.data().pic_avatar) {
                     currentAvatarUrl = avatarSnap.data().pic_avatar;
-                    document.getElementById('sideUserAvatar').src = currentAvatarUrl;
-                    document.getElementById('feedUserAvatar').src = currentAvatarUrl;
-                    document.getElementById('feedBoxAvatar').src = currentAvatarUrl;
-                    document.getElementById('modalUserAvatar').src = currentAvatarUrl;
                 }
+
+                // تطبيق الصورة في كافة الأماكن
+                document.getElementById('sideUserAvatar').src = currentAvatarUrl;
+                document.getElementById('feedUserAvatar').src = currentAvatarUrl;
+                document.getElementById('feedBoxAvatar').src = currentAvatarUrl;
+                document.getElementById('modalUserAvatar').src = currentAvatarUrl;
+                document.getElementById('profileAvatarImage').src = currentAvatarUrl;
 
                 loadPostsAndMedia();
 
-                // تفعيل التحديث التلقائي (Auto-Update) كل 5 ثوانٍ لجلب أحدث البيانات من الداتابيز
                 setInterval(() => {
                     loadPostsAndMedia();
                 }, 5000);
