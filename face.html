@@ -73,6 +73,12 @@
             background: none;
             outline: none;
             font-size: 0.95rem;
+            width: 120px;
+            transition: width 0.3s;
+        }
+
+        .search-box input:focus {
+            width: 160px;
         }
 
         .nav-center {
@@ -85,11 +91,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 110px;
+            width: 80px;
             height: 100%;
             border-bottom: 3px solid transparent;
             color: var(--fb-secondary-text);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -126,6 +132,7 @@
             display: none;
             margin-top: 56px;
             min-height: calc(100vh - 56px);
+            padding-bottom: 30px;
         }
 
         .app-view.active {
@@ -282,8 +289,8 @@
         }
 
         .reel-item-card {
-            flex: 0 0 125px;
-            height: 220px;
+            flex: 0 0 110px;
+            height: 200px;
             border-radius: 10px;
             overflow: hidden;
             position: relative;
@@ -351,7 +358,7 @@
         }
 
         .cover-photo {
-            height: 350px;
+            height: 250px;
             background: linear-gradient(to bottom, #d1d5db, #9ca3af);
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
@@ -368,12 +375,12 @@
 
         .edit-cover-btn {
             position: absolute;
-            bottom: 16px;
-            left: 24px;
+            bottom: 12px;
+            left: 16px;
             background-color: white;
             color: var(--fb-text);
             border: none;
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 6px;
             font-weight: 600;
             cursor: pointer;
@@ -381,7 +388,7 @@
             align-items: center;
             gap: 6px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: 0.2s;
         }
 
@@ -400,16 +407,16 @@
         .profile-avatar-area {
             display: flex;
             align-items: flex-end;
-            gap: 20px;
+            gap: 16px;
         }
 
         .avatar-wrapper {
-            width: 168px;
-            height: 168px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             border: 4px solid white;
             overflow: hidden;
-            margin-top: -110px;
+            margin-top: -80px;
             background-color: white;
             box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
             position: relative;
@@ -429,14 +436,14 @@
             background-color: #e4e6eb;
             color: var(--fb-text);
             border: none;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 0.9rem;
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
             transition: 0.2s;
             z-index: 5;
@@ -447,7 +454,7 @@
         }
 
         .profile-text-info h1 {
-            font-size: 2rem;
+            font-size: 1.6rem;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -457,7 +464,8 @@
         .profile-actions {
             display: flex;
             gap: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
         }
 
         .fb-btn {
@@ -469,7 +477,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .fb-btn-blue {
@@ -491,15 +499,17 @@
             display: flex;
             border-top: 1px solid var(--fb-border);
             gap: 4px;
+            overflow-x: auto;
         }
 
         .p-tab {
-            padding: 16px 14px;
+            padding: 14px 12px;
             color: var(--fb-secondary-text);
             font-weight: 600;
             cursor: pointer;
             border-bottom: 3px solid transparent;
             transition: 0.2s;
+            white-space: nowrap;
         }
 
         .p-tab.active {
@@ -511,7 +521,7 @@
             max-width: 940px;
             margin: 16px auto;
             display: grid;
-            grid-template-columns: 360px 1fr;
+            grid-template-columns: 340px 1fr;
             gap: 16px;
             padding: 0 16px;
         }
@@ -525,7 +535,7 @@
         }
 
         .fb-card h3 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 12px;
         }
 
@@ -541,7 +551,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .profile-section-container {
@@ -557,7 +567,7 @@
 
         .videos-grid, .photos-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
             gap: 8px;
             margin-top: 12px;
         }
@@ -573,7 +583,7 @@
 
         .video-grid-item video, .photo-grid-item img {
             width: 100%;
-            height: 130px;
+            height: 110px;
             object-fit: cover;
             border-radius: 6px;
         }
@@ -588,7 +598,7 @@
         }
 
         .about-sidebar-tabs {
-            width: 240px;
+            width: 220px;
             border-left: 1px solid var(--fb-border);
             padding: 12px 0;
             display: flex;
@@ -597,7 +607,7 @@
         }
 
         .about-tab-item {
-            padding: 12px 16px;
+            padding: 10px 14px;
             font-weight: 600;
             color: var(--fb-text);
             cursor: pointer;
@@ -613,11 +623,11 @@
 
         .about-content-area {
             flex: 1;
-            padding: 20px;
+            padding: 16px;
         }
 
         .about-content-area h3 {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             margin-bottom: 16px;
             border-bottom: 1px solid var(--fb-border);
             padding-bottom: 8px;
@@ -626,24 +636,24 @@
         .about-info-row {
             display: flex;
             align-items: flex-start;
-            gap: 16px;
-            padding: 12px 0;
+            gap: 14px;
+            padding: 10px 0;
             border-bottom: 1px solid #f0f2f5;
         }
 
         .about-info-row i {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--fb-secondary-text);
             margin-top: 2px;
         }
 
         .about-info-text h4 {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--fb-text);
         }
 
         .about-info-text p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--fb-secondary-text);
             margin-top: 2px;
         }
@@ -656,13 +666,13 @@
 
         .modern-top-row {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
         }
 
         .modern-top-row img {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
             border: 1px solid var(--fb-border);
@@ -671,11 +681,11 @@
         .modern-input-fake {
             background-color: var(--fb-bg);
             border-radius: 30px;
-            padding: 12px 18px;
+            padding: 10px 16px;
             width: 100%;
             color: var(--fb-secondary-text);
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: background-color 0.2s;
         }
 
@@ -692,23 +702,23 @@
         .modern-actions-row {
             display: flex;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
         }
 
         .modern-action-btn {
             flex: 1;
             background: none;
             border: none;
-            padding: 8px 4px;
+            padding: 6px 2px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
             font-weight: 600;
             color: var(--fb-secondary-text);
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             transition: background-color 0.2s;
         }
 
@@ -720,8 +730,8 @@
             display: flex;
             justify-content: space-between;
             color: var(--fb-secondary-text);
-            font-size: 0.85rem;
-            padding: 8px 0;
+            font-size: 0.8rem;
+            padding: 6px 0;
             border-bottom: 1px solid var(--fb-border);
             margin-bottom: 4px;
         }
@@ -738,16 +748,16 @@
             flex: 1;
             background: none;
             border: none;
-            padding: 6px;
+            padding: 6px 2px;
             border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            gap: 4px;
             font-weight: 600;
             color: var(--fb-secondary-text);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: 0.2s;
         }
 
@@ -760,7 +770,7 @@
         }
 
         .comments-section {
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .comment-input-row {
@@ -777,7 +787,7 @@
             padding: 8px 12px;
             border-radius: 20px;
             outline: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .comment-item {
@@ -791,13 +801,13 @@
             background-color: var(--fb-bg);
             padding: 8px 12px;
             border-radius: 12px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             max-width: 85%;
         }
 
         .comment-bubble b {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--fb-text);
         }
 
@@ -820,11 +830,13 @@
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(4px);
+            padding: 12px;
         }
 
         .modal-box {
             background-color: white;
-            width: 520px;
+            width: 100%;
+            max-width: 500px;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.2);
             padding: 16px;
@@ -835,25 +847,25 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--fb-border);
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             font-weight: bold;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
         }
 
         .modal-close {
             background: #e4e6eb;
             border: none;
             border-radius: 50%;
-            width: 36px; height: 36px;
+            width: 32px; height: 32px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .modal-body {
-            padding: 16px 0;
+            padding: 12px 0;
             max-height: 70vh;
             overflow-y: auto;
         }
@@ -863,7 +875,7 @@
             height: 80px;
             border: none;
             outline: none;
-            font-size: 1.1rem;
+            font-size: 1rem;
             resize: none;
             background: transparent;
         }
@@ -871,7 +883,7 @@
         #mediaPreviewContainer {
             margin-top: 10px;
             position: relative;
-            max-height: 250px;
+            max-height: 220px;
             overflow: hidden;
             border-radius: 8px;
             border: 1px solid var(--fb-border);
@@ -880,7 +892,7 @@
 
         #mediaPreviewContainer img, #mediaPreviewContainer video {
             width: 100%;
-            max-height: 230px;
+            max-height: 200px;
             object-fit: contain;
             background: #000;
         }
@@ -893,18 +905,20 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
+        /* تعديلات الموبايل والريسبونسيف لتشبه تطبيق فيسبوك بدقة */
         @media (max-width: 1024px) {
             .home-layout {
                 grid-template-columns: 1fr;
+                padding: 8px;
             }
             .side-menu {
                 display: none;
@@ -912,8 +926,52 @@
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: 0 8px;
+                height: 50px;
+            }
+            .nav-left .brand-title {
+                font-size: 1.4rem;
+            }
+            .search-box {
+                padding: 6px 10px;
+            }
+            .search-box input {
+                width: 70px;
+            }
+            .search-box input:focus {
+                width: 110px;
+            }
+            .nav-center {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 50px;
+                background-color: var(--fb-header);
+                box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
+                justify-content: space-around;
+                z-index: 1000;
+            }
+            .nav-tab {
+                width: auto;
+                flex: 1;
+                font-size: 1.25rem;
+                height: 100%;
+                border-bottom: none;
+                border-top: 3px solid transparent;
+            }
+            .nav-tab.active {
+                border-bottom: none;
+                border-top: 3px solid var(--fb-blue);
+            }
+            .app-view {
+                margin-top: 50px;
+                margin-bottom: 50px; /* مساحة لشريط التنقل السفلي في الموبايل */
+            }
             .profile-main-layout {
                 grid-template-columns: 1fr;
+                padding: 0 8px;
             }
             .profile-details-flex {
                 flex-direction: column;
@@ -924,11 +982,13 @@
                 flex-direction: column;
                 align-items: center;
             }
-            .nav-center {
-                display: none;
+            .cover-photo {
+                height: 180px;
             }
-            .modal-box {
-                width: 90%;
+            .avatar-wrapper {
+                margin-top: -65px;
+                width: 120px;
+                height: 120px;
             }
             .about-box-wrapper {
                 flex-direction: column;
@@ -937,6 +997,19 @@
                 width: 100%;
                 border-left: none;
                 border-bottom: 1px solid var(--fb-border);
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            .modal-overlay {
+                padding: 0;
+                align-items: flex-end;
+            }
+            .modal-box {
+                width: 100%;
+                max-width: 100%;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                max-height: 85vh;
             }
         }
     </style>
@@ -948,7 +1021,7 @@
             <span class="brand-title">الهواري</span>
             <div class="search-box">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="بحث في الهواري">
+                <input type="text" placeholder="بحث">
             </div>
         </div>
         <div class="nav-center">
@@ -986,10 +1059,10 @@
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
                             <button class="modern-action-btn" onclick="openModalAndTrigger('image')">
-                                <i class="fa-solid fa-image" style="color: #45bd62; font-size: 1.2rem;"></i> صورة من الجهاز
+                                <i class="fa-solid fa-image" style="color: #45bd62; font-size: 1.1rem;"></i> صورة
                             </button>
                             <button class="modern-action-btn" onclick="openModalAndTrigger('video')">
-                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو من الجهاز
+                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.1rem;"></i> فيديو
                             </button>
                         </div>
                     </div>
@@ -1024,7 +1097,7 @@
             <div class="cover-photo">
                 <img id="profileCoverImage" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200" alt="Cover">
                 <button class="edit-cover-btn" id="editCoverBtn" onclick="triggerCoverFileInput()">
-                    <i class="fa-solid fa-camera"></i> تعديل غلاف الملف الشخصي
+                    <i class="fa-solid fa-camera"></i> تعديل الغلاف
                 </button>
                 <input type="file" id="coverFileInput" style="display: none;" accept="image/*" onchange="uploadCoverImage(this)">
             </div>
@@ -1041,14 +1114,14 @@
                         <div class="profile-text-info">
                             <h1 id="profileNameHeader">
                                 <span id="profileUsernameDisplay">جاري التحميل...</span>
-                                <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.2rem;"></i>
+                                <i class="fa-solid fa-circle-check" style="color: var(--fb-blue); font-size: 1.1rem;"></i>
                             </h1>
                         </div>
                     </div>
                     <div class="profile-actions" id="profileActionsArea">
-                        <button class="fb-btn fb-btn-blue" onclick="triggerStoryVideoInput()"><i class="fa-solid fa-plus"></i> إضافة إلى القصة</button>
+                        <button class="fb-btn fb-btn-blue" onclick="triggerStoryVideoInput()"><i class="fa-solid fa-plus"></i> القصة</button>
                         <input type="file" id="storyVideoInput" style="display: none;" accept="video/*" onchange="handleStoryVideoSelection(this)">
-                        <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-pen"></i> تعديل الملف الشخصي</button>
+                        <button class="fb-btn fb-btn-gray"><i class="fa-solid fa-pen"></i> تعديل</button>
                     </div>
                 </div>
                 <div class="profile-nav-tabs">
@@ -1082,10 +1155,10 @@
                         <div class="modern-divider"></div>
                         <div class="modern-actions-row">
                             <button class="modern-action-btn" onclick="openModalAndTrigger('image')">
-                                <i class="fa-solid fa-image" style="color: #45bd62; font-size: 1.2rem;"></i> صورة من الجهاز
+                                <i class="fa-solid fa-image" style="color: #45bd62; font-size: 1.1rem;"></i> صورة
                             </button>
                             <button class="modern-action-btn" onclick="openModalAndTrigger('video')">
-                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.2rem;"></i> فيديو من الجهاز
+                                <i class="fa-solid fa-video" style="color: #f02849; font-size: 1.1rem;"></i> فيديو
                             </button>
                         </div>
                     </div>
@@ -1157,7 +1230,7 @@
             </div>
             <div class="modal-body">
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 8px;">
-                    <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                    <img id="modalUserAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="User" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
                     <h4 id="modalUserName" style="font-size: 0.95rem;">مستخدم</h4>
                 </div>
                 
@@ -1166,24 +1239,24 @@
                 <input type="file" id="postImageFile" accept="image/*" style="display: none;" onchange="previewSelectedMedia(this, 'image')">
                 <input type="file" id="postVideoFile" accept="video/*" style="display: none;" onchange="previewSelectedMedia(this, 'video')">
 
-                <div style="display: flex; gap: 10px; margin: 10px 0;">
-                    <button type="button" class="fb-btn fb-btn-gray" style="flex: 1; justify-content: center;" onclick="document.getElementById('postImageFile').click()">
-                        <i class="fa-solid fa-image" style="color: #45bd62;"></i> اختر صورة
+                <div style="display: flex; gap: 8px; margin: 10px 0;">
+                    <button type="button" class="fb-btn fb-btn-gray" style="flex: 1; justify-content: center; font-size: 0.85rem;" onclick="document.getElementById('postImageFile').click()">
+                        <i class="fa-solid fa-image" style="color: #45bd62;"></i> صورة
                     </button>
-                    <button type="button" class="fb-btn fb-btn-gray" style="flex: 1; justify-content: center;" onclick="document.getElementById('postVideoFile').click()">
-                        <i class="fa-solid fa-video" style="color: #f02849;"></i> اختر فيديو
+                    <button type="button" class="fb-btn fb-btn-gray" style="flex: 1; justify-content: center; font-size: 0.85rem;" onclick="document.getElementById('postVideoFile').click()">
+                        <i class="fa-solid fa-video" style="color: #f02849;"></i> فيديو
                     </button>
                 </div>
                 
-                <p id="fileNameDisplay" style="font-size: 0.85rem; color: var(--fb-secondary-text); text-align: center; margin-bottom: 5px;"></p>
+                <p id="fileNameDisplay" style="font-size: 0.8rem; color: var(--fb-secondary-text); text-align: center; margin-bottom: 5px;"></p>
 
                 <div id="mediaPreviewContainer">
                     <button class="remove-preview-btn" onclick="clearSelectedMedia()" title="حذف الملف"><i class="fa-solid fa-xmark"></i></button>
                     <div id="previewContentArea"></div>
                 </div>
 
-                <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 1rem; border-radius: 8px; margin-top: 12px;" onclick="addNewPost()">
-                    <i class="fa-solid fa-paper-plane"></i> نشر المنشور
+                <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.95rem; border-radius: 8px; margin-top: 12px;" onclick="addNewPost()">
+                    <i class="fa-solid fa-paper-plane"></i> نشر
                 </button>
             </div>
         </div>
@@ -1198,7 +1271,7 @@
             <div class="modal-body">
                 <textarea id="editTextContent" placeholder="عدل منشورك..."></textarea>
                 <input type="hidden" id="editPostId">
-                <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 1rem; border-radius: 8px; margin-top: 12px;" onclick="saveEditedPost()">
+                <button class="fb-btn fb-btn-blue" style="width: 100%; justify-content: center; padding: 10px; font-size: 0.95rem; border-radius: 8px; margin-top: 12px;" onclick="saveEditedPost()">
                     حفظ التعديلات
                 </button>
             </div>
@@ -1234,7 +1307,6 @@
             return phoneRegex.test(text);
         }
 
-        // دالة الذهاب لصفحة المستخدم المستهدف وعرض بياناته بدلاً من صفحتك الشخصية
         window.goToUserProfile = async function(targetUsername) {
             if (!targetUsername) return;
             
@@ -1264,7 +1336,6 @@
                     });
                 }
 
-                // تعبئة واجهة البروفايل ببيانات صاحب المنشور المستهدف
                 document.getElementById('profileUsernameDisplay').innerText = userData.name;
                 document.getElementById('profileAvatarImage').src = userData.avatarUrl;
                 document.getElementById('sidebarJob').innerText = userData.job;
@@ -1276,17 +1347,13 @@
                 document.getElementById('sidebarSocialStatus').innerText = userData.socialStatus;
                 document.getElementById('aboutSocialStatus').innerText = userData.socialStatus;
 
-                // إخفاء أزرار التعديل الخاصة بك إذا كانت زيارة لبروفايل شخص آخر
                 const isMyProfile = (targetUsername.trim() === currentAuthenticatedUser.trim());
                 document.getElementById('editCoverBtn').style.display = isMyProfile ? 'flex' : 'none';
                 document.getElementById('editAvatarBtn').style.display = isMyProfile ? 'flex' : 'none';
                 document.getElementById('profileActionsArea').style.display = isMyProfile ? 'flex' : 'none';
                 document.getElementById('profileCreatePostCard').style.display = isMyProfile ? 'block' : 'none';
 
-                // جلب منشورات وصور وفيديوهات هذا المستخدم المحدد فقط
                 loadSpecificUserPostsAndMedia(userData.name);
-
-                // الانتقال لعرض صفحة البروفايل
                 switchAppView('profile', document.querySelector('.nav-tab:nth-child(3)'));
             } catch(e) {
                 console.error("خطأ في الانتقال لصفحة المستخدم:", e);
@@ -1404,26 +1471,25 @@
                 const previewArea = document.getElementById('previewContentArea');
 
                 if (type === 'image') {
-                    document.getElementById('fileNameDisplay').innerText = "جاري ضغط الصورة ومعالجتها... " + file.name;
+                    document.getElementById('fileNameDisplay').innerText = "جاري ضغط الصورة ومعالجتها...";
                     try {
                         const compressedBase64 = await compressImage(file, 1024, 1024, 0.7);
                         localBase64Data = compressedBase64;
                         selectedMediaType = 'image';
 
-                        document.getElementById('fileNameDisplay').innerText = "تمت معالجة الصورة بنجاح: " + file.name;
+                        document.getElementById('fileNameDisplay').innerText = "تمت معالجة الصورة بنجاح";
                         previewArea.innerHTML = `<img src="${localBase64Data}" alt="Preview">`;
                         previewContainer.style.display = 'block';
                     } catch (err) {
                         console.error("خطأ في معالجة الصورة:", err);
-                        alert("حدث خطأ أثناء معالجة الصورة.");
                     }
                 } else if (type === 'video') {
-                    document.getElementById('fileNameDisplay').innerText = "جاري تحميل الفيديو: " + file.name;
+                    document.getElementById('fileNameDisplay').innerText = "جاري تحميل الفيديو...";
                     selectedMediaType = 'video';
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         localBase64Data = e.target.result;
-                        document.getElementById('fileNameDisplay').innerText = "تم تجهيز الفيديو بنجاح: " + file.name;
+                        document.getElementById('fileNameDisplay').innerText = "تم تجهيز الفيديو بنجاح";
                         previewArea.innerHTML = `<video src="${localBase64Data}" controls></video>`;
                         previewContainer.style.display = 'block';
                     };
@@ -1441,7 +1507,7 @@
             }
 
             if (containsPhoneNumber(text)) {
-                alert("عذراً، يُمنع كتابة أرقام الهواتف في المنشورات حرصاً على الخصوصية والأمان.");
+                alert("عذراً، يُمنع كتابة أرقام الهواتف في المنشورات.");
                 return;
             }
 
@@ -1572,9 +1638,9 @@
             let mediaHTML = "";
             if (post.mediaUrl && !post.mediaUrl.startsWith("blob:")) {
                 if (post.mediaType === "image") {
-                    mediaHTML = `<div style="margin-top: 10px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 500px; object-fit: cover;"></div>`;
+                    mediaHTML = `<div style="margin-top: 8px;"><img src="${post.mediaUrl}" style="width: 100%; border-radius: 8px; max-height: 450px; object-fit: cover;"></div>`;
                 } else if (post.mediaType === "video") {
-                    mediaHTML = `<div style="margin-top: 10px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 450px; background: #000;"></video></div>`;
+                    mediaHTML = `<div style="margin-top: 8px;"><video src="${post.mediaUrl}" controls style="width: 100%; border-radius: 8px; max-height: 400px; background: #000;"></video></div>`;
                 }
             }
 
@@ -1584,7 +1650,7 @@
                     const commAuthor = comm.author || "مستخدم";
                     commentsHTML += `
                         <div class="comment-item">
-                            <img src="${comm.avatar || currentAvatarUrl}" class="clickable-user" onclick="goToUserProfile('${commAuthor}')" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                            <img src="${comm.avatar || currentAvatarUrl}" class="clickable-user" onclick="goToUserProfile('${commAuthor}')" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
                             <div class="comment-bubble">
                                 <b class="clickable-user" onclick="goToUserProfile('${commAuthor}')">${commAuthor}</b>
                                 <span>${comm.text}</span>
@@ -1601,8 +1667,8 @@
             if (authorName === activeUser) {
                 ownerActionsHTML = `
                     <div style="margin-right: auto; display: flex; gap: 6px;">
-                        <button onclick="openEditModal('${postId}', \`${(post.content || '').replace(/`/g, '\\`')}\`)" style="background: none; border: none; cursor: pointer; color: var(--fb-secondary-text);" title="تعديل المنشور"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deletePost('${postId}')" style="background: none; border: none; cursor: pointer; color: #f02849;" title="حذف المنشور"><i class="fa-solid fa-trash"></i></button>
+                        <button onclick="openEditModal('${postId}', \`${(post.content || '').replace(/`/g, '\\`')}\`)" style="background: none; border: none; cursor: pointer; color: var(--fb-secondary-text);" title="تعديل"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="deletePost('${postId}')" style="background: none; border: none; cursor: pointer; color: #f02849;" title="حذف"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 `;
             }
@@ -1610,15 +1676,15 @@
             const postAuthor = post.author || "مستخدم";
 
             return `
-                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-                    <img src="${post.avatar || currentAvatarUrl}" class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                    <img src="${post.avatar || currentAvatarUrl}" class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
                     <div>
-                        <h4 class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="font-size: 0.95rem;">${postAuthor}</h4>
-                        <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
+                        <h4 class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="font-size: 0.9rem;">${postAuthor}</h4>
+                        <span style="font-size: 0.7rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
                     </div>
                     ${ownerActionsHTML}
                 </div>
-                <p style="font-size: 1rem; line-height: 1.5; white-space: pre-wrap; margin-bottom: 8px;">${post.content || ""}</p>
+                <p style="font-size: 0.95rem; line-height: 1.4; white-space: pre-wrap; margin-bottom: 8px;">${post.content || ""}</p>
                 ${mediaHTML}
 
                 <div class="post-stats-row">
@@ -1635,7 +1701,7 @@
                 <div class="comments-section">
                     <div id="comments-list-${postId}">${commentsHTML}</div>
                     <div class="comment-input-row">
-                        <img src="${currentAvatarUrl}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                        <img src="${currentAvatarUrl}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
                         <input type="text" id="comment-input-${postId}" placeholder="اكتب تعليقاً..." onkeypress="addComment(event, '${postId}')">
                     </div>
                 </div>
@@ -1663,11 +1729,11 @@
                         if(allStoredVideosGrid) {
                             allStoredVideosGrid.innerHTML += `
                                 <div class="stored-video-card">
-                                    <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-                                        <img src="${post.avatar || currentAvatarUrl}" class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                                    <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+                                        <img src="${post.avatar || currentAvatarUrl}" class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
                                         <div>
-                                            <h4 class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="font-size: 0.95rem;">${postAuthor}</h4>
-                                            <span style="font-size: 0.75rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
+                                            <h4 class="clickable-user" onclick="goToUserProfile('${postAuthor}')" style="font-size: 0.9rem;">${postAuthor}</h4>
+                                            <span style="font-size: 0.7rem; color: var(--fb-secondary-text);">${post.time || "الآن"}</span>
                                         </div>
                                     </div>
                                     <div class="stored-video-footer"><p>${post.content || ""}</p></div>
@@ -1867,6 +1933,7 @@
                 document.getElementById('profile-view').classList.add('active');
             }
             if(tabElement) tabElement.classList.add('active');
+            window.scrollTo(0, 0);
         }
 
         function switchProfileTab(tabName, tabElement) {
