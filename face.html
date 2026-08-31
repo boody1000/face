@@ -914,7 +914,6 @@
             font-size: 0.85rem;
         }
 
-        /* تعديلات الموبايل والريسبونسيف لتشبه تطبيق فيسبوك بدقة */
         @media (max-width: 1024px) {
             .home-layout {
                 grid-template-columns: 1fr;
@@ -967,7 +966,7 @@
             }
             .app-view {
                 margin-top: 50px;
-                margin-bottom: 50px; /* مساحة لشريط التنقل السفلي في الموبايل */
+                margin-bottom: 50px;
             }
             .profile-main-layout {
                 grid-template-columns: 1fr;
@@ -1912,6 +1911,12 @@
                 }
 
                 loadPostsAndMedia();
+
+                // تفعيل التحديث التلقائي (Auto-Update) كل 5 ثوانٍ لجلب أحدث البيانات من الداتابيز
+                setInterval(() => {
+                    loadPostsAndMedia();
+                }, 5000);
+
             } catch (e) {
                 console.error("خطأ في تهيئة التطبيق: ", e);
             }
