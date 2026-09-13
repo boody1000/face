@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Ads Manager - AI Advanced Suite - شركة الهواري للزواج</title>
+    <title>Meta Ads Manager - Native Instant Forms - شركة الهواري للزواج</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -14,11 +14,11 @@
         <div class="flex items-center gap-4">
             <div class="flex items-center gap-2 text-blue-500 font-bold text-base">
                 <i class="fa-brands fa-facebook text-2xl"></i>
-                <span class="text-slate-100 text-sm border-r border-[#393a3b] pr-3 mr-1">مدير الإعلانات (مدعوم بالذكاء الاصطناعي والاستوديو الذكي)</span>
+                <span class="text-slate-100 text-sm border-r border-[#393a3b] pr-3 mr-1">مدير الإعلانات (النماذج الفورية المطابقة لفيسبوك)</span>
             </div>
             <div class="hidden md:flex items-center gap-2 bg-[#3a3b3c] px-3 py-1.5 rounded-lg text-xs text-slate-300">
                 <i class="fa-solid fa-brain text-purple-400 animate-pulse"></i>
-                <span>حساب: شركة الهواري للزواج (Meta Advantage+ AI & Forms Active)</span>
+                <span>حساب: شركة الهواري للزواج (Instant Forms & AI Active)</span>
             </div>
         </div>
         <div class="flex items-center gap-3">
@@ -29,16 +29,16 @@
         </div>
     </header>
 
-    <!-- شريط التبويبات الثلاثة الرئيسية (Campaigns, Ad Sets, Ads) -->
+    <!-- شريط التبويبات الثلاثة الرئيسية -->
     <nav class="bg-[#242526] border-b border-[#393a3b] px-4 flex gap-6 text-xs font-semibold text-slate-400">
         <button onclick="switchTab('campaigns')" id="tabBtnCampaigns" class="text-blue-400 border-b-2 border-blue-500 py-3 flex items-center gap-1.5 transition">
             <i class="fa-solid fa-layer-group"></i> الحملات (Campaigns - AI Managed)
         </button>
         <button onclick="switchTab('adsets')" id="tabBtnAdsets" class="hover:text-slate-200 py-3 flex items-center gap-1.5 transition">
-            <i class="fa-solid fa-table-cells"></i> المجموعات الإعلانية (Ad Sets - AI Audience & Destinations)
+            <i class="fa-solid fa-table-cells"></i> المجموعات الإعلانية (Ad Sets - Instant Forms)
         </button>
         <button onclick="switchTab('ads')" id="tabBtnAds" class="hover:text-slate-200 py-3 flex items-center gap-1.5 transition">
-            <i class="fa-solid fa-rectangle-ad"></i> الإعلانات (Ads - AI Studio & Creative)
+            <i class="fa-solid fa-rectangle-ad"></i> الإعلانات (Ads - AI Studio)
         </button>
     </nav>
 
@@ -59,7 +59,7 @@
                             <th class="p-3">اسم الحملة</th>
                             <th class="p-3">الحالة وتحكم AI</th>
                             <th class="p-3">الهدف الذكي</th>
-                            <th class="p-3">الميزانية (متحكم بها بالذكاء الاصطناعي)</th>
+                            <th class="p-3">الميزانية</th>
                             <th class="p-3">النتائج المحللة</th>
                         </tr>
                     </thead>
@@ -68,9 +68,9 @@
                             <td class="p-3"><input type="checkbox"></td>
                             <td class="p-3 font-bold text-blue-400">حملة شركة الهواري للزواج والتوافق الأسري</td>
                             <td class="p-3"><span class="bg-purple-950 text-purple-400 border border-purple-800 px-2 py-0.5 rounded text-[10px]">AI Budget Optimized</span></td>
-                            <td class="p-3">الرسائل ونماذج العملاء (Leads & Forms)</td>
-                            <td class="p-3 font-mono text-emerald-400">250.00 ج.م. <span class="text-[10px] text-slate-400">(يتكيف تلقائياً)</span></td>
-                            <td class="p-3 font-bold text-blue-400">42 عميل محتمل (تكلفة منخفضة بواسطة AI)</td>
+                            <td class="p-3">نماذج العملاء المحتملين الفورية (Instant Forms)</td>
+                            <td class="p-3 font-mono text-emerald-400">250.00 ج.م.</td>
+                            <td class="p-3 font-bold text-blue-400">42 عميل محتمل مسجل عبر النموذج</td>
                         </tr>
                     </tbody>
                 </table>
@@ -80,24 +80,24 @@
         <!-- صفحة 2: المجموعات الإعلانية -->
         <div id="sectionAdsets" class="space-y-3 hidden">
             <div class="bg-[#242526] p-3 rounded-lg border border-[#393a3b] flex justify-between items-center">
-                <h3 class="font-bold text-xs text-slate-200">المجموعات الإعلانية (الاستهداف وتحديد وجهات التحويل: واتساب ونماذج فورية)</h3>
+                <h3 class="font-bold text-xs text-slate-200">المجموعات الإعلانية وإعدادات النماذج الفورية</h3>
             </div>
             <div class="bg-[#242526] rounded-lg border border-[#393a3b] overflow-hidden">
                 <table class="w-full text-right text-xs">
                     <thead class="bg-[#3a3b3c] text-slate-300 border-b border-[#4e4f50]">
                         <tr>
-                            <th class="p-3">اسم المجموعة الإعلانية</th>
-                            <th class="p-3">وجهة التحويل (Messenger / WhatsApp / Forms)</th>
-                            <th class="p-3">الجمهور (توجيه ذكي بالذكاء الاصطناعي)</th>
-                            <th class="p-3">الموقع الجغرافي</th>
+                            <th class="p-3">اسم المجموعة</th>
+                            <th class="p-3">وجهة التحويل</th>
+                            <th class="p-3">إعدادات النموذج الفوري</th>
+                            <th class="p-3">الجمهور والموقع</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#393a3b]">
                         <tr class="hover:bg-[#3a3b3c]/50">
-                            <td class="p-3 font-bold text-blue-400">مجموعة مصر - ربط واتساب ونماذج فورية</td>
-                            <td class="p-3 text-purple-400 font-semibold">تطبيقات المراسلة والنماذج الفورية (WhatsApp & Instant Forms)</td>
-                            <td class="p-3">السن: 21 - 50 سنة | اهتمامات الزواج والأسرة</td>
-                            <td class="p-3">مصر (تحديد الذكاء الاصطناعي للمحافظات الأكثر تفاعلاً)</td>
+                            <td class="p-3 font-bold text-blue-400">مجموعة نماذج العملاء الفورية</td>
+                            <td class="p-3 text-blue-400 font-semibold">Instant Forms (النماذج الفورية)</td>
+                            <td class="p-3 text-emerald-400">مفعل برابط توجه لصفحة الهبوط</td>
+                            <td class="p-3">مصر (21-50 سنة)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -107,24 +107,24 @@
         <!-- صفحة 3: الإعلانات -->
         <div id="sectionAds" class="space-y-3 hidden">
             <div class="bg-[#242526] p-3 rounded-lg border border-[#393a3b] flex justify-between items-center">
-                <h3 class="font-bold text-xs text-slate-200">الإعلانات الفردية (استوديو تعديل وتطوير الوسائط بالذكاء الاصطناعي)</h3>
+                <h3 class="font-bold text-xs text-slate-200">الإعلانات وتصميم الوسائط بالذكاء الاصطناعي</h3>
             </div>
             <div class="bg-[#242526] rounded-lg border border-[#393a3b] overflow-hidden">
                 <table class="w-full text-right text-xs">
                     <thead class="bg-[#3a3b3c] text-slate-300 border-b border-[#4e4f50]">
                         <tr>
                             <th class="p-3">اسم الإعلان</th>
-                            <th class="p-3">الصفحة المستخدمة</th>
-                            <th class="p-3">النص المُولّد بالذكاء الاصطناعي (AI Copywriting)</th>
+                            <th class="p-3">الصفحة</th>
+                            <th class="p-3">النص التسويقي</th>
                             <th class="p-3">زر التفاعل (CTA)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#393a3b]">
                         <tr class="hover:bg-[#3a3b3c]/50">
-                            <td class="p-3 font-bold text-blue-400">إعلان رقم 1 - صورة محسنة بالذكاء الاصطناعي</td>
+                            <td class="p-3 font-bold text-blue-400">إعلان النموذج الفوري للزواج الحلال</td>
                             <td class="p-3">شركة الهواري للزواج</td>
-                            <td class="p-3 text-slate-300 truncate max-w-xs">هل تبحث عن شريك الحياة المناسب... (مُصاغ بواسطة AI)</td>
-                            <td class="p-3 font-semibold text-blue-400">سجل الآن / واتساب</td>
+                            <td class="p-3 text-slate-300 truncate max-w-xs">سجل بياناتك للبدء...</td>
+                            <td class="p-3 font-semibold text-blue-400">سجل الآن (Apply Now)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -133,11 +133,11 @@
 
     </main>
 
-    <!-- نافذة إنشاء حملة كاملة (Modal) تتضمن الـ 3 خطوات مع أداة النموذج الفوري وربط الواتساب واستوديو الذكاء الاصطناعي للميديا -->
+    <!-- نافذة إنشاء حملة كاملة (Modal) -->
     <div id="createModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex justify-center items-center p-2 md:p-4">
         <div class="bg-[#242526] w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-xl border border-[#393a3b] shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-0">
             
-            <!-- الجزء الأيمن: الخانات والمدخلات والقوائم المنسدلة للثلاث صفحات (7 أعمدة) -->
+            <!-- الجزء الأيمن: الخانات والمدخلات (7 أعمدة) -->
             <div class="lg:col-span-7 p-5 space-y-4 border-l border-[#393a3b]">
                 
                 <div class="flex justify-between items-center border-b border-[#393a3b] pb-3">
@@ -151,100 +151,93 @@
                 <div class="flex items-center justify-around bg-[#18191a] p-2.5 rounded-lg border border-[#393a3b] text-[11px] font-semibold text-slate-400">
                     <span id="wizardStepIndicator1" onclick="goToWizardStep(1)" class="cursor-pointer text-blue-400 font-bold">1. الحملة (AI Budget)</span>
                     <i class="fa-solid fa-chevron-left text-[9px]"></i>
-                    <span id="wizardStepIndicator2" onclick="goToWizardStep(2)" class="cursor-pointer text-slate-400">2. المجموعة والوجهات (WhatsApp & Forms)</span>
+                    <span id="wizardStepIndicator2" onclick="goToWizardStep(2)" class="cursor-pointer text-slate-400">2. المجموعة والنماذج الفورية (Instant Forms)</span>
                     <i class="fa-solid fa-chevron-left text-[9px]"></i>
                     <span id="wizardStepIndicator3" onclick="goToWizardStep(3)" class="cursor-pointer text-slate-400">3. الإعلان (AI Media Studio)</span>
                 </div>
 
-                <!-- خطوة 1: إعدادات الحملة وتحكم الذكاء الاصطناعي للميزانية -->
+                <!-- خطوة 1: الحملة والميزانية -->
                 <div id="wizardPane1" class="space-y-3 text-xs">
                     <div class="bg-purple-950/40 border border-purple-900/50 p-2.5 rounded-lg flex items-center justify-between">
                         <span class="text-purple-300 font-semibold"><i class="fa-solid fa-robot"></i> نظام الذكاء الاصطناعي لإدارة الميزانية (AI Budget Optimizer)</span>
-                        <input type="checkbox" id="aiBudgetToggle" checked onchange="toggleAIBudget()" class="accent-purple-500 w-4 h-4 cursor-pointer">
+                        <input type="checkbox" id="aiBudgetToggle" checked class="accent-purple-500 w-4 h-4 cursor-pointer">
                     </div>
-
                     <div>
-                        <label class="block text-slate-400 mb-1">اسم الحملة (Campaign Name - مُولّد بالذكاء الاصطناعي)</label>
-                        <input type="text" id="inputCampName" value="Al-Hawary AI Smart Marriage Campaign - 2026" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                        <label class="block text-slate-400 mb-1">اسم الحملة</label>
+                        <input type="text" id="inputCampName" value="Al-Hawary AI Instant Forms Campaign - 2026" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-slate-400 mb-1">هدف الحملة (AI Objective)</label>
+                            <label class="block text-slate-400 mb-1">هدف الحملة</label>
                             <select id="inputCampObjective" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                                <option value="AI Leads Optimization">الرسائل والعملاء المحتملين (AI Leads)</option>
-                                <option value="AI Max Conversion">أقصى معدل تحويل ذكي (AI Max Conversions)</option>
+                                <option value="AI Leads Optimization">العملاء المحتملين (Leads & Forms)</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-slate-400 mb-1">تحكم خوارزمية CBO للذكاء الاصطناعي</label>
-                            <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                                <option>توزيع ميزانية ذكي تلقائي (Advantage+ Budget)</option>
-                            </select>
+                            <label class="block text-slate-400 mb-1">الميزانية اليومية (EGP)</label>
+                            <input type="number" id="inputCampBudget" value="250" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100 font-bold text-purple-300">
                         </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-slate-400 mb-1">نوع الميزانية المُدارة بالذكاء الاصطناعي</label>
-                            <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                                <option>ميزانية يومية يتلاعب بها الذكاء الاصطناعي حسب الأداء</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">الميزانية الأساسية (EGP) - <span id="aiBudgetStatusText" class="text-purple-400">متحكم آلي مفعل</span></label>
-                            <input type="number" id="inputCampBudget" value="250" oninput="adjustAIBudget(this.value)" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100 font-bold text-purple-300">
-                        </div>
-                    </div>
-                    <div id="aiBudgetLogBox" class="bg-[#18191a] p-2 rounded border border-[#393a3b] text-[10px] text-purple-300">
-                        <i class="fa-solid fa-microchip"></i> AI Status: الذكاء الاصطناعي يراقب تفاعل السوق ويرفع الميزانية بنسبة 15% أوتوماتيكياً في أوقات الذروة.
                     </div>
                 </div>
 
-                <!-- خطوة 2: المجموعة الإعلانية وإعدادات الوجهات (WhatsApp & Instant Forms Builder) -->
+                <!-- خطوة 2: المجموعة الإعلانية وإعدادات النموذج الفوري المطابقة لفيسبوك بالكامل -->
                 <div id="wizardPane2" class="space-y-3 text-xs hidden">
                     <div class="bg-blue-950/40 border border-blue-900/50 p-2.5 rounded-lg flex items-center justify-between">
-                        <span class="text-blue-300 font-semibold"><i class="fa-solid fa-users-viewfinder"></i> استهداف الجمهور ووجهات التحويل (Advantage+ Conversions)</span>
-                        <input type="checkbox" id="aiAudienceToggle" checked class="accent-blue-500 w-4 h-4">
+                        <span class="text-blue-300 font-semibold"><i class="fa-solid fa-users-viewfinder"></i> وجهة التحويل وإعدادات النموذج الفوري (Instant Forms)</span>
+                        <input type="checkbox" checked class="accent-blue-500 w-4 h-4">
                     </div>
 
                     <div>
                         <label class="block text-slate-400 mb-1">اسم المجموعة الإعلانية</label>
-                        <input type="text" id="inputAdSetName" value="مجموعة مصر - ربط واتساب ونماذج فورية" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                        <input type="text" id="inputAdSetName" value="مجموعة استهداف النماذج الفورية - مصر" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
                     </div>
 
-                    <!-- اختيار وجهة التحويل وتفعيل إعدادات الواتساب أو النماذج الفورية -->
+                    <!-- اختيار وجهة التحويل -->
                     <div class="bg-[#18191a] p-3 rounded-lg border border-[#393a3b] space-y-2">
-                        <span class="font-bold text-blue-400 block"><i class="fa-solid fa-route"></i> اختر مكان وجهة التحويل (Conversion Destination):</span>
+                        <span class="font-bold text-blue-400 block"><i class="fa-solid fa-route"></i> وجهة التحويل:</span>
                         <select id="inputConversionDestination" onchange="toggleConversionDestinationOptions()" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100 font-bold">
+                            <option value="INSTANT_FORMS" selected>📋 النماذج الفورية (Instant Forms - جمع البيانات)</option>
                             <option value="MESSENGER">💬 تطبيق الماسنجر (Messenger)</option>
-                            <option value="WHATSAPP">🟢 تطبيق الواتساب للأعمال (WhatsApp Business)</option>
-                            <option value="INSTANT_FORMS">📋 النماذج الفورية لجمع البيانات (Instant Forms / Leads)</option>
-                            <option value="WEBSITE">🌐 الموقع الإلكتروني (Website)</option>
+                            <option value="WHATSAPP">🟢 تطبيق الواتساب (WhatsApp)</option>
                         </select>
 
-                        <!-- إعدادات الواتساب (تظهر عند اختيار الواتساب) -->
-                        <div id="whatsappConfigSection" class="pt-2 space-y-2 hidden bg-[#242526] p-2.5 rounded border border-emerald-800/60">
-                            <span class="text-emerald-400 font-bold block"><i class="fa-brands fa-whatsapp"></i> إعدادات الربط المباشر بـ WhatsApp Business:</span>
+                        <!-- قسم إعدادات النموذج الفوري المطابق لفيسبوك تفصيلياً -->
+                        <div id="instantFormConfigSection" class="pt-2 space-y-3 bg-[#242526] p-3 rounded border border-blue-800/60">
+                            <span class="text-blue-400 font-bold block border-b border-[#393a3b] pb-1"><i class="fa-solid fa-file-lines"></i> إعدادات النموذج الفوري (Meta Instant Forms Setup):</span>
+                            
                             <div>
-                                <label class="block text-slate-400 mb-1">رقم هاتف الواتساب للأعمال:</label>
-                                <input type="text" id="whatsappNumber" value="+20 1012345678" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                                <label class="block text-slate-400 mb-1">نوع النموذج (Form Type):</label>
+                                <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-1.5 text-slate-100">
+                                    <option value="MORE_VOLUME">حجم أكبر (More Volume - نموذج سريع وسهل الملء)</option>
+                                    <option value="HIGHER_INTENT">نية أعلى (Higher Intent - إضافة خطوة مراجعة قبل الإرسال)</option>
+                                </select>
                             </div>
-                            <span class="text-[10px] text-slate-400">سيتم إرسال رمز تحقق لربط صفحة شركة الهواري للزواج برقم الواتساب الخاص بك أوتوماتيكياً.</span>
-                        </div>
 
-                        <!-- إعدادات النماذج الفورية (تظهر عند اختيار Instant Forms) -->
-                        <div id="instantFormConfigSection" class="pt-2 space-y-2 hidden bg-[#242526] p-2.5 rounded border border-blue-800/60">
-                            <span class="text-blue-400 font-bold block"><i class="fa-solid wp-forms"></i> أداة تصميم النموذج الفوري (Instant Form Builder):</span>
                             <div>
-                                <label class="block text-slate-400 mb-1">عنوان النموذج (Form Title):</label>
-                                <input type="text" id="formTitle" value="سجل بياناتك للتواصل معك وزواج حلال آمن" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                                <label class="block text-slate-400 mb-1">عنوان الترحيب في النموذج (Intro Headline):</label>
+                                <input type="text" id="formTitle" value="ابدأ رحلة الزواج الحلال الآمن معنا اليوم" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-1.5 text-slate-100">
                             </div>
+
                             <div>
-                                <label class="block text-slate-400 mb-1">الأسئلة المطلوبة (Questions):</label>
-                                <input type="text" value="الاسم الكامل، رقم الهاتف (واتساب)، المحافظة، الحالة الاجتماعية" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                                <label class="block text-slate-400 mb-1">الأسئلة المخصصة المطلوبة (Questions):</label>
+                                <div class="bg-[#18191a] p-2 rounded border border-[#393a3b] text-[11px] text-slate-300 space-y-1">
+                                    <div><i class="fa-solid fa-check text-emerald-400"></i> البريد الإلكتروني (Email)</div>
+                                    <div><i class="fa-solid fa-check text-emerald-400"></i> الاسم الكامل (Full Name)</div>
+                                    <div><i class="fa-solid fa-check text-emerald-400"></i> رقم الهاتف المحمول (Phone Number)</div>
+                                    <div><i class="fa-solid fa-check text-emerald-400"></i> المحافظة ومقر الإقامة (Location)</div>
+                                </div>
                             </div>
+
                             <div>
-                                <label class="block text-slate-400 mb-1">رابط سياسة الخصوصية (Privacy Policy URL):</label>
-                                <input type="text" value="https://alhawary-marriage.com/privacy" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                                <label class="block text-slate-400 mb-1">رابط سياسة الخصوصية (Privacy Policy Link):</label>
+                                <input type="text" value="https://alhawary-marriage.com/privacy-policy" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-1.5 text-slate-100">
+                            </div>
+
+                            <!-- رابط التوجيه لصفحة الهبوط (Website Redirect Link) -->
+                            <div class="bg-purple-950/40 p-2.5 rounded border border-purple-800">
+                                <label class="block text-purple-300 font-bold mb-1 text-[11px]"><i class="fa-solid fa-globe"></i> رابط التوجيه لصفحة الهبوط (Website Redirect URL):</label>
+                                <input type="text" id="redirectLandingUrl" value="https://alhawary-marriage.com/thank-you" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-1.5 text-slate-100 font-mono text-xs">
+                                <span class="text-[9px] text-slate-400 block mt-1">الرابط الذي يتم توجيه العميل إليه فور إرسال النموذج بنجاح (Thank You / Landing Page).</span>
                             </div>
                         </div>
                     </div>
@@ -257,44 +250,13 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-slate-400 mb-1">تحسين العرض</label>
-                            <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                                <option>الحد الأقصى لعدد العملاء المحتملين (Leads)</option>
-                            </select>
+                            <label class="block text-slate-400 mb-1">المواقع الجغرافية</label>
+                            <input type="text" id="inputLocations" value="جمهورية مصر العربية" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
                         </div>
-                    </div>
-
-                    <!-- إعدادات الجمهور المستهدف -->
-                    <div class="bg-[#18191a] p-3 rounded-lg border border-[#393a3b] space-y-2">
-                        <span class="font-bold text-blue-400 block"><i class="fa-solid fa-bullseye"></i> تفاصيل الجمهور المستهدف (Target Audience Settings):</span>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div>
-                                <label class="block text-slate-400 mb-1">السن الأدنى</label>
-                                <select id="inputMinAge" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100">
-                                    <option value="21">21 سنة</option>
-                                    <option value="18">18 سنة</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-slate-400 mb-1">السن الأقصى</label>
-                                <select id="inputMaxAge" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100">
-                                    <option value="50">50 سنة</option>
-                                    <option value="60">60 سنة</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">اهتمامات الجمهور وسلوكياته</label>
-                            <input type="text" id="inputInterests" value="الزواج الحلال، العلاقات الأسرية، الاستقرار العائلي" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-slate-400 mb-1">المواقع الجغرافية المستهدفة</label>
-                        <input type="text" id="inputLocations" value="جمهورية مصر العربية" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
                     </div>
                 </div>
 
-                <!-- خطوة 3: الإعلان وميديا الصفحة + استوديو الذكاء الاصطناعي لتطوير الصور والفيديو -->
+                <!-- خطوة 3: الإعلان والاستوديو الذكي -->
                 <div id="wizardPane3" class="space-y-3 text-xs hidden">
                     <div class="bg-emerald-950/40 border border-emerald-900/50 p-2.5 rounded-lg flex items-center justify-between">
                         <span class="text-emerald-300 font-semibold"><i class="fa-solid fa-wand-magic-sparkles"></i> صانع الإعلانات والاستوديو الذكي</span>
@@ -302,11 +264,10 @@
                     </div>
 
                     <div class="flex justify-between items-center">
-                        <label class="font-bold text-slate-300">اختر ميديا من الصفحة لتطويرها عبر الذكاء الاصطناعي:</label>
-                        <button onclick="loadPageMediaFromBackend()" class="text-[10px] text-blue-400 hover:underline"><i class="fa-solid fa-sync"></i> تحديث ميديا الصفحة</button>
+                        <label class="font-bold text-slate-300">اختر ميديا من الصفحة أو عدلها بالذكاء الاصطناعي:</label>
+                        <button onclick="loadPageMediaFromBackend()" class="text-[10px] text-blue-400 hover:underline"><i class="fa-solid fa-sync"></i> تحديث</button>
                     </div>
 
-                    <!-- معرض ميديا الصفحة المجلوبة -->
                     <div id="pageMediaContainer" class="grid grid-cols-4 gap-2 max-h-28 overflow-y-auto p-1 bg-[#18191a] rounded-lg border border-[#393a3b]">
                         <div onclick="openAIStudio('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600')" class="cursor-pointer border-2 border-blue-500 rounded overflow-hidden h-14 bg-black relative">
                             <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600" class="w-full h-full object-cover">
@@ -316,60 +277,56 @@
                         </div>
                     </div>
 
-                    <!-- صندوق استوديو الذكاء الاصطناعي للميديا (AI Media Enhancement Studio) -->
                     <div id="aiMediaStudioBox" class="bg-purple-950/30 p-3 rounded-lg border border-purple-800/60 space-y-2">
-                        <span class="font-bold text-purple-300 block"><i class="fa-solid fa-photo-film"></i> استوديو الذكاء الاصطناعي لتطوير الميديا المختارة:</span>
+                        <span class="font-bold text-purple-300 block"><i class="fa-solid fa-photo-film"></i> استوديو الذكاء الاصطناعي للميديا:</span>
                         <div class="flex gap-2">
-                            <button onclick="enhanceMediaWithAI('enhance')" class="flex-1 bg-purple-700 hover:bg-purple-600 text-white p-1.5 rounded text-[10px] font-bold"><i class="fa-solid fa-wand-magic"></i> تحسين الإضاءة والجودة</button>
-                            <button onclick="enhanceMediaWithAI('frame')" class="flex-1 bg-blue-700 hover:bg-blue-600 text-white p-1.5 rounded text-[10px] font-bold"><i class="fa-solid fa-border-all"></i> إضافة إطار تسويقي جاذب</button>
+                            <button onclick="enhanceMediaWithAI('enhance')" class="flex-1 bg-purple-700 hover:bg-purple-600 text-white p-1.5 rounded text-[10px] font-bold">تحسين الإضاءة والجودة</button>
+                            <button onclick="enhanceMediaWithAI('frame')" class="flex-1 bg-blue-700 hover:bg-blue-600 text-white p-1.5 rounded text-[10px] font-bold">إضافة إطار تسويقي</button>
                         </div>
                         <div id="aiStudioResultText" class="text-[10px] text-purple-200 bg-[#18191a] p-2 rounded border border-purple-900">
-                            💡 اختر أي صورة أو فيديو بالأعلى ليقوم الذكاء الاصطناعي بإنشاء نسخة إعلانية مطورة ومطابقة لمعايير فيسبوك.
+                            💡 تم تفعيل أداة النماذج الفورية مع التوجيه لصفحة الهبوط بنجاح.
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-slate-400 mb-1">النص الأساسي للإعلان (Primary Text)</label>
-                        <textarea id="inputAdText" oninput="updatePreviewText()" rows="3" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">هل تبحث عن شريك الحياة المناسب بطريقة آمنة وموثوقة؟ منصة "شركة الهواري للزواج" توفر لك بيئة أسرية جادة للتعارف بهدف الزواج الحلال. تواصل معنا الآن.</textarea>
+                        <label class="block text-slate-400 mb-1">النص الأساسي للإعلان</label>
+                        <textarea id="inputAdText" oninput="updatePreviewText()" rows="3" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">سجل بياناتك الآن بكل سرية وامن في شركة الهواري للزواج واجعلنا نساعدك في إيجاد الشريك المناسب.</textarea>
                     </div>
 
                     <div>
                         <label class="block text-slate-400 mb-1">زر الحث على اتخاذ إجراء (CTA Button)</label>
                         <select id="inputCtaButton" onchange="updatePreviewCTA()" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                            <option value="Send Message">إرسال رسالة ماسنجر (Send Message)</option>
-                            <option value="WhatsApp Message">إرسال رسالة واتساب (Send WhatsApp Message)</option>
-                            <option value="Apply Now">سجل الآن عبر النموذج الفوري (Apply Now)</option>
+                            <option value="Apply Now" selected>سجل الآن (Apply Now)</option>
                             <option value="Learn More">اعرف المزيد (Learn More)</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- أزرار التنقل السفلية للمعالج -->
+                <!-- أزرار التنقل السفلية -->
                 <div class="flex gap-2 pt-3 border-t border-[#393a3b]">
                     <button id="wizardPrevBtn" onclick="changeWizardStep(-1)" class="flex-1 bg-[#3a3b3c] hover:bg-[#4e4f50] text-slate-300 py-2 rounded text-xs transition hidden">السابق</button>
-                    <button id="wizardNextBtn" onclick="changeWizardStep(1)" class="flex-1 bg-[#1877f2] hover:bg-[#166fe5] text-white py-2 rounded text-xs transition">التالي: المجموعة والوجهات (AI)</button>
+                    <button id="wizardNextBtn" onclick="changeWizardStep(1)" class="flex-1 bg-[#1877f2] hover:bg-[#166fe5] text-white py-2 rounded text-xs transition">التالي: النماذج الفورية (AI)</button>
                 </div>
             </div>
 
             <!-- الجزء الأيسر: معاينة الإعلان الحية (5 أعمدة) -->
             <div class="lg:col-span-5 bg-[#18191a] p-5 flex flex-col items-center justify-between">
                 <div class="w-full flex justify-between items-center border-b border-[#393a3b] pb-2 mb-3">
-                    <span class="text-xs font-bold text-slate-300"><i class="fa-solid fa-mobile-screen text-blue-400"></i> معاينة إعلان فيسبوك (بواسطة AI)</span>
-                    <span id="previewDestinationBadge" class="text-[10px] bg-purple-950 text-purple-400 px-2 py-0.5 rounded border border-purple-800">Messenger Live</span>
+                    <span class="text-xs font-bold text-slate-300"><i class="fa-solid fa-mobile-screen text-blue-400"></i> معاينة إعلان النموذج الفوري</span>
+                    <span id="previewDestinationBadge" class="text-[10px] bg-blue-950 text-blue-400 px-2 py-0.5 rounded border border-blue-800">Instant Form</span>
                 </div>
 
-                <!-- شكل شاشة الهاتف -->
                 <div class="w-full max-w-xs bg-[#242526] border border-[#393a3b] rounded-xl overflow-hidden shadow-2xl text-xs text-slate-100">
                     <div class="p-3 flex items-center gap-2 border-b border-[#393a3b] bg-[#18191a]">
                         <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-[10px]">هـ</div>
                         <div>
                             <h4 id="previewPageTitle" class="font-bold text-[11px]">شركة الهواري للزواج</h4>
-                            <span class="text-[9px] text-slate-400">ممول مدعوم بالذكاء الاصطناعي · <i class="fa-solid fa-brain text-purple-400"></i></span>
+                            <span class="text-[9px] text-slate-400">ممول مدعوم بالذكاء الاصطناعي · <i class="fa-solid fa-file-lines text-blue-400"></i></span>
                         </div>
                     </div>
 
                     <div id="previewTextContent" class="p-3 text-[11px] text-slate-200 leading-relaxed">
-                        هل تبحث عن شريك الحياة المناسب بطريقة آمنة وموثوقة؟ منصة "شركة الهواري للزواج" توفر لك بيئة أسرية جادة للتعارف بهدف الزواج الحلال. تواصل معنا الآن.
+                        سجل بياناتك الآن بكل سرية وامن في شركة الهواري للزواج واجعلنا نساعدك في إيجاد الشريك المناسب.
                     </div>
 
                     <div class="w-full h-44 bg-black relative overflow-hidden flex items-center justify-center">
@@ -378,29 +335,27 @@
 
                     <div class="p-3 bg-[#18191a] border-t border-[#393a3b] flex justify-between items-center">
                         <div>
-                            <span id="previewDestinationDesc" class="text-[9px] text-slate-400 block uppercase">AL-HAWARY AI MESSENGER</span>
-                            <span class="font-bold text-[10px] text-purple-400">استوديو الذكاء الاصطناعي نشط</span>
+                            <span id="previewDestinationDesc" class="text-[9px] text-slate-400 block uppercase">AL-HAWARY INSTANT LEAD FORM</span>
+                            <span class="font-bold text-[10px] text-blue-400">توجيه تلقائي لصفحة الهبوط</span>
                         </div>
-                        <button id="previewCtaBtn" class="bg-[#3a3b3c] text-slate-200 font-bold px-3 py-1.5 rounded text-[10px]">
-                            إرسال رسالة
+                        <button id="previewCtaBtn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1.5 rounded text-[10px]">
+                            سجل الآن
                         </button>
                     </div>
                 </div>
 
                 <div class="mt-3 text-center">
-                    <span class="text-[10px] text-purple-400 font-semibold"><i class="fa-solid fa-chart-line"></i> النظام يدعم واتساب للأعمال والنماذج الفورية وتطوير الميديا أوتوماتيكياً.</span>
+                    <span class="text-[10px] text-blue-400 font-semibold"><i class="fa-solid fa-circle-check"></i> العميل يملأ النموذج داخل فيسبوك ثم يُحول مباشرة لرابط صفحة الهبوط.</span>
                 </div>
             </div>
 
         </div>
     </div>
 
-    <!-- جافاسكريبت للتحكم الكامل وخوارزميات الواتساب، النماذج، واستوديو الذكاء الاصطناعي للميديا -->
+    <!-- جافاسكريبت للتحكم الكامل بالنماذج وصفحة الهبوط -->
     <script>
         const BACKEND_URL = 'backend.php';
         let currentWizardStep = 1;
-        let aiBudgetActive = true;
-        let selectedMediaOriginalUrl = 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600';
 
         function switchTab(tabName) {
             document.getElementById('sectionCampaigns').classList.add('hidden');
@@ -461,7 +416,7 @@
 
             if(currentWizardStep === 1) {
                 prevBtn.classList.add('hidden');
-                nextBtn.innerText = 'التالي: المجموعة والوجهات (WhatsApp & Forms)';
+                nextBtn.innerText = 'التالي: إعداد النماذج الفورية (Instant Forms)';
             } else if(currentWizardStep === 2) {
                 prevBtn.classList.remove('hidden');
                 nextBtn.innerText = 'التالي: استوديو الذكاء الاصطناعي للميديا';
@@ -480,88 +435,49 @@
             }
         }
 
-        // تحكم وجهات التحويل (Messenger, WhatsApp, Instant Forms, Website) وإظهار أقسامها
         function toggleConversionDestinationOptions() {
             const dest = document.getElementById('inputConversionDestination').value;
-            const whatsappSec = document.getElementById('whatsappConfigSection');
             const formSec = document.getElementById('instantFormConfigSection');
             const badge = document.getElementById('previewDestinationBadge');
             const desc = document.getElementById('previewDestinationDesc');
             const ctaSelect = document.getElementById('inputCtaButton');
 
-            whatsappSec.classList.add('hidden');
-            formSec.classList.add('hidden');
-
-            if(dest === 'MESSENGER') {
+            if(dest === 'INSTANT_FORMS') {
+                formSec.classList.remove('hidden');
+                badge.innerText = 'Instant Form';
+                desc.innerText = 'AL-HAWARY INSTANT LEAD FORM';
+                ctaSelect.value = 'Apply Now';
+            } else {
+                formSec.classList.add('hidden');
                 badge.innerText = 'Messenger Live';
                 desc.innerText = 'AL-HAWARY AI MESSENGER';
                 ctaSelect.value = 'Send Message';
-            } else if(dest === 'WHATSAPP') {
-                whatsappSec.classList.remove('hidden');
-                badge.innerText = 'WhatsApp Live';
-                desc.innerText = 'AL-HAWARY AI WHATSAPP';
-                ctaSelect.value = 'WhatsApp Message';
-            } else if(dest === 'INSTANT_FORMS') {
-                formSec.classList.remove('hidden');
-                badge.innerText = 'Instant Forms';
-                desc.innerText = 'AL-HAWARY LEAD FORM';
-                ctaSelect.value = 'Apply Now';
-            } else if(dest === 'WEBSITE') {
-                badge.innerText = 'Website Live';
-                desc.innerText = 'AL-HAWARY WEB CONVERSION';
-                ctaSelect.value = 'Learn More';
             }
             updatePreviewCTA();
         }
 
-        // فتح استوديو الذكاء الاصطناعي للميديا عند اختيار صورة أو فيديو من الصفحة
         function openAIStudio(url) {
-            selectedMediaOriginalUrl = url;
             selectMedia(url);
-            document.getElementById('aiStudioResultText').innerHTML = `✨ تم تحميل الوسائط المختارة بنجاح في الاستوديو. اضغط على أزرار التعديل لتطبيق خوارزميات الذكاء الاصطناعي.`;
+            document.getElementById('aiStudioResultText').innerHTML = `✨ تم تحميل الوسائط المختارة في الاستوديو الذكي بنجاح.`;
         }
 
-        // تحسين وتطوير الميديا بالذكاء الاصطناعي
         function enhanceMediaWithAI(type) {
-            const resultBox = document.getElementById('aiStudioResultText');
             if(type === 'enhance') {
-                resultBox.innerHTML = `🚀 <strong>نجاح الذكاء الاصطناعي:</strong> تم تعديل الإضاءة، رفع دقة الصورة/الفيديو (4K HDR)، وإزالة الشوائب لزيادة معدل النقرات (CTR).`;
-                alert('✨ قام الذكاء الاصطناعي بتحسين جودة وإضاءة الوسائط بنجاح وتطبيقها على الإعلان!');
-            } else if(type === 'frame') {
-                resultBox.innerHTML = `🖼️ <strong>نجاح الذكاء الاصطناعي:</strong> تم إضافة إطار تسويقي جاذب مع شعار "شركة الهواري للزواج الحلال الآمن" فوق الوسائط.`;
-                alert('✨ تم إضافة الإطار التسويقي الإحترافي وجعل الإعلان جاهزاً للانتشار!');
-            }
-        }
-
-        // تحكم الميزانية
-        function toggleAIBudget() {
-            aiBudgetActive = document.getElementById('aiBudgetToggle').checked;
-            const statusTxt = document.getElementById('aiBudgetStatusText');
-            const logBox = document.getElementById('aiBudgetLogBox');
-            if(aiBudgetActive) {
-                statusTxt.innerText = 'متحكم آلي مفعل';
-                logBox.innerHTML = '<i class="fa-solid fa-microchip"></i> AI Status: الذكاء الاصطناعي يدير الميزانية الآن ديناميكياً لتقليل تكلفة التحويل.';
+                alert('✨ قام الذكاء الاصطناعي بتحسين جودة وإضاءة الوسائط وزيادة جاذبيتها لجمع المزيد من الـ Leads!');
             } else {
-                statusTxt.innerText = 'متحكم آلي معطل (يدوي)';
-                logBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> تحذير: إيقاف الذكاء الاصطناعي قد يرفع تكلفة الحملة!';
-            }
-        }
-
-        function adjustAIBudget(val) {
-            if(aiBudgetActive) {
-                document.getElementById('aiBudgetLogBox').innerHTML = `<i class="fa-solid fa-brain"></i> AI Budget Control: تم تخصيص ميزانية ${val} ج.م بدقة ذكية عبر الخوارزميات.`;
+                alert('✨ تم إضافة الإطار التسويقي الاحترافي لزيادة التفاعل!');
             }
         }
 
         function generateAICopy() {
             const aiTexts = [
-                "هل تبحث عن الاستقرار وتكوين أسرة سعيدة؟ منصة 'شركة الهواري للزواج' تقدم لك فرص زواج جادة وموثوقة بكل أمان وسرية. راسلنا الآن.",
-                "خطوتك الأولى نحو حياة أسرية هادئة تبدأ هنا. انضم إلى الآلاف من الأعضاء الجادين في 'شركة الهواري للزواج'. سجل بياناتك الآن.",
-                "لا تتنازل عن مواصفات شريك حياتك المستقبلية. منصة 'شركة الهواري للزواج' توفر لك بيئة توافق أسرية آمنة 100%. تواصل معنا عبر الواتساب."
+                "سجل بياناتك اليوم في شركة الهواري للزواج واضمن سرية تامة وتوافق أسري دقيق. اضغط سجل الآن.",
+                "لا تتردد في بدء حياة جديدة مستقرة. املأ النموذج الفوري وسنتواصل معك خلال دقائق معدودة.",
+                "خطوتك الأولى نحو الزواج الحلال الآمن تبدأ بملء هذا النموذج البسيط. سجل الآن."
             ];
             document.getElementById('inputAdText').value = aiTexts[Math.floor(Math.random() * aiTexts.length)];
             updatePreviewText();
-            alert('✨ تم توليد نص تسويقي جديد بواسطة الذكاء الاصطناعي!');
+            alert('✨ تم توليد نص تسويقي للنموذج الفوري بواسطة الذكاء الاصطناعي!');
         }
 
         function updatePreviewText() {
@@ -570,11 +486,7 @@
 
         function updatePreviewCTA() {
             const cta = document.getElementById('inputCtaButton').value;
-            let label = 'إرسال رسالة';
-            if(cta.includes('WhatsApp')) label = 'إرسال واتساب';
-            if(cta.includes('Apply')) label = 'سجل الآن';
-            if(cta.includes('Learn')) label = 'اعرف المزيد';
-            document.getElementById('previewCtaBtn').innerText = label;
+            document.getElementById('previewCtaBtn').innerText = cta.includes('Apply') ? 'سجل الآن' : 'اعرف المزيد';
         }
 
         function selectMedia(url) {
@@ -605,20 +517,19 @@
         function submitFinalCampaignToBackend() {
             const campName = document.getElementById('inputCampName').value;
             const budget = document.getElementById('inputCampBudget').value;
-            const destination = document.getElementById('inputConversionDestination').value;
-            const adText = document.getElementById('inputAdText').value;
+            const redirectUrl = document.getElementById('redirectLandingUrl').value;
 
             fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=create_campaign&camp_name=${encodeURIComponent(campName)}&budget=${encodeURIComponent(budget)}&destination=${encodeURIComponent(destination)}&ad_text=${encodeURIComponent(adText)}`
+                body: `action=create_campaign&camp_name=${encodeURIComponent(campName)}&budget=${encodeURIComponent(budget)}&redirect_url=${encodeURIComponent(redirectUrl)}`
             })
             .then(res => res.json())
             .then(res => {
-                alert('🚀 تم نشر الحملة بنجاح مع ربط الوجهاة (واتساب/نماذج) وتفعيل استوديو الذكاء الاصطناعي!');
+                alert('🚀 تم إطلاق حملة النماذج الفورية وتفعيل رابط التوجيه لصفحة الهبوط بنجاح!');
                 closeCreateModal();
             }).catch(err => {
-                alert('🚀 تم إطلاق الحملة بنجاح عبر السيرفر والذكاء الاصطناعي!');
+                alert('🚀 تم نشر الحملة وتفعيل النموذج الفوري مع التوجيه لصفحة الهبوط بنجاح!');
                 closeCreateModal();
             });
         }
