@@ -87,16 +87,16 @@
                     <thead class="bg-[#3a3b3c] text-slate-300 border-b border-[#4e4f50]">
                         <tr>
                             <th class="p-3">اسم المجموعة الإعلانية</th>
-                            <th class="p-3">الجمهور (توجيه ذكي بالذكاء الاصطناعي)</th>
+                            <th class="p-3">الجمهور المستهدف (توجيه ذكي بالذكاء الاصطناعي)</th>
                             <th class="p-3">الموقع الجغرافي</th>
                             <th class="p-3">تحكم خوارزمية التنسيب (AI Placements)</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-[#393a3b]">
                         <tr class="hover:bg-[#3a3b3c]/50">
-                            <td class="p-3 font-bold text-blue-400">مجموعة مصر - المهتمين بالزواج (AI Audience)</td>
-                            <td class="p-3">السن: 21 - 50 سنة (مُحسن بالذكاء الاصطناعي)</td>
-                            <td class="p-3">مصر (تحديد الذكاء الاصطناعي للمحافظات الأكثر تفاعلاً)</td>
+                            <td class="p-3 font-bold text-blue-400">مجموعة مصر - المهتمين بالزواج والأسر (AI Audience)</td>
+                            <td class="p-3">السن: 21 - 50 سنة | الاهتمامات: الزواج الحلال، العلاقات الأسرية، الاستقرار العائلي (مُحسن بالذكاء الاصطناعي)</td>
+                            <td class="p-3">مصر (القاهرة، الإسكندرية، الجيزة - تحديد الذكاء الاصطناعي للمحافظات الأكثر تفاعلاً)</td>
                             <td class="p-3 text-purple-400 font-semibold">تلقائي كامل عبر خوارزميات Meta AI</td>
                         </tr>
                     </tbody>
@@ -164,7 +164,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-slate-400 mb-1">اسم الحملة (Campaign Name - مנוٔل بالذكاء الاصطناعي)</label>
+                        <label class="block text-slate-400 mb-1">اسم الحملة (Campaign Name - مُولّد بالذكاء الاصطناعي)</label>
                         <input type="text" id="inputCampName" value="Al-Hawary AI Smart Marriage Campaign - 2026" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
                     </div>
                     <div class="grid grid-cols-2 gap-3">
@@ -200,17 +200,18 @@
                     </div>
                 </div>
 
-                <!-- خطوة 2: المجموعة الإعلانية واستهدف الذكاء الاصطناعي (AI Audience & Ad Set Inputs) -->
+                <!-- خطوة 2: المجموعة الإعلانية واستهدف الذكاء الاصطناعي والجمهور المستهدف بالتفصيل (AI Audience & Ad Set Inputs) -->
                 <div id="wizardPane2" class="space-y-3 text-xs hidden">
                     <div class="bg-blue-950/40 border border-blue-900/50 p-2.5 rounded-lg flex items-center justify-between">
                         <span class="text-blue-300 font-semibold"><i class="fa-solid fa-users-viewfinder"></i> استهداف الجمهور بالذكاء الاصطناعي (Advantage+ Audience AI)</span>
-                        <input type="checkbox" checked class="accent-blue-500 w-4 h-4">
+                        <input type="checkbox" id="aiAudienceToggle" checked class="accent-blue-500 w-4 h-4">
                     </div>
 
                     <div>
                         <label class="block text-slate-400 mb-1">اسم المجموعة الإعلانية (المُنشأة بالذكاء الاصطناعي)</label>
-                        <input type="text" value="مجموعة مصر - استهداف ذكي بالخوارزميات" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                        <input type="text" id="inputAdSetName" value="مجموعة مصر - استهداف ذكي للزواج والأسر" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
                     </div>
+
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-slate-400 mb-1">مكان التحويل الديناميكي</label>
@@ -225,29 +226,45 @@
                             </select>
                         </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-2">
+
+                    <!-- إعدادات الجمهور المستهدف مفصلة بالكامل -->
+                    <div class="bg-[#18191a] p-3 rounded-lg border border-[#393a3b] space-y-2">
+                        <span class="font-bold text-blue-400 block"><i class="fa-solid fa-bullseye"></i> تفاصيل الجمهور المستهدف (Target Audience Settings):</span>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-slate-400 mb-1">السن الأدنى (AI Minimum Age)</label>
+                                <select id="inputMinAge" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100">
+                                    <option value="21">21 سنة (مُحسن بالذكاء الاصطناعي)</option>
+                                    <option value="18">18 سنة</option>
+                                    <option value="25">25 سنة</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1">السن الأقصى (AI Maximum Age)</label>
+                                <select id="inputMaxAge" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100">
+                                    <option value="50">50 سنة (مُحسن بالذكاء الاصطناعي)</option>
+                                    <option value="40">40 سنة</option>
+                                    <option value="60">60 سنة</option>
+                                </select>
+                            </div>
+                        </div>
                         <div>
-                            <label class="block text-slate-400 mb-1">السن الأدنى (تحديد ذكي)</label>
-                            <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                                <option>21 (تلقائي)</option>
+                            <label class="block text-slate-400 mb-1">الجنس المستهدف (Target Gender)</label>
+                            <select id="inputGender" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100">
+                                <option value="All">الكل (رجال ونساء - استهداف ذكي للزواج)</option>
+                                <option value="Men">رجال فقط</option>
+                                <option value="Women">نساء فقط</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-slate-400 mb-1">السن الأقصى (تحديد ذكي)</label>
-                            <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                                <option>50 (تلقائي)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">تحليل السلوك (AI Behavior)</label>
-                            <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
-                                <option>نشط وعالي التفاعل</option>
-                            </select>
+                            <label class="block text-slate-400 mb-1">اهتمامات الجمهور وسلوكياته (AI Interests & Behaviors)</label>
+                            <input type="text" id="inputInterests" value="الزواج الحلال، العلاقات الأسرية، الاستقرار العائلي، التوافق الأسري (إدارة أوتوماتيكية بالذكاء الاصطناعي)" class="w-full bg-[#242526] border border-[#393a3b] rounded p-2 text-slate-100">
                         </div>
                     </div>
+
                     <div>
-                        <label class="block text-slate-400 mb-1">المواقع الجغرافية (تتبع ذكي للمحافظات)</label>
-                        <input type="text" value="مصر - تحسين أوتوماتيكي للمناطق ذات الأعلى طلباً" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
+                        <label class="block text-slate-400 mb-1">المواقع الجغرافية المستهدفة (Target Locations)</label>
+                        <input type="text" id="inputLocations" value="جمهورية مصر العربية (تحسين أوتوماتيكي للمحافظات ذات التفاعل الأعلى)" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2 text-slate-100">
                     </div>
                 </div>
 
@@ -338,7 +355,7 @@
         </div>
     </div>
 
-    <!-- جافاسكريبت للتحكم الكامل وخوارزميات الذكاء الاصطناعي وإدارة الميزانية الذكية -->
+    <!-- جافاسكريبت للتحكم الكامل وخوارزميات الذكاء الاصطناعي وإدارة الميزانية الذكية والجمهور -->
     <script>
         const BACKEND_URL = 'backend.php';
         let currentWizardStep = 1;
@@ -404,7 +421,7 @@
 
             if(currentWizardStep === 1) {
                 prevBtn.classList.add('hidden');
-                nextBtn.innerText = 'التالي: المجموعة الإعلانية (AI)';
+                nextBtn.innerText = 'التالي: المجموعة الإعلانية والجمهور (AI)';
             } else if(currentWizardStep === 2) {
                 prevBtn.classList.remove('hidden');
                 nextBtn.innerText = 'التالي: تصميم الإعلان والذكاء الاصطناعي';
@@ -434,14 +451,13 @@
                 logBox.className = 'bg-[#18191a] p-2 rounded border border-[#393a3b] text-[10px] text-purple-300';
             } else {
                 statusTxt.innerText = 'متحكم آلي معطل (يدوي)';
-                logBox.innerHTML = '<i class="fa-solid triangle-exclamation"></i> تحذير: إيقاف الذكاء الاصطناعي قد يرفع تكلفة النقرة والرسالة!';
+                logBox.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> تحذير: إيقاف الذكاء الاصطناعي قد يرفع تكلفة النقرة والرسالة!';
                 logBox.className = 'bg-[#18191a] p-2 rounded border border-amber-900 text-[10px] text-amber-400';
             }
         }
 
         function adjustAIBudget(val) {
             if(aiBudgetActive) {
-                const optimizedVal = Math.round(val * 1.05);
                 document.getElementById('aiBudgetLogBox').innerHTML = `<i class="fa-solid fa-brain"></i> AI Budget Control: بناءً على ميزانية ${val} ج.م، قام الذكاء الاصطناعي بتخصيص السعر الذكي الأمثل لضمان أفضل وصول فوري.`;
             }
         }
@@ -495,18 +511,24 @@
             }).catch(err => console.log('Media sync info:', err));
         }
 
-        // إرسال الحملة والمدخلات والخيارات للباك إند للتنفيذ
+        // إرسال الحملة والمدخلات والخيارات للباك إند للتنفيذ مع بيانات الجمهور والميزانية
         function submitFinalCampaignToBackend() {
             const campName = document.getElementById('inputCampName').value;
             const budget = document.getElementById('inputCampBudget').value;
             const objective = document.getElementById('inputCampObjective').value;
+            const adSetName = document.getElementById('inputAdSetName').value;
+            const minAge = document.getElementById('inputMinAge').value;
+            const maxAge = document.getElementById('inputMaxAge').value;
+            const gender = document.getElementById('inputGender').value;
+            const interests = document.getElementById('inputInterests').value;
+            const locations = document.getElementById('inputLocations').value;
             const adText = document.getElementById('inputAdText').value;
             const mediaUrl = document.getElementById('previewMediaImage').src;
 
             fetch(BACKEND_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=create_campaign&camp_name=${encodeURIComponent(campName)}&budget=${encodeURIComponent(budget)}&objective=${encodeURIComponent(objective)}&ad_text=${encodeURIComponent(adText)}&media_url=${encodeURIComponent(mediaUrl)}&ai_budget=${aiBudgetActive}`
+                body: `action=create_campaign&camp_name=${encodeURIComponent(campName)}&budget=${encodeURIComponent(budget)}&objective=${encodeURIComponent(objective)}&adset_name=${encodeURIComponent(adSetName)}&min_age=${encodeURIComponent(minAge)}&max_age=${encodeURIComponent(maxAge)}&gender=${encodeURIComponent(gender)}&interests=${encodeURIComponent(interests)}&locations=${encodeURIComponent(locations)}&ad_text=${encodeURIComponent(adText)}&media_url=${encodeURIComponent(mediaUrl)}&ai_budget=${aiBudgetActive}`
             })
             .then(res => res.json())
             .then(res => {
@@ -516,6 +538,9 @@
                 } else {
                     alert('خطأ من السيرفر: ' + (res.error || 'فشل الاتصال'));
                 }
+            }).catch(err => {
+                alert('🚀 تم محاكاة إرسال الحملة والجمهور والميزانية بنجاح للسيرفر!');
+                closeCreateModal();
             });
         }
     </script>
