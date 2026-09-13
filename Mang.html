@@ -3,223 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meta Ads Manager Pro - شركة الهواري للزواج</title>
+    <title>مدير إعلانات فيسبوك - شركة الهواري للزواج</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen pb-12">
+<body class="bg-[#18191a] text-slate-100 font-sans min-h-screen pb-12">
 
-    <!-- الهيدر الرئيسي -->
-    <header class="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-40 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-blue-400 font-bold">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <div>
-                    <h1 class="text-sm font-bold flex items-center gap-2">
-                        شركة الهواري للزواج <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                    </h1>
-                    <span class="text-[11px] text-emerald-400">Meta Ads Manager (Secure Server Mode)</span>
-                </div>
+    <!-- شريط تنقل مدير إعلانات فيسبوك العلوي -->
+    <header class="bg-[#242526] border-b border-[#393a3b] px-4 py-2.5 sticky top-0 z-40 flex justify-between items-center shadow-md">
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2 text-blue-500 font-bold text-base">
+                <i class="fa-brands fa-facebook text-2xl"></i>
+                <span class="text-slate-100 text-sm border-r border-[#393a3b] pr-3 mr-1">مدير الإعلانات (Ads Manager)</span>
             </div>
-            <div class="flex items-center gap-3">
-                <button onclick="openCreateModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-plus"></i> إنشاء حملة إعلانية (Create)
-                </button>
+            <div class="hidden md:flex items-center gap-2 bg-[#3a3b3c] px-3 py-1.5 rounded-lg text-xs text-slate-300">
+                <i class="fa-solid fa-chart-pie text-blue-400"></i>
+                <span>حساب: شركة الهواري للزواج (act_982341)</span>
             </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="openCreateModal()" class="bg-[#1877f2] hover:bg-[#166fe5] text-white px-4 py-1.5 rounded-md text-xs font-bold transition flex items-center gap-1.5 shadow">
+                <i class="fa-solid fa-plus"></i> إنشاء (Create)
+            </button>
+            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-xs">هـ</div>
         </div>
     </header>
 
+    <!-- شريط التبويبات الفرعي لمدير الإعلانات (Campaigns, Ad Sets, Ads) -->
+    <nav class="bg-[#242526] border-b border-[#393a3b] px-4 py-2 flex gap-6 text-xs font-semibold text-slate-400">
+        <button class="text-blue-400 border-b-2 border-blue-500 pb-2 -mb-2 flex items-center gap-1.5"><i class="fa-solid fa-layer-group"></i> الحملات (Campaigns)</button>
+        <button class="hover:text-slate-200 pb-2 -mb-2 flex items-center gap-1.5"><i class="fa-solid fa-table-cells"></i> المجموعات الإعلانية (Ad Sets)</button>
+        <button class="hover:text-slate-200 pb-2 -mb-2 flex items-center gap-1.5"><i class="fa-solid fa-rectangle-ad"></i> الإعلانات (Ads)</button>
+    </nav>
+
+    <!-- محتوى لوحة التحكم الرئيسي -->
     <main class="container mx-auto p-4 space-y-4">
         
-        <!-- إحصائيات الحساب -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-md">
-                <p class="text-xs text-slate-400 mb-1">Total amount spent</p>
-                <h3 class="text-2xl font-extrabold text-slate-100">923.32 <span class="text-sm text-emerald-400">ج.م.</span></h3>
-            </div>
-            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-md flex justify-between items-center">
-                <div>
-                    <p class="text-xs text-slate-400 mb-1">Account Status</p>
-                    <span class="text-xs font-bold text-emerald-400"><i class="fa-solid fa-circle text-[8px]"></i> Active (Backend Configured)</span>
+        <!-- شريط الأدوات والفلترة الفوقي -->
+        <div class="bg-[#242526] p-3 rounded-lg border border-[#393a3b] flex flex-wrap justify-between items-center gap-3">
+            <div class="flex items-center gap-2">
+                <button class="bg-[#3a3b3c] hover:bg-[#4e4f50] text-slate-200 px-3 py-1.5 rounded text-xs flex items-center gap-1">
+                    <i class="fa-solid fa-filter text-slate-400"></i> عوامل التصفية
+                </button>
+                <div class="relative">
+                    <input type="text" placeholder="البحث عن حملة..." class="bg-[#18191a] border border-[#393a3b] rounded px-3 py-1.5 text-xs text-slate-200 w-48 focus:outline-none focus:border-blue-500">
                 </div>
-                <i class="fa-solid fa-chevron-right text-slate-600 text-xs"></i>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <span>الحالة: <strong class="text-emerald-400">نشط (Active)</strong></span>
             </div>
         </div>
 
-        <!-- قائمة الحملات -->
-        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
-                <h3 class="font-bold text-xs text-slate-300">Campaigns Performance</h3>
-            </div>
-            <div id="campaignsContainer" class="space-y-2">
-                <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
-                    <div>
-                        <h4 class="font-bold text-xs text-slate-200">حملة شركة الهواري للزواج والتوافق الأسري</h4>
-                        <span class="text-[10px] text-emerald-400">Active - Leads (Messenger)</span>
-                    </div>
-                </div>
-            </div>
+        <!-- جدول الحملات الإعلانية المماثل تماماً لمدير فيسبوك -->
+        <div class="bg-[#242526] rounded-lg border border-[#393a3b] overflow-hidden shadow-xl">
+            <table class="w-full text-right text-xs">
+                <thead class="bg-[#3a3b3c] text-slate-300 border-b border-[#4e4f50]">
+                    <tr>
+                        <th class="p-3 w-8"><input type="checkbox" class="rounded bg-[#18191a] border-[#393a3b]"></th>
+                        <th class="p-3 font-semibold">اسم الحملة</th>
+                        <th class="p-3 font-semibold">الحالة</th>
+                        <th class="p-3 font-semibold">الهدف الاستراتيجي</th>
+                        <th class="p-3 font-semibold">الميزانية اليومية</th>
+                        <th class="p-3 font-semibold">النتائج (Leads)</th>
+                        <th class="p-3 font-semibold">المبلغ المنفق</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#393a3b] text-slate-200">
+                    <tr class="hover:bg-[#3a3b3c]/50 transition">
+                        <td class="p-3"><input type="checkbox" class="rounded bg-[#18191a] border-[#393a3b]"></td>
+                        <td class="p-3 font-bold text-blue-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500"><span></span>
+                            حملة شركة الهواري للزواج والتوافق الأسري
+                        </td>
+                        <td class="p-3">
+                            <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded text-[10px] font-bold">نشط</span>
+                        </td>
+                        <td class="p-3 text-slate-300">الرسائل (Messenger Leads)</td>
+                        <td class="p-3 font-mono">250.00 ج.م.</td>
+                        <td class="p-3 font-bold text-blue-400">42 رسالة</td>
+                        <td class="p-3 font-mono">923.32 ج.م.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 
-    <!-- Modal إنشاء الحملة مع المعاينة الحية وجلب ميديا الصفحة -->
-    <div id="createModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-50 hidden flex justify-center items-center p-2 md:p-4">
-        <div class="bg-slate-900 w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl border border-slate-800 p-4 md:p-6 space-y-4 shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- نافذة إنشاء حملة إعلانية (Create Campaign Modal - Meta Style) -->
+    <div id="createModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-center items-center p-2 md:p-4">
+        <div class="bg-[#242526] w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-xl border border-[#393a3b] shadow-2xl grid grid-cols-1 lg:grid-cols-12 gap-0">
             
-            <!-- القسم الأيمن: إعدادات الإعلان (7 أعمدة) -->
-            <div class="lg:col-span-7 space-y-4">
+            <!-- القسم الأيمن: خطوات إنشاء الإعلان (7 أعمدة) -->
+            <div class="lg:col-span-7 p-5 space-y-4 border-l border-[#393a3b]">
                 
-                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                    <div class="flex items-center gap-2">
-                        <h2 class="font-bold text-sm text-slate-100">Leads Campaign Builder</h2>
-                        <button onclick="aiFillEntireCampaign()" class="bg-purple-600/20 border border-purple-500/40 text-purple-300 hover:bg-purple-600/30 text-[10px] px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> ملء بالذكاء الاصطناعي
-                        </button>
-                    </div>
+                <div class="flex justify-between items-center border-b border-[#393a3b] pb-3">
+                    <h2 class="font-bold text-sm text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-blue-500"></i> إنشاء حملة إعلانية جديدة
+                    </h2>
                     <button onclick="closeCreateModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
 
-                <!-- مؤشر الخطوات -->
-                <div class="flex items-center justify-around bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-[11px] font-semibold text-slate-400">
-                    <span id="stepIndicator1" onclick="goToStep(1)" class="cursor-pointer text-slate-400 hover:text-slate-200"><i class="fa-solid fa-folder"></i> Campaign</span>
-                    <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                    <span id="stepIndicator2" onclick="goToStep(2)" class="cursor-pointer text-blue-400 font-bold"><i class="fa-solid fa-table-cells"></i> Ad set</span>
-                    <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                    <span id="stepIndicator3" onclick="goToStep(3)" class="cursor-pointer text-slate-400 hover:text-slate-200"><i class="fa-solid fa-rectangle-ad"></i> Ad & Media</span>
+                <!-- مسار الخطوات (Wizard Tabs) -->
+                <div class="flex items-center justify-around bg-[#18191a] p-2.5 rounded-lg border border-[#393a3b] text-[11px] font-semibold text-slate-400">
+                    <span id="stepIndicator1" onclick="goToStep(1)" class="cursor-pointer text-slate-400">1. الحملة (Campaign)</span>
+                    <i class="fa-solid fa-chevron-left text-[9px]"></i>
+                    <span id="stepIndicator2" onclick="goToStep(2)" class="cursor-pointer text-blue-400 font-bold">2. المجموعة الإعلانية (Ad Set)</span>
+                    <i class="fa-solid fa-chevron-left text-[9px]"></i>
+                    <span id="stepIndicator3" onclick="goToStep(3)" class="cursor-pointer text-slate-400">3. تصميم الإعلان (Ad & Media)</span>
                 </div>
 
-                <!-- خطوة 1 -->
+                <!-- الخطوة 1: إعدادات الحملة -->
                 <div id="wizardStep1" class="space-y-3 text-xs hidden">
                     <div>
-                        <label class="block text-slate-400 mb-1">Campaign name</label>
-                        <input type="text" id="campNameInput" value="Al-Hawary Marriage Leads - Sep 2026" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
+                        <label class="block text-slate-400 mb-1">اسم الحملة الإعلانية</label>
+                        <input type="text" id="campNameInput" value="Al-Hawary Marriage Leads - 2026" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2.5 text-slate-100">
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-slate-400 mb-1">Daily Budget (EGP)</label>
-                            <input type="number" id="campBudgetInput" value="250.00" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
+                            <label class="block text-slate-400 mb-1">الميزانية اليومية (EGP)</label>
+                            <input type="number" id="campBudgetInput" value="250" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2.5 text-slate-100">
                         </div>
                         <div>
-                            <label class="block text-slate-400 mb-1">Special ad category</label>
-                            <select id="campCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
-                                <option value="NONE">None (Recommended)</option>
-                                <option value="HOUSING">Housing</option>
+                            <label class="block text-slate-400 mb-1">فئة الإعلان الخاصة</label>
+                            <select class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2.5 text-slate-100">
+                                <option>لا توجد (موصى به)</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                <!-- خطوة 2 -->
+                <!-- الخطوة 2: المجموعة الإعلانية -->
                 <div id="wizardStep2" class="space-y-3 text-xs">
-                    <div class="bg-slate-950 rounded-xl border border-slate-800 divide-y divide-slate-800">
+                    <div class="bg-[#18191a] rounded-lg border border-[#393a3b] divide-y divide-[#393a3b]">
                         <div class="p-3 flex justify-between items-center">
                             <div>
-                                <span class="text-[10px] text-slate-400 block">Ad set name</span>
-                                <span class="font-bold text-slate-200">Leads - Egypt - 18+ Target</span>
+                                <span class="text-[10px] text-slate-400 block">مكان التحويل (Conversion)</span>
+                                <span class="font-bold text-blue-400"><i class="fa-brands fa-facebook-messenger"></i> تطبيقات المراسلة (Messenger)</span>
                             </div>
                         </div>
                         <div class="p-3 flex justify-between items-center">
                             <div>
-                                <span class="text-[10px] text-slate-400 block">Conversion</span>
-                                <span class="font-bold text-blue-400">Messenger (Messaging apps)</span>
+                                <span class="text-[10px] text-slate-400 block">الصفحة المستهدفة</span>
+                                <span class="font-bold text-slate-300">شركة الهواري للزواج (مرتبط بالباك إند)</span>
                             </div>
                         </div>
-                        <div class="p-3 flex justify-between items-center">
-                            <div>
-                                <span class="text-[10px] text-slate-400 block"><i class="fa-solid fa-flag"></i> Facebook Page</span>
-                                <span class="font-bold text-slate-300">شركة الهواري للزواج (مدار بواسطة السيرفر)</span>
-                            </div>
+                        <div class="p-3">
+                            <span class="text-[10px] text-slate-400 block mb-1">الجمهور المستهدف (Audience)</span>
+                            <span class="font-bold text-slate-300">مصر · العمر: 21 - 50 سنة</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- خطوة 3 -->
+                <!-- الخطوة 3: الوسائط ومحتوى الإعلان -->
                 <div id="wizardStep3" class="space-y-3 text-xs hidden">
                     <div class="flex justify-between items-center">
-                        <label class="font-bold text-slate-300">محتوى الإعلان والوسائط من الصفحة</label>
-                        <button onclick="aiGenerateAdCreative()" class="bg-purple-600/20 border border-purple-500/40 text-purple-300 text-[10px] px-2 py-1 rounded font-bold flex items-center gap-1">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> توليد نص بالذكاء الاصطناعي
-                        </button>
+                        <label class="font-bold text-slate-300">صور وفيديوهات الصفحة (مجلوبة من الباك إند)</label>
+                        <button onclick="loadPageMediaFromBackend()" class="text-[10px] text-blue-400 hover:underline"><i class="fa-solid fa-sync"></i> تحديث</button>
                     </div>
 
-                    <!-- اختيار صور/فيديوهات الصفحة القادمة من الباك إند -->
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="text-[11px] font-bold text-slate-300"><i class="fa-solid fa-photo-film text-blue-400"></i> الصور والفيديوهات من الصفحة:</span>
-                            <button onclick="loadPageMediaFromBackend()" class="text-[10px] text-blue-400 hover:underline"><i class="fa-solid fa-sync"></i> تحديث الوسائط</button>
+                    <!-- معرض الوسائط -->
+                    <div id="pageMediaContainer" class="grid grid-cols-4 gap-2 max-h-32 overflow-y-auto p-1 bg-[#18191a] rounded-lg border border-[#393a3b]">
+                        <div onclick="selectMedia('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600')" class="cursor-pointer border-2 border-blue-500 rounded overflow-hidden h-14 bg-black relative">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600" class="w-full h-full object-cover">
                         </div>
-                        <div id="pageMediaContainer" class="grid grid-cols-4 gap-2 max-h-36 overflow-y-auto p-1">
-                            <div onclick="selectMedia('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600')" class="cursor-pointer border-2 border-blue-500 rounded-lg overflow-hidden h-16 bg-slate-900 relative">
-                                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600" class="w-full h-full object-cover">
-                            </div>
-                            <div onclick="selectMedia('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600')" class="cursor-pointer border-2 border-transparent hover:border-slate-500 rounded-lg overflow-hidden h-16 bg-slate-900 relative">
-                                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" class="w-full h-full object-cover">
-                            </div>
+                        <div onclick="selectMedia('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600')" class="cursor-pointer border-2 border-transparent hover:border-slate-500 rounded overflow-hidden h-14 bg-black relative">
+                            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600" class="w-full h-full object-cover">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-slate-400 mb-1">Primary Text (نص الإعلان)</label>
-                        <textarea id="adText" oninput="updatePreviewText()" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">هل تبحث عن شريك الحياة المناسب بطريقة آمنة وموثوقة؟ منصة "شركة الهواري للزواج" توفر لك بيئة أسرية جادة للتعارف بهدف الزواج الحلال. تواصل معنا الآن عبر الرسائل.</textarea>
+                        <label class="block text-slate-400 mb-1">النص الأساسي (Primary Text)</label>
+                        <textarea id="adText" oninput="updatePreviewText()" rows="3" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2.5 text-slate-100">هل تبحث عن شريك الحياة المناسب بطريقة آمنة وموثوقة؟ منصة "شركة الهواري للزواج" توفر لك بيئة أسرية جادة للتعارف بهدف الزواج الحلال. تواصل معنا الآن عبر الرسائل.</textarea>
                     </div>
 
                     <div>
-                        <label class="block text-slate-400 mb-1">Call to Action (زر التفاعل)</label>
-                        <select id="ctaButton" onchange="updatePreviewCTA()" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
-                            <option value="Send Message">Send Message (إرسال رسالة)</option>
-                            <option value="Learn More">Learn More (اعرف المزيد)</option>
-                            <option value="Apply Now">Apply Now (سجل الآن)</option>
+                        <label class="block text-slate-400 mb-1">زر الإجراء (Call to Action)</label>
+                        <select id="ctaButton" onchange="updatePreviewCTA()" class="w-full bg-[#18191a] border border-[#393a3b] rounded p-2.5 text-slate-100">
+                            <option value="Send Message">إرسال رسالة (Send Message)</option>
+                            <option value="Learn More">اعرف المزيد (Learn More)</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- أزرار التنقل -->
-                <div class="flex gap-2 pt-3 border-t border-slate-800">
-                    <button id="prevBtn" onclick="changeStep(-1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-2.5 rounded-xl text-xs transition">Previous</button>
-                    <button id="nextBtn" onclick="changeStep(1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl text-xs transition">Next: Ad creative</button>
+                <!-- أزرار التحكم بالخطوات -->
+                <div class="flex gap-2 pt-3 border-t border-[#393a3b]">
+                    <button id="prevBtn" onclick="changeStep(-1)" class="flex-1 bg-[#3a3b3c] hover:bg-[#4e4f50] text-slate-300 font-medium py-2 rounded text-xs transition">السابق</button>
+                    <button id="nextBtn" onclick="changeStep(1)" class="flex-1 bg-[#1877f2] hover:bg-[#166fe5] text-white font-medium py-2 rounded text-xs transition">التالي: تصميم الإعلان</button>
                 </div>
             </div>
 
-            <!-- القسم الأيسر: معاينة الإعلان الحية (Live Ad Preview) (5 أعمدة) -->
-            <div class="lg:col-span-5 bg-slate-950 p-4 rounded-2xl border border-slate-800 flex flex-col items-center justify-between">
-                <div class="w-full flex justify-between items-center border-b border-slate-800 pb-2 mb-3">
-                    <span class="text-xs font-bold text-slate-300"><i class="fa-solid fa-mobile-screen text-blue-400"></i> معاينة الإعلان (Device Preview)</span>
-                    <span class="text-[10px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-800">Live Feed</span>
+            <!-- القسم الأيسر: معاينة الإعلان الحية (Live Meta Ad Preview) (5 أعمدة) -->
+            <div class="lg:col-span-5 bg-[#18191a] p-5 flex flex-col items-center justify-between">
+                <div class="w-full flex justify-between items-center border-b border-[#393a3b] pb-2 mb-3">
+                    <span class="text-xs font-bold text-slate-300"><i class="fa-solid fa-mobile-screen text-blue-400"></i> معاينة إعلان فيسبوك</span>
+                    <span class="text-[10px] bg-emerald-950 text-emerald-400 px-2 py-0.5 rounded border border-emerald-800">مباشر</span>
                 </div>
 
-                <!-- تصميم هاتف المعاينة -->
-                <div class="w-full max-w-xs bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl text-xs text-slate-100">
-                    <div class="p-3 flex items-center gap-2 border-b border-slate-800 bg-slate-950">
-                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white">هـ</div>
+                <!-- شاشة الهاتف للمعاينة -->
+                <div class="w-full max-w-xs bg-[#242526] border border-[#393a3b] rounded-xl overflow-hidden shadow-2xl text-xs text-slate-100">
+                    <!-- هيدر الصفحة في المعاينة -->
+                    <div class="p-3 flex items-center gap-2 border-b border-[#393a3b] bg-[#18191a]">
+                        <div class="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white text-[10px]">هـ</div>
                         <div>
-                            <h4 id="previewPageName" class="font-bold text-[11px]">شركة الهواري للزواج</h4>
-                            <span class="text-[9px] text-slate-400">Sponsored · <i class="fa-solid fa-globe"></i></span>
+                            <h4 class="font-bold text-[11px]">شركة الهواري للزواج</h4>
+                            <span class="text-[9px] text-slate-400">تم الإعلان بواسطة ممول · <i class="fa-solid fa-globe"></i></span>
                         </div>
                     </div>
 
+                    <!-- نص الإعلان -->
                     <div id="previewText" class="p-3 text-[11px] text-slate-200 leading-relaxed">
                         هل تبحث عن شريك الحياة المناسب بطريقة آمنة وموثوقة؟ منصة "شركة الهواري للزواج" توفر لك بيئة أسرية جادة للتعارف بهدف الزواج الحلال. تواصل معنا الآن عبر الرسائل.
                     </div>
 
-                    <div class="w-full h-48 bg-slate-950 relative overflow-hidden flex items-center justify-center">
+                    <!-- الوسائط (صورة/فيديو) -->
+                    <div class="w-full h-44 bg-black relative overflow-hidden flex items-center justify-center">
                         <img id="previewMediaImage" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600" class="w-full h-full object-cover">
                     </div>
 
-                    <div class="p-3 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
+                    <!-- زر التفاعل الفعلي في الإعلان -->
+                    <div class="p-3 bg-[#18191a] border-t border-[#393a3b] flex justify-between items-center">
                         <div>
-                            <span class="text-[10px] text-slate-400 block uppercase">Al-Hawary Matchmaking</span>
-                            <span class="font-bold text-[11px] text-slate-200">Chat with us on Messenger</span>
+                            <span class="text-[9px] text-slate-400 block uppercase">AL-HAWARY MATCHMAKING</span>
+                            <span class="font-bold text-[10px] text-slate-200">الدردشة عبر ماسنجر</span>
                         </div>
-                        <button id="previewCtaBtn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold px-3 py-1.5 rounded-lg text-[10px]">
-                            Send Message
+                        <button id="previewCtaBtn" class="bg-[#3a3b3c] hover:bg-[#4e4f50] text-slate-200 font-bold px-3 py-1.5 rounded text-[10px]">
+                            إرسال رسالة
                         </button>
                     </div>
                 </div>
 
                 <div class="mt-3 text-center">
-                    <span class="text-[10px] text-slate-500">التحديثات تنعكس فوراً على المعاينة الحية.</span>
+                    <span class="text-[10px] text-slate-500">تتحدث المعاينة فوراً مع أي تعديل بالنصوص أو الوسائط.</span>
                 </div>
             </div>
 
@@ -268,13 +281,13 @@
             
             if(currentStep === 1) {
                 prevBtn.classList.add('hidden');
-                nextBtn.innerText = 'Next: Ad set';
+                nextBtn.innerText = 'التالي: المجموعة الإعلانية';
             } else if(currentStep === 2) {
                 prevBtn.classList.remove('hidden');
-                nextBtn.innerText = 'Next: Ad creative & Media';
+                nextBtn.innerText = 'التالي: تصميم الإعلان والوسائط';
             } else {
                 prevBtn.classList.remove('hidden');
-                nextBtn.innerText = 'إطلاق الحملة نهائياً (Publish)';
+                nextBtn.innerText = 'إطلاق ونشر الحملة (Publish)';
             }
 
             for(let i = 1; i <= 3; i++) {
@@ -304,7 +317,6 @@
             event.currentTarget.classList.add('border-blue-500');
         }
 
-        // جلب الوسائط من الباك إند (عبر السيرفر بدون مكاشفة التوكن)
         function loadPageMediaFromBackend() {
             fetch(`${BACKEND_URL}?action=get_media`)
             .then(res => res.json())
@@ -313,37 +325,16 @@
                     let mediaHtml = '';
                     res.media.forEach(imgUrl => {
                         mediaHtml += `
-                            <div onclick="selectMedia('${imgUrl}')" class="cursor-pointer border-2 border-transparent hover:border-blue-500 rounded-lg overflow-hidden h-16 bg-slate-900 relative">
+                            <div onclick="selectMedia('${imgUrl}')" class="cursor-pointer border-2 border-transparent hover:border-blue-500 rounded overflow-hidden h-14 bg-black relative">
                                 <img src="${imgUrl}" class="w-full h-full object-cover">
                             </div>
                         `;
                     });
                     document.getElementById('pageMediaContainer').innerHTML = mediaHtml;
                 }
-            }).catch(err => console.log('Backend Media Load Info:', err));
+            }).catch(err => console.log('Backend sync info:', err));
         }
 
-        function aiFillEntireCampaign() {
-            document.getElementById('campNameInput').value = 'AI Optimized - Al-Hawary Marriage Leads';
-            document.getElementById('campBudgetInput').value = '300';
-            document.getElementById('adText').value = '💍 هل تبحث عن شريك الحياة المناسب؟ في "شركة الهواري للزواج" نساعدك في إيجاد الشريك المناسب بكل أمان وجدية. تواصل معنا الآن ودعنا نساعدك في بناء أسرتك السعيدة.';
-            updatePreviewText();
-            alert('✨ تم ضبط الحملة والنصوص الإعلانية بالذكاء الاصطناعي بنجاح وتحديث المعاينة الحية!');
-        }
-
-        function aiGenerateAdCreative() {
-            const options = [
-                "💍 لست وحدك في رحلة البحث عن شريك الحياة. شركة الهواري للزواج تقدم لك خدمات ترشيح دقيقة وآمنة بالكامل. راسلنا الآن للتعرف على التفاصيل.",
-                "❤️ البداية الصحيحة لحياة أسرية مستقرة تبدأ باختيار واعٍ. تواصل مع فريق شركة الهواري للزواج لتحقيق طموحك الأسري بسرية تامة.",
-                "✨ هل تبحث عن شريك العمر بطريقة جادة وموثوقة؟ تواصل معنا عبر الرسائل في شركة الهواري للزواج ودعنا نسهل عليك خطوتك القادمة."
-            ];
-            const randomText = options[Math.floor(Math.random() * options.length)];
-            document.getElementById('adText').value = randomText;
-            updatePreviewText();
-            alert('✨ تم توليد نص إعلاني جديد وتحديث شاشة المعاينة فورياً!');
-        }
-
-        // إرسال الحملة للباك إند الآمن
         function submitFinalCampaignSecure() {
             const campName = document.getElementById('campNameInput').value;
             const budget = document.getElementById('campBudgetInput').value;
