@@ -5,17 +5,41 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET');
 
 // ==========================================
-// 🔐 إعدادات حساب فيسبوك (توضع هنا فقط بأمان تام)
+// 🔐 إعدادات حساب فيسبوك
 // ==========================================
-$META_ACCESS_TOKEN = "EAAdHlDS8H6ABSU4ZA67refEA4bmnvBbAldPwCQZCyMXG2ZCHPWC5GPzZB5RDU1vkqJYPUJL1vJo14oLAdMeg2ZB5RodFfPeqT7Uj3WlqXZAzwcWj5ptsrc1YNTjBmcbvw0nHntgNZAQujvrq5BuMk2Dr6fVnanQHoTyEANdvudhLGwM5fZC9mZCZCI8grYdgfoM6OPXdNMicQ341ZBkLdZCd1ZBVEU7FPGZCdDxS4F"; 
-$FACEBOOK_ACCOUNT_ID = "act_123456789"; // معرف حساب الإعلانات
-$FACEBOOK_PAGE_ID = "123456789012345";    // معرف صفحة الفيسبوك الخاصة بشركة الهواري
+// لا يوضع أي توكن أو معرف حساب هنا مباشرة داخل الكود إطلاقاً.
+//
+// الكود بيدور على ملف secure_config.php في مكانين بالترتيب:
+// 1) نفس مجلد backend.php (مطلوب على استضافات زي InfinityFree اللي
+//    بتمنعك من الوصول لأي مجلد برّه htdocs). في الحالة دي *لازم* يكون
+//    فيه ملف .htaccess بجانبه يمنع فتحه من المتصفح مباشرة (مرفق معاك).
+// 2) المجلد اللي فوق public_html/htdocs مباشرة (مناسب لاستضافات زي
+//    Hostinger اللي بتسمح بالوصول لمجلد فوق الويب روت، وده أأمن اختيار
+//    لو متاح عندك).
+//
+// لو محتاج تشتغل بمتغيرات بيئة (Environment Variables) بدل الملف، هو
+// بيقرأها تلقائيًا لو الملف مش موجود.
+
+$secureConfigCandidates = [
+    __DIR__ . '/secure_config.php',    // نفس مجلد htdocs (InfinityFree)
+    __DIR__ . '/../secure_config.php', // فوق public_html (Hostinger وغيرها)
+];
+foreach ($secureConfigCandidates as $secureConfigPath) {
+    if (file_exists($secureConfigPath)) {
+        require $secureConfigPath; // المفروض يعرّف الثوابت الثلاثة تحت
+        break;
+    }
+}
+
+$META_ACCESS_TOKEN   = defined('META_ACCESS_TOKEN')   ? META_ACCESS_TOKEN   : (getenv('META_ACCESS_TOKEN') ?: '');
+$FACEBOOK_ACCOUNT_ID = defined('FACEBOOK_ACCOUNT_ID') ? FACEBOOK_ACCOUNT_ID : (getenv('FACEBOOK_ACCOUNT_ID') ?: '');
+$FACEBOOK_PAGE_ID    = defined('FACEBOOK_PAGE_ID')    ? FACEBOOK_PAGE_ID    : (getenv('FACEBOOK_PAGE_ID') ?: '');
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 // 1. جلب الصور والفيديوهات من صفحة فيسبوك باستخدام التوكن المخزن بالباك إند
 if ($action === 'get_media') {
-    if (empty($META_ACCESS_TOKEN) || str_starts_with($META_ACCESS_TOKEN, "ضع_التوكن")) {
+    if (empty($META_ACCESS_TOKEN) || empty($FACEBOOK_PAGE_ID)) {
         // صور افتراضية احتياطية في حالة عدم ضبط التوكن بعد
         echo json_encode([
             'success' => true,
@@ -65,8 +89,8 @@ if ($action === 'create_campaign') {
     $adText = $_POST['ad_text'] ?? '';
     $mediaUrl = $_POST['media_url'] ?? '';
 
-    if (empty($META_ACCESS_TOKEN) || str_starts_with($META_ACCESS_TOKEN, "ضع_التوكن")) {
-        echo json_encode(['success' => false, 'error' => 'يرجى إدخال التوكن الصحيح داخل ملف backend.php']);
+    if (empty($META_ACCESS_TOKEN) || empty($FACEBOOK_ACCOUNT_ID)) {
+        echo json_encode(['success' => false, 'error' => 'التوكن أو معرف حساب الإعلانات غير مضبوط كمتغير بيئة على السيرفر (META_ACCESS_TOKEN / FACEBOOK_ACCOUNT_ID)']);
         exit;
     }
 
