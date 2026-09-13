@@ -75,99 +75,111 @@
         </div>
     </main>
 
-    <!-- Modal الإنشاء (Multi-Step Wizard مطابق لصورك) -->
+    <!-- Modal إنشاء الحملة (3 خطوات متكاملة مطابقة لصورك) -->
     <div id="createModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-center items-center p-4">
         <div class="bg-slate-900 w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-800 p-5 space-y-4 shadow-2xl">
             
-            <!-- الهيدر وخطوات التنقل (Campaign -> Ad set -> Ad) -->
+            <!-- الهيدر -->
             <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h2 class="font-bold text-sm text-slate-100" id="wizardTitle">Leads Campaign</h2>
+                <h2 class="font-bold text-sm text-slate-100">Leads Campaign</h2>
                 <button onclick="closeCreateModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
 
-            <!-- مؤشر الخطوات العلوي المطابق لـ IMG_1720 و IMG_1721 -->
-            <div class="flex items-center justify-around bg-slate-950 p-2 rounded-xl border border-slate-800 text-[11px] font-semibold text-slate-400">
+            <!-- مؤشر الخطوات العلوي (Campaign -> Ad Set -> Ad) -->
+            <div class="flex items-center justify-around bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-[11px] font-semibold text-slate-400">
                 <span id="stepIndicator1" class="text-blue-400 font-bold"><i class="fa-solid fa-folder"></i> 1. Campaign</span>
-                <i class="fa-solid fa-chevron-left text-[10px]"><span>
-                <span id="stepIndicator2">2. Ad set</span>
                 <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                <span id="stepIndicator3">3. Ad</span>
+                <span id="stepIndicator2"><i class="fa-solid fa-table-cells"></i> 2. Ad Set</span>
+                <i class="fa-solid fa-chevron-left text-[10px]"></i>
+                <span id="stepIndicator3"><i class="fa-solid fa-rectangle-ad"></i> 3. Ad</span>
             </div>
 
             <!-- خطوة 1: Campaign Settings (مطابق لـ IMG_1720) -->
             <div id="wizardStep1" class="space-y-3 text-xs">
                 <div>
-                    <label class="block text-slate-400 mb-1">Campaign name</label>
-                    <input type="text" id="campNameInput" value="New Leads Campaign" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-pen"></i> Campaign name</label>
+                    <input type="text" id="campNameInput" value="New Leads Campaign" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                 </div>
                 <div>
-                    <label class="block text-slate-400 mb-1">Budget (EGP per day)</label>
-                    <input type="number" id="campBudgetInput" value="128" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-wallet"></i> Budget (EGP per day, Highest volume)</label>
+                    <input type="number" id="campBudgetInput" value="128.07" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                 </div>
                 <div>
-                    <label class="block text-slate-400 mb-1">Special ad category</label>
-                    <select id="campCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-building-shield"></i> Special ad category</label>
+                    <select id="campCategory" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                         <option value="NONE">None</option>
                         <option value="HOUSING">Housing</option>
                         <option value="EMPLOYMENT">Employment</option>
                     </select>
                 </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-slate-400">
+                    <span class="block text-[10px] text-slate-500">Campaign details</span>
+                    <span class="font-bold text-slate-300">Auction • Leads</span>
+                </div>
             </div>
 
-            <!-- خطوة 2: Ad Set & Audience Settings (مطابق لـ IMG_1721, IMG_1722, IMG_1723) -->
+            <!-- خطوة 2: Ad Set & Audience Settings (مطابق لـ IMG_1721 والأوبشنز التانية) -->
             <div id="wizardStep2" class="space-y-3 text-xs hidden">
                 <div>
-                    <label class="block text-slate-400 mb-1">Ad set name</label>
-                    <input type="text" id="adsetNameInput" value="New Leads Ad set" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-table-cells"></i> Ad set name</label>
+                    <input type="text" id="adsetNameInput" value="New Leads Ad set" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                 </div>
                 <div>
-                    <label class="block text-slate-400 mb-1">Conversion (هدف التحويل)</label>
-                    <select id="conversionType" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-bullseye"></i> Conversion</label>
+                    <select id="conversionType" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                         <option value="MESSENGER">Messenger</option>
                         <option value="WEBSITE">Website</option>
                         <option value="LEAD_FORMS">Instant Forms</option>
                     </select>
                 </div>
-
-                <!-- إعدادات الجمهور (Edit audience - مطابقة لـ IMG_1722 و IMG_1723) -->
+                <div>
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-calendar-days"></i> Schedule</label>
+                    <input type="text" value="13 September 2026 - ongoing" disabled class="w-full bg-slate-950/50 border border-slate-800 rounded-lg p-2.5 text-slate-400 cursor-not-allowed">
+                </div>
                 <div class="border-t border-slate-800 pt-3 space-y-2">
-                    <span class="font-bold text-slate-200 block"><i class="fa-solid fa-users"></i> Edit Audience Controls:</span>
+                    <span class="font-bold text-slate-200 block"><i class="fa-solid fa-users"></i> Audience Controls & Targeting:</span>
                     <div>
-                        <label class="block text-slate-400 mb-1">Locations (الدول المستهدفة)</label>
-                        <input type="text" id="targetLocation" value="Egypt" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                        <label class="block text-slate-400 mb-1">Locations (Include)</label>
+                        <input type="text" id="targetLocation" value="Egypt" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
                             <label class="block text-slate-400 mb-1">Minimum Age</label>
-                            <input type="number" id="ageMin" value="18" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                            <input type="number" id="ageMin" value="18" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                         </div>
                         <div>
                             <label class="block text-slate-400 mb-1">Maximum Age</label>
-                            <input type="number" id="ageMax" value="65" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                            <input type="number" id="ageMax" value="65" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-slate-400 mb-1">Gender</label>
-                        <select id="targetGender" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
-                            <option value="ALL">All</option>
-                            <option value="MEN">Men</option>
-                            <option value="WOMEN">Women</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-slate-400 mb-1">Detailed Targeting (Include Interests)</label>
-                        <input type="text" id="targetInterests" placeholder="ريادة الأعمال، الزواج، ..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
-                    </div>
-                    
-                    <!-- حجم الجمهور المتوقع (مطابق لصورك) -->
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
-                        <span class="text-[11px] text-slate-400 block">Estimated audience size</span>
-                        <span class="font-bold text-emerald-400 text-xs">52,000,000 - 61,000,000</span>
-                    </div>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-center">
+                    <span class="text-[11px] text-slate-400 block">Estimated audience size</span>
+                    <span class="font-bold text-emerald-400 text-xs">52,000,000 - 61,000,000</span>
                 </div>
             </div>
 
-            <!-- أزرار التنقل (Previous / Next / Submit) -->
+            <!-- خطوة 3: Ad Creative & Placements (الخطوة الأخيرة) -->
+            <div id="wizardStep3" class="space-y-3 text-xs hidden">
+                <div>
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-rectangle-ad"></i> Ad name</label>
+                    <input type="text" id="adNameInput" value="New Ad 1" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-image"></i> Media (صورة أو فيديو الإعلان)</label>
+                    <input type="text" id="adMediaUrl" placeholder="رابط الصورة أو الفيديو..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-comment-dots"></i> Primary Text (نص الإعلان)</label>
+                    <textarea id="adText" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100" placeholder="رحلتك للحب الحلال والأمان الأسري تبدأ من هنا..."></textarea>
+                </div>
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-slate-400">
+                    <span class="block text-[10px] text-slate-500">Placements</span>
+                    <span class="font-bold text-slate-300"><i class="fa-solid fa-circle-check text-emerald-400"></i> Advantage+ placements</span>
+                </div>
+            </div>
+
+            <!-- أزرار التنقل (Previous / Next) -->
             <div class="flex gap-2 pt-3 border-t border-slate-800">
                 <button id="prevBtn" onclick="changeStep(-1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-2.5 rounded-xl text-xs transition hidden">Previous</button>
                 <button id="nextBtn" onclick="changeStep(1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl text-xs transition">Next</button>
@@ -192,7 +204,7 @@
 
         function changeStep(direction) {
             currentStep += direction;
-            if(currentStep > 2) {
+            if(currentStep > 3) {
                 submitFinalCampaign();
                 return;
             }
@@ -201,20 +213,38 @@
         }
 
         function updateWizardView() {
+            // إخفاء الكل
+            document.getElementById('wizardStep1').classList.add('hidden');
+            document.getElementById('wizardStep2').classList.add('hidden');
+            document.getElementById('wizardStep3').classList.add('hidden');
+            
+            // إظهار الخطوة الحالية
+            document.getElementById(`wizardStep${currentStep}`).classList.remove('hidden');
+            
+            // التحكم بالأزرار والنصوص
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
             if(currentStep === 1) {
-                document.getElementById('wizardStep1').classList.remove('hidden');
-                document.getElementById('wizardStep2').classList.add('hidden');
-                document.getElementById('prevBtn').classList.add('hidden');
-                document.getElementById('nextBtn').innerText = 'Next';
-                document.getElementById('stepIndicator1').className = 'text-blue-400 font-bold';
-                document.getElementById('stepIndicator2').className = 'text-slate-400';
-            } else if(currentStep === 2) {
-                document.getElementById('wizardStep1').classList.add('hidden');
-                document.getElementById('wizardStep2').classList.remove('hidden');
-                document.getElementById('prevBtn').classList.remove('hidden');
-                document.getElementById('nextBtn').innerText = 'إطلاق الحملة نهائياً';
-                document.getElementById('stepIndicator1').className = 'text-slate-400';
-                document.getElementById('stepIndicator2').className = 'text-blue-400 font-bold';
+                prevBtn.classList.add('hidden');
+                nextBtn.innerText = 'Next';
+            } else {
+                prevBtn.classList.remove('hidden');
+                if(currentStep === 3) {
+                    nextBtn.innerText = 'إطلاق الحملة نهائياً (Publish)';
+                } else {
+                    nextBtn.innerText = 'Next';
+                }
+            }
+
+            // تحديث المؤشرات العلوية
+            for(let i = 1; i <= 3; i++) {
+                const indicator = document.getElementById(`stepIndicator${i}`);
+                if(i === currentStep) {
+                    indicator.className = 'text-blue-400 font-bold';
+                } else {
+                    indicator.className = 'text-slate-400';
+                }
             }
         }
 
@@ -234,7 +264,7 @@
                         <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 flex justify-between items-center">
                             <div>
                                 <h4 class="font-bold text-xs text-slate-200">${c.name}</h4>
-                                <span class="text-[10px] text-emerald-400">${c.status}</span>
+                                <span class="text-[10px] text-emerald-400">${c.status || 'Active'}</span>
                             </div>
                         </div>
                     `;
@@ -248,22 +278,21 @@
             const accountId = document.getElementById('accountId').value;
             const campName = document.getElementById('campNameInput').value;
             const budget = document.getElementById('campBudgetInput').value;
-            const conversion = document.getElementById('conversionType').value;
-            const location = document.getElementById('targetLocation').value;
+            const adName = document.getElementById('adNameInput').value;
 
-            if(!token || !accountId) { alert('ادخل بيانات الربط في الصفحة الرئيسية'); return; }
+            if(!token || !accountId) { alert('ادخل بيانات الربط الأساسية في الصفحة الرئيسية'); return; }
 
             fetch(`${SERVER_URL}/api/create`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `token=${encodeURIComponent(token)}&account_id=${encodeURIComponent(accountId)}&camp_name=${encodeURIComponent(campName)}&objective=LEADS`
+                body: `token=${encodeURIComponent(token)}&account_id=${encodeURIComponent(accountId)}&camp_name=${encodeURIComponent(campName)}&budget=${encodeURIComponent(budget)}&ad_name=${encodeURIComponent(adName)}&objective=LEADS`
             })
             .then(res => res.json())
             .then(res => {
                 if(res.error) {
                     alert('خطأ من فيسبوك: ' + (res.error.message || res.error));
                 } else {
-                    alert('تم إنشاء الحملة والمجموعة الإعلانية والجمهور بنجاح وإطلاقها على فيسبوك!');
+                    alert('تم إنشاء الحملة، مجموعة الإعلانات، والإعلان بنجاح وتم ربطهم بـ Meta API!');
                     closeCreateModal();
                     fetchCampaigns();
                 }
