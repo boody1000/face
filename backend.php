@@ -7,7 +7,7 @@ header('Access-Control-Allow-Methods: POST, GET');
 // ==========================================
 // 🔐 إعدادات حساب فيسبوك (توضع هنا فقط بأمان تام)
 // ==========================================
-$META_ACCESS_TOKEN = "ضع_التوكن_الحقيقي_هنا_EAAB..."; 
+$META_ACCESS_TOKEN = "EAAdHlDS8H6ABSU4ZA67refEA4bmnvBbAldPwCQZCyMXG2ZCHPWC5GPzZB5RDU1vkqJYPUJL1vJo14oLAdMeg2ZB5RodFfPeqT7Uj3WlqXZAzwcWj5ptsrc1YNTjBmcbvw0nHntgNZAQujvrq5BuMk2Dr6fVnanQHoTyEANdvudhLGwM5fZC9mZCZCI8grYdgfoM6OPXdNMicQ341ZBkLdZCd1ZBVEU7FPGZCdDxS4F"; 
 $FACEBOOK_ACCOUNT_ID = "act_123456789"; // معرف حساب الإعلانات
 $FACEBOOK_PAGE_ID = "123456789012345";    // معرف صفحة الفيسبوك الخاصة بشركة الهواري
 
