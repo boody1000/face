@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدير إعلانات فيسبوك الاحترافي - شركة الهواري</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen">
+
+    <!-- الهيدر الرئيسي (نفس ستايل ميتا) -->
+    <header class="bg-slate-900 border-b border-slate-800 p-4 shadow-md sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-600 text-white p-2.5 rounded-xl font-bold shadow-lg shadow-blue-600/30">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold">Meta Ads Manager (النسخة الخاصة)</h1>
+                    <span class="text-xs text-slate-400">إدارة الحملات، الجماهير، والتقارير المتقدمة</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <input type="password" id="apiToken" placeholder="الصق الـ Access Token هنا..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono w-48 focus:outline-none focus:border-blue-500">
+                <input type="text" id="accountId" placeholder="act_123456789" class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono w-32 focus:outline-none focus:border-blue-500">
+                <button onclick="fetchAllData()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4 py-2 rounded-lg transition font-medium shadow-md">
+                    <i class="fa-solid fa-sync ml-1"></i> اتصال وجلب البيانات
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- القسم الأيمن: منشئ الحملات المتقدم (مطابق لمدير الإعلانات) -->
+        <section class="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xl lg:col-span-1 space-y-4">
+            <h2 class="text-sm font-semibold text-blue-400 border-b border-slate-800 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> إنشاء حملة إعلانية جديدة
+            </h2>
+            
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1">اسم الحملة</label>
+                    <input type="text" id="campName" value="حملة تسويق شركة الهواري" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">هدف الحملة (Objective)</label>
+                    <select id="campObjective" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 focus:outline-none focus:border-blue-500">
+                        <option value="LINK_CLICKS">زيارات الموقع (Link Clicks)</option>
+                        <option value="CONVERSIONS">التحويلات والمبيعات (Conversions)</option>
+                        <option value="LEADS">جمع العملاء المحتملين (Leads)</option>
+                        <option value="ENGAGEMENT">التفاعل (Engagement)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-slate-400 mb-1">الميزانية اليومية ($)</label>
+                    <input type="number" id="campBudget" value="15" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div class="border-t border-slate-800 pt-3 space-y-2">
+                    <span class="font-bold text-slate-300 block">استهداف الجمهور (Audience):</span>
+                    <div>
+                        <label class="block text-slate-400 mb-1">الدول المستهدفة</label>
+                        <input type="text" id="targetCountries" value="EG, SA, AE" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 focus:outline-none focus:border-blue-500 font-mono">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-slate-400 mb-1">العمر من</label>
+                            <input type="number" id="ageMin" value="18" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 mb-1">إلى</label>
+                            <input type="number" id="ageMax" value="45" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-slate-400 mb-1">الاهتمامات (Interests)</label>
+                        <input type="text" id="targetInterests" placeholder="ريادة الأعمال، البرمجة..." class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+                    </div>
+                </div>
+
+                <button onclick="createAdvancedCampaign()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-emerald-600/20 mt-2">
+                    <i class="fa-solid fa-circle-play ml-1"></i> نشر وإطلاق الحملة في فيسبوك
+                </button>
+            </div>
+        </section>
+
+        <!-- القسم الأيسر: جداول الحملات والتقارير الحية -->
+        <section class="lg:col-span-2 space-y-6">
+            
+            <!-- كاردات الإحصائيات السريعة -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-md">
+                    <p class="text-xs text-slate-400 mb-1">الحملات النشطة</p>
+                    <h3 id="statActiveCount" class="text-2xl font-bold text-blue-400">0</h3>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-md">
+                    <p class="text-xs text-slate-400 mb-1">الميزانية المستهلكة</p>
+                    <h3 id="statSpent" class="text-2xl font-bold text-emerald-400">$0.00</h3>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-md">
+                    <p class="text-xs text-slate-400 mb-1">حالة المزامنة</p>
+                    <h3 id="statStatus" class="text-xl font-bold text-amber-400">في انتظار الاتصال</h3>
+                </div>
+            </div>
+
+            <!-- جدول الحملات التفصيلي -->
+            <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-xl">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-semibold text-sm text-slate-200 flex items-center gap-2">
+                        <i class="fa-solid fa-table-cells text-blue-400"></i> جدول الحملات والتقارير الحية
+                    </h3>
+                    <span class="text-xs text-slate-400">محدث من Meta Graph API</span>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-xs">
+                        <thead class="bg-slate-950 text-slate-400">
+                            <tr>
+                                <th class="p-3">معرف الحملة (ID)</th>
+                                <th class="p-3">اسم الحملة</th>
+                                <th class="p-3">الهدف</th>
+                                <th class="p-3">الحالة</th>
+                                <th class="p-3">الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="campaignsTableBody" class="divide-y divide-slate-800/60">
+                            <tr>
+                                <td colspan="5" class="p-6 text-center text-slate-500">ادخل الـ Token ومعرف الحساب واضغط اتصال</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        const SERVER_URL = 'http://localhost:8080';
+
+        function fetchAllData() {
+            const token = document.getElementById('apiToken').value;
+            const accountId = document.getElementById('accountId').value;
+            if(!token || !accountId) { alert('من فضلك ادخل Access Token ومعرف الحساب'); return; }
+
+            const tbody = document.getElementById('campaignsTableBody');
+            tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-blue-400"><i class="fa-solid fa-spinner fa-spin"></i> جاري سحب البيانات والتقارير من فيسبوك...</td></tr>`;
+
+            fetch(`${SERVER_URL}/api/campaigns?token=${encodeURIComponent(token)}&account_id=${encodeURIComponent(accountId)}`)
+            .then(res => res.json())
+            .then(res => {
+                if(res.error) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-400">خطأ من Meta: ${res.error.message || res.error}</td></tr>`;
+                    document.getElementById('statStatus').innerText = 'خطأ في الاتصال';
+                    return;
+                }
+                let items = res.data || [];
+                document.getElementById('statActiveCount').innerText = items.length;
+                document.getElementById('statStatus').innerText = 'متصل بنجاح';
+
+                if(items.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400">لا توجد حملات في هذا الحساب</td></tr>`;
+                    return;
+                }
+
+                let html = '';
+                items.forEach(c => {
+                    let statusBadge = c.status === 'ACTIVE' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400';
+                    html += `
+                        <tr>
+                            <td class="p-3 font-mono text-slate-400">${c.id}</td>
+                            <td class="p-3 font-semibold text-slate-200">${c.name}</td>
+                            <td class="p-3 text-blue-300">${c.objective || 'N/A'}</td>
+                            <td class="p-3"><span class="${statusBadge} px-2 py-0.5 rounded text-[10px]">${c.status}</span></td>
+                            <td class="p-3">
+                                <span class="text-slate-500 text-[11px]">إدارة عبر الواجهة</span>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+            }).catch(err => {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-red-400">تأكد أن سيرفر الجافا شغال على البورت 8080</td></tr>`;
+                document.getElementById('statStatus').innerText = 'منقطع';
+            });
+        }
+
+        function createAdvancedCampaign() {
+            const token = document.getElementById('apiToken').value;
+            const accountId = document.getElementById('accountId').value;
+            const campName = document.getElementById('campName').value;
+            const objective = document.getElementById('campObjective').value;
+
+            if(!token || !accountId) { alert('ادخل بيانات الربط أولاً'); return; }
+
+            fetch(`${SERVER_URL}/api/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `token=${encodeURIComponent(token)}&account_id=${encodeURIComponent(accountId)}&camp_name=${encodeURIComponent(campName)}&objective=${encodeURIComponent(objective)}`
+            })
+            .then(res => res.json())
+            .then(res => {
+                if(res.error) {
+                    alert('خطأ في الإنشاء: ' + (res.error.message || res.error));
+                } else {
+                    alert('تم إنشاء الحملة وإطلاقها بنجاح في حسابك بفيسبوك!');
+                    fetchAllData();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
