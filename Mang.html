@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <!-- إعدادات الربط بالسيرفر -->
+        <!-- إعدادات الربط بالسيرفر والبيانات -->
         <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 flex flex-wrap gap-3 items-center justify-between">
             <div class="flex gap-2 flex-1">
                 <input type="password" id="apiToken" placeholder="Meta Access Token..." class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-mono flex-1">
@@ -75,7 +75,7 @@
         </div>
     </main>
 
-    <!-- Modal إنشاء الحملة -->
+    <!-- Modal إنشاء الحملة (Wizard) -->
     <div id="createModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex justify-center items-center p-4">
         <div class="bg-slate-900 w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-2xl border border-slate-800 p-5 space-y-4 shadow-2xl">
             
@@ -121,7 +121,7 @@
                     <input type="text" id="adsetNameInput" value="New Leads Ad set" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
                 </div>
 
-                <!-- خيارات التحويل -->
+                <!-- خيارات التحويل (Messenger / Website / Instant Forms) -->
                 <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3">
                     <span class="font-bold text-slate-200 block">Choose where you want to generate leads:</span>
                     
@@ -150,14 +150,14 @@
                     </label>
                 </div>
 
-                <!-- قائمة صفحات الفيسبوك المستخرجة من الـ Token -->
+                <!-- قائمة صفحات الفيسبوك المستخرجة مباشرة من الـ Token -->
                 <div>
                     <label class="block text-slate-400 mb-1 flex justify-between items-center">
-                        <span><i class="fa-solid fa-flag"></i> Facebook Page (من الـ Token)</span>
-                        <button onclick="fetchPages()" class="text-blue-400 text-[10px] underline">تحديث الصفحات</button>
+                        <span><i class="fa-solid fa-flag"></i> Facebook Page (من التوكن الخاص بك)</span>
+                        <button onclick="fetchPages()" class="text-blue-400 text-[10px] underline hover:text-blue-300">إعادة جلب الصفحات</button>
                     </label>
-                    <select id="facebookPageSelect" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
-                        <option value="">-- اضغط على تحديث الصفحات لجلب صفحاتك --</option>
+                    <select id="facebookPageSelect" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100 font-sans">
+                        <option value="">-- اضغط على إعادة جلب الصفحات لعرض صفحاتك --</option>
                     </select>
                 </div>
 
@@ -210,7 +210,7 @@
             currentStep = 1;
             updateWizardView();
             document.getElementById('createModal').classList.remove('hidden');
-            fetchPages(); // جلب الصفحات أوتوماتيكياً عند فتح النافذة
+            fetchPages(); // جلب الصفحات تلقائياً عند فتح المودال بناءً على التوكن المسجل
         }
 
         function closeCreateModal() {
@@ -259,12 +259,13 @@
             }
         }
 
-        // جلب الحملات وصفحات الفيسبوك المرتبطة بالتولكن
+        // مزامنة كافة البيانات (الحملات + الصفحات)
         function fetchAllData() {
             fetchCampaigns();
             fetchPages();
         }
 
+        // جلب الحملات من السيرفر
         function fetchCampaigns() {
             const token = document.getElementById('apiToken').value;
             const accountId = document.getElementById('accountId').value;
@@ -287,33 +288,46 @@
                     `;
                 });
                 document.getElementById('campaignsContainer').innerHTML = html || 'لا توجد حملات';
+            })
+            .catch(err => {
+                console.error('خطأ في جلب الحملات:', err);
             });
         }
 
-        // دالة جلب الصفحات من Meta Graph API باستخدام التوكن المكتوب
+        // جلب صفحات الفيسبوك مباشرة باستخدام Meta Graph API بناءً على الـ Token المدخل
         function fetchPages() {
             const token = document.getElementById('apiToken').value;
-            if(!token) return;
+            const select = document.getElementById('facebookPageSelect');
+            
+            if(!token) {
+                select.innerHTML = `<option value="">من فضلك أدخل الـ Token في الأعلى أولاً</option>`;
+                return;
+            }
+
+            select.innerHTML = `<option value="">جاري تحميل صفحاتك من التوكن...</option>`;
 
             fetch(`https://graph.facebook.com/v19.0/me/accounts?access_token=${encodeURIComponent(token)}`)
             .then(res => res.json())
             .then(res => {
-                const select = document.getElementById('facebookPageSelect');
                 if(res.data && res.data.length > 0) {
                     let html = '';
                     res.data.forEach(page => {
                         html += `<option value="${page.id}" data-page-token="${page.access_token}">${page.name}</option>`;
                     });
                     select.innerHTML = html;
+                } else if(res.error) {
+                    select.innerHTML = `<option value="">خطأ من فيسبوك: ${res.error.message}</option>`;
                 } else {
                     select.innerHTML = `<option value="">لم يتم العثور على صفحات مرتبطة بهذا التوكن</option>`;
                 }
             })
             .catch(err => {
                 console.error('خطأ في جلب الصفحات:', err);
+                select.innerHTML = `<option value="">فشل الاتصال بجراف فيسبوك API</option>`;
             });
         }
 
+        // إرسال وإنشاء الحملة النهائية
         function submitFinalCampaign() {
             const token = document.getElementById('apiToken').value;
             const accountId = document.getElementById('accountId').value;
@@ -327,7 +341,7 @@
             const pageToken = pageSelect.options[pageSelect.selectedIndex]?.getAttribute('data-page-token') || token;
 
             if(!token || !accountId) { alert('ادخل بيانات الربط الأساسية في الصفحة الرئيسية'); return; }
-            if(!pageId) { alert('يرجى اختيار صفحة فيسبوك صالحة'); return; }
+            if(!pageId) { alert('يرجى اختيار صفحة فيسبوك صالحة من القائمة'); return; }
 
             fetch(`${SERVER_URL}/api/create`, {
                 method: 'POST',
@@ -343,6 +357,9 @@
                     closeCreateModal();
                     fetchCampaigns();
                 }
+            })
+            .catch(err => {
+                console.error('خطأ في الإرسال:', err);
             });
         }
     </script>
