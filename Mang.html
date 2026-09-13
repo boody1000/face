@@ -85,17 +85,17 @@
                 <button onclick="closeCreateModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
 
-            <!-- مؤشر الخطوات -->
+            <!-- مؤشر الخطوات العلوي -->
             <div class="flex items-center justify-around bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-[11px] font-semibold text-slate-400">
-                <span id="stepIndicator1" class="text-blue-400 font-bold"><i class="fa-solid fa-folder"></i> 1. Campaign</span>
+                <span id="stepIndicator1" class="text-slate-400"><i class="fa-solid fa-folder"></i> Campaign</span>
                 <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                <span id="stepIndicator2"><i class="fa-solid fa-table-cells"></i> 2. Ad Set</span>
+                <span id="stepIndicator2" class="text-blue-400 font-bold"><i class="fa-solid fa-table-cells"></i> Ad set</span>
                 <i class="fa-solid fa-chevron-left text-[10px]"></i>
-                <span id="stepIndicator3"><i class="fa-solid fa-rectangle-ad"></i> 3. Ad</span>
+                <span id="stepIndicator3" class="text-slate-400"><i class="fa-solid fa-rectangle-ad"></i> Ad</span>
             </div>
 
             <!-- خطوة 1: Campaign Settings -->
-            <div id="wizardStep1" class="space-y-3 text-xs">
+            <div id="wizardStep1" class="space-y-3 text-xs hidden">
                 <div>
                     <label class="block text-slate-400 mb-1"><i class="fa-solid fa-pen"></i> Campaign name</label>
                     <input type="text" id="campNameInput" value="New Leads Campaign" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
@@ -114,71 +114,95 @@
                 </div>
             </div>
 
-            <!-- خطوة 2: Ad Set & Conversion -->
-            <div id="wizardStep2" class="space-y-3 text-xs hidden">
-                <div>
-                    <label class="block text-slate-400 mb-1"><i class="fa-solid fa-table-cells"></i> Ad set name</label>
-                    <input type="text" id="adsetNameInput" value="New Leads Ad set" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
-                </div>
-
-                <!-- خيارات التحويل (Messenger / Website / Instant Forms) -->
-                <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3">
-                    <span class="font-bold text-slate-200 block">Choose where you want to generate leads:</span>
+            <!-- خطوة 2: Ad Set & Conversion (مطابق لـ IMG_1724 و IMG_1725) -->
+            <div id="wizardStep2" class="space-y-3 text-xs">
+                
+                <!-- عرض ملخص الـ Ad Set (مطابق لـ IMG_1725) -->
+                <div class="bg-slate-950 rounded-xl border border-slate-800 divide-y divide-slate-800">
                     
-                    <label class="flex items-start gap-3 p-2.5 rounded-lg border border-slate-800 hover:border-slate-700 cursor-pointer">
-                        <input type="radio" name="conversionType" value="WEBSITE" class="mt-0.5">
+                    <!-- 1. Ad set name -->
+                    <div class="p-3 flex justify-between items-center">
                         <div>
-                            <span class="font-bold text-slate-200 block">Website</span>
-                            <span class="text-[10px] text-slate-400">Generate leads through your website.</span>
+                            <span class="text-[10px] text-slate-400 block">Ad set name</span>
+                            <span id="summaryAdSetName" class="font-bold text-slate-200">New Leads Ad set</span>
                         </div>
-                    </label>
+                        <button onclick="toggleEditMode('name')" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-pen"></i></button>
+                    </div>
 
-                    <label class="flex items-start gap-3 p-2.5 rounded-lg border border-blue-600 bg-blue-950/20 cursor-pointer">
-                        <input type="radio" name="conversionType" value="MESSENGER" checked class="mt-0.5">
+                    <!-- 2. Conversion -->
+                    <div class="p-3 flex justify-between items-center">
                         <div>
-                            <span class="font-bold text-slate-200 block">Messenger</span>
-                            <span class="text-[10px] text-slate-400">Generate leads by starting chats in Messenger.</span>
+                            <span class="text-[10px] text-slate-400 block">Conversion</span>
+                            <span id="summaryConversion" class="font-bold text-blue-400">Messenger</span>
                         </div>
-                    </label>
+                        <button onclick="toggleEditMode('conversion')" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-pen"></i></button>
+                    </div>
 
-                    <label class="flex items-start gap-3 p-2.5 rounded-lg border border-slate-800 hover:border-slate-700 cursor-pointer">
-                        <input type="radio" name="conversionType" value="LEAD_FORMS" class="mt-0.5">
+                    <!-- 3. Conversion event -->
+                    <div class="p-3 flex justify-between items-center">
                         <div>
-                            <span class="font-bold text-slate-200 block">Instant forms</span>
-                            <span class="text-[10px] text-slate-400">Generate leads by asking people to fill in a form.</span>
+                            <span class="text-[10px] text-slate-400 block"><i class="fa-solid fa-globe"></i> Conversion event</span>
+                            <span class="font-bold text-slate-300">Contact, 942472778288613</span>
                         </div>
-                    </label>
+                        <button class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+
+                    <!-- 4. Schedule -->
+                    <div class="p-3 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block"><i class="fa-solid fa-calendar-days"></i> Schedule</span>
+                            <span class="font-bold text-slate-300">13 September 2026 - ongoing</span>
+                        </div>
+                        <button class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+
+                    <!-- 5. Audience -->
+                    <div class="p-3 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block"><i class="fa-solid fa-users"></i> Audience</span>
+                            <span class="font-bold text-slate-300">Audience controls: 18, Egypt</span>
+                        </div>
+                        <button class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+
+                    <!-- 6. Placements -->
+                    <div class="p-3 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] text-slate-400 block"><i class="fa-solid fa-display"></i> Placements</span>
+                            <span class="font-bold text-slate-300">Advantage+ placements</span>
+                        </div>
+                        <button class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-pen"></i></button>
+                    </div>
                 </div>
 
-                <!-- قائمة صفحات الفيسبوك المستخرجة مباشرة من الـ Token -->
-                <div>
-                    <label class="block text-slate-400 mb-1 flex justify-between items-center">
-                        <span><i class="fa-solid fa-flag"></i> Facebook Page (من التوكن الخاص بك)</span>
-                        <button onclick="fetchPages()" class="text-blue-400 text-[10px] underline hover:text-blue-300">إعادة جلب الصفحات</button>
-                    </label>
-                    <select id="facebookPageSelect" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100 font-sans">
-                        <option value="">-- اضغط على إعادة جلب الصفحات لعرض صفحاتك --</option>
-                    </select>
-                </div>
-
-                <!-- الجمهور والموقع -->
-                <div class="border-t border-slate-800 pt-3 space-y-2">
-                    <span class="font-bold text-slate-200 block"><i class="fa-solid fa-users"></i> Audience Controls:</span>
+                <!-- نموذج إدخال البيانات الخفي للتعديل (يظهر عند الحاجة) -->
+                <div id="editFieldsContainer" class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-3 hidden">
                     <div>
-                        <label class="block text-slate-400 mb-1">Locations</label>
-                        <input type="text" id="targetLocation" value="Egypt" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
+                        <label class="block text-slate-400 mb-1">Ad set name</label>
+                        <input type="text" id="adsetNameInput" value="New Leads Ad set" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-slate-100">
                     </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-slate-400 mb-1">Minimum Age</label>
-                            <input type="number" id="ageMin" value="18" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
-                        </div>
-                        <div>
-                            <label class="block text-slate-400 mb-1">Maximum Age</label>
-                            <input type="number" id="ageMax" value="65" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-2.5 text-slate-100">
-                        </div>
+
+                    <div class="space-y-2">
+                        <span class="font-bold text-slate-200 block">Choose where you want to generate leads:</span>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="conversionType" value="WEBSITE"> Website
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="conversionType" value="MESSENGER" checked> Messenger
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" name="conversionType" value="LEAD_FORMS"> Instant forms
+                        </label>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-400 mb-1"><i class="fa-solid fa-flag"></i> Facebook Page (من التوكن)</label>
+                        <select id="facebookPageSelect" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-slate-100">
+                            <option value="">-- اضغط جلب الصفحات --</option>
+                        </select>
                     </div>
                 </div>
+
             </div>
 
             <!-- خطوة 3: Ad Creative -->
@@ -195,7 +219,7 @@
 
             <!-- أزرار التنقل -->
             <div class="flex gap-2 pt-3 border-t border-slate-800">
-                <button id="prevBtn" onclick="changeStep(-1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-2.5 rounded-xl text-xs transition hidden">Previous</button>
+                <button id="prevBtn" onclick="changeStep(-1)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-2.5 rounded-xl text-xs transition">Previous</button>
                 <button id="nextBtn" onclick="changeStep(1)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl text-xs transition">Next</button>
             </div>
 
@@ -204,13 +228,13 @@
 
     <script>
         const SERVER_URL = 'http://localhost:8080';
-        let currentStep = 1;
+        let currentStep = 2; // نبدأ من الخطوة الثانية المطابقة للصورة
 
         function openCreateModal() {
-            currentStep = 1;
+            currentStep = 2;
             updateWizardView();
             document.getElementById('createModal').classList.remove('hidden');
-            fetchPages(); // جلب الصفحات تلقائياً عند فتح المودال بناءً على التوكن المسجل
+            fetchPages();
         }
 
         function closeCreateModal() {
@@ -259,13 +283,16 @@
             }
         }
 
-        // مزامنة كافة البيانات (الحملات + الصفحات)
+        function toggleEditMode(type) {
+            const editBox = document.getElementById('editFieldsContainer');
+            editBox.classList.toggle('hidden');
+        }
+
         function fetchAllData() {
             fetchCampaigns();
             fetchPages();
         }
 
-        // جلب الحملات من السيرفر
         function fetchCampaigns() {
             const token = document.getElementById('apiToken').value;
             const accountId = document.getElementById('accountId').value;
@@ -288,23 +315,13 @@
                     `;
                 });
                 document.getElementById('campaignsContainer').innerHTML = html || 'لا توجد حملات';
-            })
-            .catch(err => {
-                console.error('خطأ في جلب الحملات:', err);
             });
         }
 
-        // جلب صفحات الفيسبوك مباشرة باستخدام Meta Graph API بناءً على الـ Token المدخل
         function fetchPages() {
             const token = document.getElementById('apiToken').value;
             const select = document.getElementById('facebookPageSelect');
-            
-            if(!token) {
-                select.innerHTML = `<option value="">من فضلك أدخل الـ Token في الأعلى أولاً</option>`;
-                return;
-            }
-
-            select.innerHTML = `<option value="">جاري تحميل صفحاتك من التوكن...</option>`;
+            if(!token) return;
 
             fetch(`https://graph.facebook.com/v19.0/me/accounts?access_token=${encodeURIComponent(token)}`)
             .then(res => res.json())
@@ -315,33 +332,23 @@
                         html += `<option value="${page.id}" data-page-token="${page.access_token}">${page.name}</option>`;
                     });
                     select.innerHTML = html;
-                } else if(res.error) {
-                    select.innerHTML = `<option value="">خطأ من فيسبوك: ${res.error.message}</option>`;
-                } else {
-                    select.innerHTML = `<option value="">لم يتم العثور على صفحات مرتبطة بهذا التوكن</option>`;
                 }
-            })
-            .catch(err => {
-                console.error('خطأ في جلب الصفحات:', err);
-                select.innerHTML = `<option value="">فشل الاتصال بجراف فيسبوك API</option>`;
             });
         }
 
-        // إرسال وإنشاء الحملة النهائية
         function submitFinalCampaign() {
             const token = document.getElementById('apiToken').value;
             const accountId = document.getElementById('accountId').value;
             const campName = document.getElementById('campNameInput').value;
             const budget = document.getElementById('campBudgetInput').value;
             const adName = document.getElementById('adNameInput').value;
-            const conversion = document.querySelector('input[name="conversionType"]:checked').value;
+            const conversion = document.querySelector('input[name="conversionType"]:checked')?.value || 'MESSENGER';
             
             const pageSelect = document.getElementById('facebookPageSelect');
             const pageId = pageSelect.value;
             const pageToken = pageSelect.options[pageSelect.selectedIndex]?.getAttribute('data-page-token') || token;
 
             if(!token || !accountId) { alert('ادخل بيانات الربط الأساسية في الصفحة الرئيسية'); return; }
-            if(!pageId) { alert('يرجى اختيار صفحة فيسبوك صالحة من القائمة'); return; }
 
             fetch(`${SERVER_URL}/api/create`, {
                 method: 'POST',
@@ -353,13 +360,10 @@
                 if(res.error) {
                     alert('خطأ من فيسبوك: ' + (res.error.message || res.error));
                 } else {
-                    alert('تم إنشاء الحملة وربطها بالصفحة وتفعيل الـ Token بنجاح تام!');
+                    alert('تم إنشاء الحملة وربطها بنجاح!');
                     closeCreateModal();
                     fetchCampaigns();
                 }
-            })
-            .catch(err => {
-                console.error('خطأ في الإرسال:', err);
             });
         }
     </script>
